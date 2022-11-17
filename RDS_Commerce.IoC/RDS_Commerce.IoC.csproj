@@ -1,0 +1,21 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net7.0</TargetFramework>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <Nullable>enable</Nullable>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Microsoft.Extensions.Configuration" Version="7.0.0" />
+    <PackageReference Include="Microsoft.Extensions.DependencyInjection.Abstractions" Version="7.0.0" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\RDS_Commerce.ApplicationServices\RDS_Commerce.ApplicationServices.csproj" />
+    <ProjectReference Include="..\RDS_Commerce.Business\RDS_Commerce.Business.csproj" />
+    <ProjectReference Include="..\RDS_Commerce.Domain\RDS_Commerce.Domain.csproj" />
+    <ProjectReference Include="..\RDS_Commerce.Infrastructure\RDS_Commerce.Infrastructure.csproj" />
+  </ItemGroup>
+
+</Project>

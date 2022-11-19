@@ -1,24 +1,27 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Query;
 using RDS_Commerce.Business.Handler.PaginationSettings;
+using RDS_Commerce.Business.Interfaces.OthersContracts;
 using RDS_Commerce.Business.Interfaces.RepositoryContracts;
 using RDS_Commerce.Domain.Entities;
 using RDS_Commerce.Infrastructure.ORM.Context;
 using RDS_Commerce.Infrastructure.Repository.Base;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using System.Linq.Expressions;
 
 namespace RDS_Commerce.Infrastructure.Repository;
 public sealed class PlantRepository : BaseRepository<Plant>,  IPlantRepository
 {
+    private readonly IPaginationService<Plant> _paginationService;
 
-    public PlantRepository(RdsContext context)
+    public PlantRepository(RdsContext context, IPaginationService<Plant> paginationService)
         : base(context)
     {
+        _paginationService = paginationService;
     }
+
+    public async Task<bool> ExistInTheDatabase(Expression<Func<Plant, bool>> where) => await _dbSetContext.AnyAsync(where);
+
+    public async Task<Plant?> FindByPredicateAsync(Expression<Func<Plant, bool>> where) => await _dbSetContext.FirstOrDefaultAsync(where);
 
     public async Task<Plant?> FindByAsync(int plantId, Func<IQueryable<Plant>, IIncludableQueryable<Plant, object>>? include = null, bool asNoTracking = false)
     {
@@ -33,7 +36,7 @@ public sealed class PlantRepository : BaseRepository<Plant>,  IPlantRepository
         return await query.FirstOrDefaultAsync(p => p.Id == plantId);
     }
 
-    public Task<PageList<Plant>>? FindByWithPaginationAsync(int plantId, Func<IQueryable<Plant>, IIncludableQueryable<Plant, object>>? include = null, bool asNoTracking = false)
+    public Task<PageList<Plant>>? FindByWithPaginationAsync(PageParams pageParams, Func<IQueryable<Plant>, IIncludableQueryable<Plant, object>>? include = null, bool asNoTracking = false)
     {
         IQueryable<Plant> query = _dbSetContext;
 
@@ -43,21 +46,21 @@ public sealed class PlantRepository : BaseRepository<Plant>,  IPlantRepository
         if (include is not null)
             query = include(query);
 
-        //return 
+        return _paginationService.CreatePaginationAsync(query, pageParams.PageSize, pageParams.PageNumber);
     }
 
     public async Task<bool> SaveAsync(Plant entity)
     {
         _dbSetContext.Add(entity);
         _context.Entry(entity).State = EntityState.Added;
-        return await CommitAsync();
+        return await PersistInTheDatabaseAsync();
     }
 
     public async Task<bool> UpdateAsync(Plant entity)
     {
         _dbSetContext.Update(entity);
         _context.Entry(entity).State = EntityState.Modified;
-        return await CommitAsync();
+        return await PersistInTheDatabaseAsync();
     }
 
     public async Task<bool> DeleteAsync(int plantId)
@@ -70,6 +73,6 @@ public sealed class PlantRepository : BaseRepository<Plant>,  IPlantRepository
             _dbSetContext.Attach(entity);
 
         _dbSetContext.Remove(entity);
-        return await CommitAsync();
+        return await PersistInTheDatabaseAsync();
     }
 }

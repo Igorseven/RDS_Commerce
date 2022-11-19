@@ -1,4 +1,5 @@
-﻿using RDS_Commerce.Domain.Enums;
+﻿using RDS_Commerce.Domain.Entities.BaseEntities;
+using RDS_Commerce.Domain.Enums;
 
 namespace RDS_Commerce.Domain.Entities;
 public sealed class Plant : BaseEntity
@@ -10,6 +11,6 @@ public sealed class Plant : BaseEntity
     public decimal Price { get; set; }
     public EProductType ProductType { get; set; }
 
-    public List<FileImage> Images { get; set; }
+    public List<PlantImage> Images { get; set; }
 
 }

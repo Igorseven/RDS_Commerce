@@ -3,5 +3,5 @@
 namespace RDS_Commerce.Business.Interfaces.OthersContracts;
 public interface IPaginationService<T> where T : class
 {
-    Task<PageList<T>> CreatePaginationAsync(IQueryable<T> entity, int pageSize, int pageNumber);
+    Task<PageList<T>> CreatePaginationAsync(IQueryable<T> source, int pageSize, int pageNumber);
 }

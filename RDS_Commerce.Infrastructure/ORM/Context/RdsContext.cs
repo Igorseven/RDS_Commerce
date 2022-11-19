@@ -21,13 +21,13 @@ public class RdsContext : DbContext
     {
         foreach (var entry in ChangeTracker.Entries()
                  .Where(entry => entry.Entity.GetType()
-                 .GetProperty("CreationDate") != null))
+                 .GetProperty("RegistrationDate") != null))
         {
             if (entry.State == EntityState.Added)
-                entry.Property("CreationDate").CurrentValue = DateTime.Now;
+                entry.Property("RegistrationDate").CurrentValue = DateTime.Now;
 
             if (entry.State == EntityState.Modified)
-                entry.Property("CreationDate").IsModified = false;
+                entry.Property("RegistrationDate").IsModified = false;
         }
 
         return base.SaveChangesAsync(acceptAllChangesOnSuccess, cancellationToken);

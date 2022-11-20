@@ -9,5 +9,6 @@ public static class ValidationDependencyInjection
     public static void AddValidationDependencyInjection(this IServiceCollection services)
     {
         services.AddScoped<IValidate<Plant>, PlantValidation>();
+        services.AddScoped<IValidate<PlantImage>, PlantImageValidation>();
     }
 }

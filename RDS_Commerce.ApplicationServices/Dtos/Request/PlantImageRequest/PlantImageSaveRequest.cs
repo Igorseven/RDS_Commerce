@@ -1,7 +1,5 @@
-﻿using RDS_Commerce.Domain.Entities.BaseEntities;
-
-namespace RDS_Commerce.Domain.Entities;
-public sealed class PlantImage : BaseEntity
+﻿namespace RDS_Commerce.ApplicationServices.Dtos.Request.PlantImageRequest;
+public sealed class PlantImageSaveRequest
 {
     public bool MainImage { get; set; }
     public string FileName { get; set; }

@@ -26,6 +26,11 @@ public sealed class NotificationHandler : INotificationHandler
         _notifications.Add(notification);
     }
 
+    public void CreateNotifications(IEnumerable<DomainNotification> notifications)
+    {
+        _notifications.AddRange(notifications);
+    }
+
     public void CreateNotifications(Dictionary<string, string> notifications)
     {
         foreach (var notification in _notifications)

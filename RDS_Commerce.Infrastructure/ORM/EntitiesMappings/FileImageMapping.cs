@@ -14,6 +14,8 @@ public sealed class FileImageMapping : BaseMapping, IEntityTypeConfiguration<Pla
 
         builder.Property(f => f.Id).HasColumnName("id_fileImage");
 
+        builder.Property(f => f.MainImage).HasColumnType("bit").HasColumnName("main_image").IsRequired(true);
+
         builder.Property(f => f.FileBytes).HasColumnType("varbinary(max)").HasColumnName("file_bytes").IsRequired(true);
 
         builder.Property(f => f.FileName).HasColumnType("varchar(40)").HasColumnName("file_name").IsUnicode(true).IsRequired(true);

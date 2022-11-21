@@ -1,15 +1,13 @@
-﻿using RDS_Commerce.Domain.Entities.BaseEntities;
-using RDS_Commerce.Domain.Enums;
+﻿using RDS_Commerce.Domain.Enums;
 
-namespace RDS_Commerce.Domain.Entities;
-public sealed class Plant : BaseEntity
+namespace RDS_Commerce.ApplicationServices.Dtos.Request.PlantRequest;
+public sealed class PlantUpdateRequest
 {
+    public int Id { get; set; }
     public string Name { get; set; }
     public string Specie { get; set; }
     public string? Description { get; set; }
     public int Amount { get; set; }
     public decimal Price { get; set; }
     public EProductType ProductType { get; set; }
-
-    public List<PlantImage> Images { get; set; }
 }

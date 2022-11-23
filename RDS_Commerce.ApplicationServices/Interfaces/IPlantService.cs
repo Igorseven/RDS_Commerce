@@ -7,8 +7,10 @@ public interface IPlantService
 {
     Task<bool> SaveAsync(PlantSaveRequest saveRequest);
     Task<bool> UpdateAsync(PlantUpdateRequest updateRequest);
+    Task<bool> UpdateImagesAsync(PlantUpdateImagesRequest updateRequest);
+    Task<bool> UpdateMainImageAsync(PlantUpdateMainImageRequest updateRequest);
     Task<bool> DeleteAsync(int plantId);
 
-    Task<PlantFindByResponse> FindByAsync(int plantId);
-    Task<List<PlantFindWithPaginationResponse>> FindAllAsync(PageParams pageParams);
+    Task<PlantFindByResponse?> FindByAsync(int plantId);
+    Task<PageList<PlantFindWithPaginationResponse>>? FindAllAsync(PageParams pageParams);
 }

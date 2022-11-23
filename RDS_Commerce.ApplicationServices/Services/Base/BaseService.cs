@@ -4,8 +4,8 @@ using RDS_Commerce.Business.Interfaces.OthersContracts;
 namespace RDS_Commerce.ApplicationServices.Services.Base;
 public abstract class BaseService<T> where T : class
 {
-    private readonly INotificationHandler _notification;
-    private readonly IValidate<T> _validate;
+    protected readonly INotificationHandler _notification;
+    protected readonly IValidate<T> _validate;
 
     protected BaseService(INotificationHandler notification, IValidate<T> validate)
     {

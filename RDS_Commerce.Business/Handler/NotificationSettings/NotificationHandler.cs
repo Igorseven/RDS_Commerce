@@ -7,35 +7,21 @@ public sealed class NotificationHandler : INotificationHandler
 
     public NotificationHandler()
     {
-        _notifications= new List<DomainNotification>();
+        _notifications = new List<DomainNotification>();
     }
 
     public List<DomainNotification> GetNotifications() => _notifications;
 
     public bool HasNotification() => _notifications.Any();
 
+    public void CreateNotification(DomainNotification notification) => _notifications.Add(notification);
+
+    public void CreateNotifications(IEnumerable<DomainNotification> notifications) => _notifications.AddRange(notifications);
+
     public bool CreateNotification(string key, string value)
     {
         _notifications.Add(new DomainNotification(key, value));
 
         return false;
-    }
-
-    public void CreateNotification(DomainNotification notification)
-    {
-        _notifications.Add(notification);
-    }
-
-    public void CreateNotifications(IEnumerable<DomainNotification> notifications)
-    {
-        _notifications.AddRange(notifications);
-    }
-
-    public void CreateNotifications(Dictionary<string, string> notifications)
-    {
-        foreach (var notification in _notifications)
-        {
-            CreateNotification(notification);
-        }
     }
 }

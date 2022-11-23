@@ -11,5 +11,5 @@ public sealed class PlantSaveRequest
     public decimal Price { get; set; }
     public EProductType ProductType { get; set; }
 
-    public List<IFormFile> FileImages { get; set; }
+    public IFormFile FileImage { get; set; }
 }

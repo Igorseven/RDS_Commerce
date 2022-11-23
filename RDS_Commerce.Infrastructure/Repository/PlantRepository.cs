@@ -19,7 +19,7 @@ public sealed class PlantRepository : BaseRepository<Plant>,  IPlantRepository
         _paginationService = paginationService;
     }
 
-    public async Task<bool> ExistInTheDatabase(Expression<Func<Plant, bool>> where) => await _dbSetContext.AnyAsync(where);
+    public async Task<bool> ExistInTheDatabaseAsync(Expression<Func<Plant, bool>> where) => await _dbSetContext.AnyAsync(where);
 
     public async Task<Plant?> FindByPredicateAsync(Expression<Func<Plant, bool>> where) => await _dbSetContext.FirstOrDefaultAsync(where);
 

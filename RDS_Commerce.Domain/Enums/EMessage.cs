@@ -18,7 +18,7 @@ public enum EMessage
     [Description("Selecione uma opção")]
     SelectAnOption,
 
-    [Description("Este {0} já existe na base de dados.")]
+    [Description("{0} já existe na base de dados.")]
     Exist,
 
     [Description("{0} deve ser maior que {1}.")]

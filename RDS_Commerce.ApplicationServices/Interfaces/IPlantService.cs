@@ -11,6 +11,6 @@ public interface IPlantService
     Task<bool> UpdateMainImageAsync(PlantUpdateMainImageRequest updateRequest);
     Task<bool> DeleteAsync(int plantId);
 
-    Task<PlantFindByResponse?> FindByAsync(int plantId);
-    Task<PageList<PlantFindWithPaginationResponse>>? FindAllAsync(PageParams pageParams);
+    Task<PlantSearchResponse?> FindByAsync(int plantId);
+    Task<PageList<PlantsSearchResponse>>? FindAllWithPaginationAsync(PageParams pageParams);
 }

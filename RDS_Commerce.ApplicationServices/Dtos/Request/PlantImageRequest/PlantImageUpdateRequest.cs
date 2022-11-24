@@ -6,6 +6,4 @@ public sealed class PlantImageUpdateRequest
     public string FileName { get; set; }
     public string FileExtension { get; set; }
     public byte[] FileBytes { get; set; }
-
-    public int PlantId { get; set; }
 }

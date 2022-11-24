@@ -1,11 +1,17 @@
+using RDS_Commerce.API.Settings;
+using RDS_Commerce.ApplicationServices.AutoMapperSettings;
+using RDS_Commerce.IoC.DependencyInjectionSettings;
+
 var builder = WebApplication.CreateBuilder(args);
+var app = builder.Build();
 IConfiguration configuration = builder.Configuration;
 
-builder.Services.AddControllers();
+AutoMapperFactoryConfigurations.Initialize();
+
+builder.Services.AddConfigurations();
+builder.Services.AddDependencyInjectionHandler(configuration);
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
-
-var app = builder.Build();
 
 if (app.Environment.IsDevelopment())
 {
@@ -14,9 +20,10 @@ if (app.Environment.IsDevelopment())
 }
 
 app.UseHttpsRedirection();
-
+app.UseCors("MyPolicy");
 app.UseAuthorization();
 
 app.MapControllers();
 
+app.MigrateDatabase();
 app.Run();

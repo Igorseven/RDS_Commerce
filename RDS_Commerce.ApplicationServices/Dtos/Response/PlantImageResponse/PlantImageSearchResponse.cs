@@ -1,5 +1,5 @@
 ﻿namespace RDS_Commerce.ApplicationServices.Dtos.Response.PlantImageResponse;
-public sealed class PlantImageFindByResponse
+public sealed class PlantImageSearchResponse
 {
     public int Id { get; set; }
     public bool MainImage { get; set; }

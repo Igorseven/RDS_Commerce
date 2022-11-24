@@ -7,17 +7,10 @@ using RDS_Commerce.ApplicationServices.Interfaces;
 using RDS_Commerce.ApplicationServices.Services.Base;
 using RDS_Commerce.Business.Extensions;
 using RDS_Commerce.Business.Handler.PaginationSettings;
-using RDS_Commerce.Business.Handler.ValidationSettings;
 using RDS_Commerce.Business.Interfaces.OthersContracts;
 using RDS_Commerce.Business.Interfaces.RepositoryContracts;
 using RDS_Commerce.Domain.Entities;
 using RDS_Commerce.Domain.Enums;
-using System;
-using System.Collections.Generic;
-using System.Diagnostics;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace RDS_Commerce.ApplicationServices.Services;
 public sealed class PlantService : BaseService<Plant>, IPlantService
@@ -33,18 +26,18 @@ public sealed class PlantService : BaseService<Plant>, IPlantService
         _plantRepository = plantRepository;
     }
 
-    public async Task<PageList<PlantFindWithPaginationResponse>>? FindAllAsync(PageParams pageParams)
+    public async Task<PageList<PlantsSearchResponse>>? FindAllWithPaginationAsync(PageParams pageParams)
     {
         var plants = await _plantRepository.FindByWithPaginationAsync(pageParams, i => i.Include(p => p.Images), true)!;
 
-        return plants.MapTo<PageList<Plant>, PageList<PlantFindWithPaginationResponse>>();
+        return plants.MapTo<PageList<Plant>, PageList<PlantsSearchResponse>>();
     }
 
-    public async Task<PlantFindByResponse?> FindByAsync(int plantId)
+    public async Task<PlantSearchResponse?> FindByAsync(int plantId)
     {
         var plantAndImages = await _plantRepository.FindByAsync(plantId, i => i.Include(p => p.Images), true);
 
-        return plantAndImages?.MapTo<Plant, PlantFindByResponse>();
+        return plantAndImages?.MapTo<Plant, PlantSearchResponse>();
     }
 
     public async Task<bool> SaveAsync(PlantSaveRequest saveRequest)
@@ -102,11 +95,13 @@ public sealed class PlantService : BaseService<Plant>, IPlantService
         var oldPlant = plant.Images.Find(p => p.MainImage);
         var newPlant = plant.Images.Find(p => p.Id == updateRequest.PlantId);
 
+
         if (oldPlant is not null && newPlant is not null)
         {
             oldPlant.MainImage = false;
             newPlant.MainImage = true;
-            List<PlantImage> images = new()
+
+            var images = new List<PlantImage>()
             {
                 { oldPlant },
                 { newPlant }
@@ -117,15 +112,15 @@ public sealed class PlantService : BaseService<Plant>, IPlantService
             return await _plantRepository.UpdateAsync(plant);
         }
         else
-            return _notification.CreateNotification("Planta não encontrada", EMessage.NotFound.GetDescription().FormatTo("Planta"));
+            return _notification.CreateNotification("Imagem não encontrada", EMessage.NotFound.GetDescription().FormatTo("Imagem"));
     }
 
     public async Task<bool> DeleteAsync(int plantId)
     {
-        if (!await _plantRepository.ExistInTheDatabaseAsync(p => p.Id == plantId))
+        if (await _plantRepository.ExistInTheDatabaseAsync(p => p.Id == plantId))
+            return await _plantRepository.DeleteAsync(plantId);
+        else
             return _notification.CreateNotification("Planta não encontrada", EMessage.NotFound.GetDescription().FormatTo("Planta"));
-
-        return await _plantRepository.DeleteAsync(plantId);
     }
 
     private void SetMutipleImages(List<IFormFile> formFiles, Plant plant)

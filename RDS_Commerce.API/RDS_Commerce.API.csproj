@@ -12,10 +12,6 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="Controllers\" />
-  </ItemGroup>
-
-  <ItemGroup>
     <ProjectReference Include="..\RDS_Commerce.ApplicationServices\RDS_Commerce.ApplicationServices.csproj" />
     <ProjectReference Include="..\RDS_Commerce.IoC\RDS_Commerce.IoC.csproj" />
   </ItemGroup>

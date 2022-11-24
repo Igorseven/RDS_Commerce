@@ -11,7 +11,6 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="AutoMapperSettings\EntitiesProfile\" />
     <Folder Include="Arguments\" />
   </ItemGroup>
 

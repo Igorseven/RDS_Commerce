@@ -4,7 +4,7 @@ using RDS_Commerce.Domain.Entities;
 using RDS_Commerce.Infrastructure.ORM.EntitiesMappings.BaseEntityMapping;
 
 namespace RDS_Commerce.Infrastructure.ORM.EntitiesMappings;
-public sealed class PlantMapping : BaseMapping, IEntityTypeConfiguration<Plant>
+public  class PlantMapping : BaseMapping, IEntityTypeConfiguration<Plant>
 {
     public void Configure(EntityTypeBuilder<Plant> builder)
     {

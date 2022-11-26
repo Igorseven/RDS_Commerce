@@ -1,13 +1,13 @@
 ﻿using Microsoft.EntityFrameworkCore.Infrastructure;
 using RDS_Commerce.Business.Interfaces.OthersContracts;
-using RDS_Commerce.Infrastructure.ORM.Context;
+using RDS_Commerce.Infrastructure.ORM.ContextSettings;
 
 namespace RDS_Commerce.Infrastructure.ORM.UoW;
 public sealed class UnitOfWork : IUnitOfWork
 {
     private readonly DatabaseFacade _databaseFacade;
 
-	public UnitOfWork(RdsContext dbcontext)
+	public UnitOfWork(RdsApplicationDbContext dbcontext)
 	{
         _databaseFacade = dbcontext.Database;
     }

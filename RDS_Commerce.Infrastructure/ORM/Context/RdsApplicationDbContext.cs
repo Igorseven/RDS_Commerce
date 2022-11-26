@@ -1,20 +1,33 @@
 ﻿using Microsoft.EntityFrameworkCore;
+using RDS_Commerce.Domain.Entities;
 
-namespace RDS_Commerce.Infrastructure.ORM.Context;
-public class RdsContext : DbContext
+namespace RDS_Commerce.Infrastructure.ORM.ContextSettings;
+public class RdsApplicationDbContext : DbContext
 {
+    public DbSet<Plant> Plants { get; set; }
+    public DbSet<PlantImage> PlantImages { get; set; }
 
-	public RdsContext(DbContextOptions<RdsContext> dbContext)
-		: base(dbContext)
+
+    public RdsApplicationDbContext(DbContextOptions<RdsApplicationDbContext> options)
+		: base(options)
 	{
 
 	}
 
+    protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
+    {
+        optionsBuilder.EnableSensitiveDataLogging();
+        optionsBuilder.EnableDetailedErrors();
+
+        base.OnConfiguring(optionsBuilder);
+    }
+
+
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
-        base.OnModelCreating(modelBuilder);
+        modelBuilder.ApplyConfigurationsFromAssembly(typeof(RdsApplicationDbContext).Assembly);
 
-        modelBuilder.ApplyConfigurationsFromAssembly(typeof(RdsContext).Assembly);
+        base.OnModelCreating(modelBuilder);
     }
 
     public override Task<int> SaveChangesAsync(bool acceptAllChangesOnSuccess, CancellationToken cancellationToken = default)
@@ -32,4 +45,6 @@ public class RdsContext : DbContext
 
         return base.SaveChangesAsync(acceptAllChangesOnSuccess, cancellationToken);
     }
+
+
 }

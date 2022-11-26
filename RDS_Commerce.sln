@@ -5,17 +5,17 @@ VisualStudioVersion = 17.4.33110.190
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "src", "src", "{81FCA6F2-4F06-461F-AB93-6D282369AABC}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RDS_Commerce.API", "RDS_Commerce.API\RDS_Commerce.API.csproj", "{96A8D78E-F902-498D-8147-C51B852D658B}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "RDS_Commerce.API", "RDS_Commerce.API\RDS_Commerce.API.csproj", "{96A8D78E-F902-498D-8147-C51B852D658B}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RDS_Commerce.ApplicationServices", "RDS_Commerce.ApplicationServices\RDS_Commerce.ApplicationServices.csproj", "{0DEE42A0-8AB7-42E9-9A07-EE79875418DB}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "RDS_Commerce.ApplicationServices", "RDS_Commerce.ApplicationServices\RDS_Commerce.ApplicationServices.csproj", "{0DEE42A0-8AB7-42E9-9A07-EE79875418DB}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RDS_Commerce.Domain", "RDS_Commerce.Domain\RDS_Commerce.Domain.csproj", "{26E97933-BB23-4E63-8D05-7C2B8CDDDA28}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "RDS_Commerce.Domain", "RDS_Commerce.Domain\RDS_Commerce.Domain.csproj", "{26E97933-BB23-4E63-8D05-7C2B8CDDDA28}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RDS_Commerce.Business", "RDS_Commerce.Business\RDS_Commerce.Business.csproj", "{579931A0-27AE-4EFE-B6F9-F880A220D833}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "RDS_Commerce.Business", "RDS_Commerce.Business\RDS_Commerce.Business.csproj", "{579931A0-27AE-4EFE-B6F9-F880A220D833}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RDS_Commerce.Infrastructure", "RDS_Commerce.Infrastructure\RDS_Commerce.Infrastructure.csproj", "{5B6B4C20-096A-45F5-A133-B06B2FB2212A}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "RDS_Commerce.Infrastructure", "RDS_Commerce.Infrastructure\RDS_Commerce.Infrastructure.csproj", "{5B6B4C20-096A-45F5-A133-B06B2FB2212A}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RDS_Commerce.IoC", "RDS_Commerce.IoC\RDS_Commerce.IoC.csproj", "{6F553D61-12B6-49FB-841F-C9AE67ABFA47}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "RDS_Commerce.IoC", "RDS_Commerce.IoC\RDS_Commerce.IoC.csproj", "{6F553D61-12B6-49FB-841F-C9AE67ABFA47}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

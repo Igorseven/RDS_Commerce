@@ -4,7 +4,7 @@ using RDS_Commerce.Domain.Entities;
 using RDS_Commerce.Infrastructure.ORM.EntitiesMappings.BaseEntityMapping;
 
 namespace RDS_Commerce.Infrastructure.ORM.EntitiesMappings;
-public sealed class FileImageMapping : BaseMapping, IEntityTypeConfiguration<PlantImage>
+public  class FileImageMapping : BaseMapping, IEntityTypeConfiguration<PlantImage>
 {
     public void Configure(EntityTypeBuilder<PlantImage> builder)
     {

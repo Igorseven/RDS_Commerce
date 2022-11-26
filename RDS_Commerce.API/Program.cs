@@ -3,15 +3,18 @@ using RDS_Commerce.ApplicationServices.AutoMapperSettings;
 using RDS_Commerce.IoC.DependencyInjectionSettings;
 
 var builder = WebApplication.CreateBuilder(args);
-var app = builder.Build();
-IConfiguration configuration = builder.Configuration;
+var configuration = builder.Configuration;
 
 AutoMapperFactoryConfigurations.Initialize();
 
-builder.Services.AddConfigurations();
+builder.Services.AddControllersConfiguration();
 builder.Services.AddDependencyInjectionHandler(configuration);
+builder.Services.AddFiltersHandler();
+builder.Services.AddCorsConfiguration();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
+
+var app = builder.Build();
 
 if (app.Environment.IsDevelopment())
 {

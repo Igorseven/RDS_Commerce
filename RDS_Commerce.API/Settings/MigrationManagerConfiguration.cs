@@ -1,5 +1,5 @@
 ﻿using Microsoft.EntityFrameworkCore;
-using RDS_Commerce.Infrastructure.ORM.Context;
+using RDS_Commerce.Infrastructure.ORM.ContextSettings;
 
 namespace RDS_Commerce.API.Settings;
 
@@ -9,17 +9,14 @@ public static class MigrationManagerConfiguration
     {
         using (var scope = webApp.Services.CreateScope())
         {
-            using (var appContext = scope.ServiceProvider.GetRequiredService<RdsContext>())
+            using var appContext = scope.ServiceProvider.GetRequiredService<RdsApplicationDbContext>();
+            try
             {
-                try
-                {
-
-                    appContext.Database.Migrate();
-                }
-                catch (Exception)
-                {
-                    throw;
-                }
+                appContext.Database.Migrate();
+            }
+            catch (Exception)
+            {
+                throw;
             }
         }
         return webApp;

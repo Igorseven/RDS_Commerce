@@ -4,7 +4,7 @@ using RDS_Commerce.Business.Handler.PaginationSettings;
 using RDS_Commerce.Business.Interfaces.OthersContracts;
 using RDS_Commerce.Business.Interfaces.RepositoryContracts;
 using RDS_Commerce.Domain.Entities;
-using RDS_Commerce.Infrastructure.ORM.Context;
+using RDS_Commerce.Infrastructure.ORM.ContextSettings;
 using RDS_Commerce.Infrastructure.Repository.Base;
 using System.Linq.Expressions;
 
@@ -13,7 +13,7 @@ public sealed class PlantRepository : BaseRepository<Plant>,  IPlantRepository
 {
     private readonly IPaginationService<Plant> _paginationService;
 
-    public PlantRepository(RdsContext context, IPaginationService<Plant> paginationService)
+    public PlantRepository(RdsApplicationDbContext context, IPaginationService<Plant> paginationService)
         : base(context)
     {
         _paginationService = paginationService;

@@ -17,6 +17,10 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "RDS_Commerce.Infrastructure
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "RDS_Commerce.IoC", "RDS_Commerce.IoC\RDS_Commerce.IoC.csproj", "{6F553D61-12B6-49FB-841F-C9AE67ABFA47}"
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Tests", "Tests", "{EB41C7BB-033B-4DF5-9BC6-4FFA71728409}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RDS_Commerce.UnitTest", "RDS_Commerce.UnitTest\RDS_Commerce.UnitTest.csproj", "{26CE525C-6A3D-4859-B6D5-6BE236A6EB31}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -47,6 +51,10 @@ Global
 		{6F553D61-12B6-49FB-841F-C9AE67ABFA47}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{6F553D61-12B6-49FB-841F-C9AE67ABFA47}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{6F553D61-12B6-49FB-841F-C9AE67ABFA47}.Release|Any CPU.Build.0 = Release|Any CPU
+		{26CE525C-6A3D-4859-B6D5-6BE236A6EB31}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{26CE525C-6A3D-4859-B6D5-6BE236A6EB31}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{26CE525C-6A3D-4859-B6D5-6BE236A6EB31}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{26CE525C-6A3D-4859-B6D5-6BE236A6EB31}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -58,6 +66,7 @@ Global
 		{579931A0-27AE-4EFE-B6F9-F880A220D833} = {81FCA6F2-4F06-461F-AB93-6D282369AABC}
 		{5B6B4C20-096A-45F5-A133-B06B2FB2212A} = {81FCA6F2-4F06-461F-AB93-6D282369AABC}
 		{6F553D61-12B6-49FB-841F-C9AE67ABFA47} = {81FCA6F2-4F06-461F-AB93-6D282369AABC}
+		{26CE525C-6A3D-4859-B6D5-6BE236A6EB31} = {EB41C7BB-033B-4DF5-9BC6-4FFA71728409}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {9E2B48D3-DE32-41E8-A85F-14069128CF6F}

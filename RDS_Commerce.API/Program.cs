@@ -8,8 +8,8 @@ var configuration = builder.Configuration;
 AutoMapperFactoryConfigurations.Initialize();
 
 builder.Services.AddControllersConfiguration();
-builder.Services.AddDependencyInjectionHandler(configuration);
 builder.Services.AddFiltersHandler();
+builder.Services.AddDependencyInjectionHandler(configuration);
 builder.Services.AddCorsConfiguration();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();

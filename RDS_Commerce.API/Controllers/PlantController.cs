@@ -9,7 +9,7 @@ namespace RDS_Commerce.API.Controllers;
 
 [Route("api/[controller]")]
 [ApiController]
-public class PlantController : ControllerBase
+public sealed class PlantController : ControllerBase
 {
     private readonly IPlantService _plantService;
 
@@ -65,7 +65,7 @@ public class PlantController : ControllerBase
     public async Task<bool> PlantDeleteAsync([FromQuery] int plantId) =>
        await _plantService.DeleteAsync(plantId);
 
-    [HttpDelete("find_by_plant")]
+    [HttpGet("find_by_plant")]
     [ProducesResponseType(StatusCodes.Status200OK)]
     [ProducesResponseType(StatusCodes.Status204NoContent)]
     [ProducesResponseType(StatusCodes.Status404NotFound)]
@@ -74,12 +74,12 @@ public class PlantController : ControllerBase
     public async Task<PlantSearchResponse?> FindByPlantAsync([FromQuery] int plantId) =>
        await _plantService.FindByAsync(plantId);
 
-    [HttpDelete("find_plants_homepage_with_pagination")]
+    [HttpGet("find_plants_homepage_with_pagination")]
     [ProducesResponseType(StatusCodes.Status200OK)]
     [ProducesResponseType(StatusCodes.Status204NoContent)]
     [ProducesResponseType(StatusCodes.Status404NotFound)]
     [ProducesResponseType(StatusCodes.Status403Forbidden)]
     [ProducesResponseType(StatusCodes.Status401Unauthorized)]
-    public async Task<PageList<PlantsSearchResponse>>? FindPlantsToPaginationAsync([FromQuery] PageParams pageParams) =>
+    public async Task<PageList<PlantsSearchResponse?>>? FindPlantsToPaginationAsync([FromQuery] PageParams pageParams) =>
        await _plantService.FindAllWithPaginationAsync(pageParams);
 }

@@ -8,5 +8,8 @@ public static class FiltersConfiguration
     {
         services.AddMvc(config => config.Filters.AddService<NotificationFilter>());
         services.AddMvc(config => config.Filters.AddService<UnitOfWorkFilter>());
+
+        services.AddScoped<NotificationFilter>();
+        services.AddScoped<UnitOfWorkFilter>();
     }
 }

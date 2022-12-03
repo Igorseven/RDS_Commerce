@@ -1,0 +1,75 @@
+﻿using RDS_Commerce.Domain.Entities;
+using RDS_Commerce.Domain.Enums;
+using RDS_Commerce.UnitTest.Builders.FileImageBuilders;
+
+namespace RDS_Commerce.UnitTest.Builders.PlantBuilders;
+public sealed class PlantBuilder
+{
+
+    private int _id = 11;
+    private DateTime _registrationDate = DateTime.Now;
+    private string _name = "Rosa de Pedra";
+    private string _specie = "Suculenta";
+    private string? _description = "Uma planta para teste";
+    private int _amount = 3;
+    private decimal _price = 100.50m;
+    private EProductType _productType = EProductType.Special;
+
+    private List<PlantImageBuilder> _images;
+
+
+    public static PlantBuilder NewObject() => new();
+
+    public Plant DomainBuild()
+    {
+        return new()
+        {
+            Id = _id,
+            Name = _name,
+            Amount = _amount,
+            Description = _description,
+            Price = _price,
+            ProductType = _productType,
+            RegistrationDate = _registrationDate,
+            Specie = _specie,
+            Images = PlantImageBuilder.NewObject().DomainListBuild()
+        };
+    }
+
+    public PlantBuilder WithName(string name)
+    {
+        _name = name;
+        return this;
+    }
+
+    public PlantBuilder WithAmount(int amount)
+    {
+        _amount = amount;
+        return this;
+    }
+
+    public PlantBuilder WithDescription(string description)
+    {
+        _description = description;
+        return this;
+    }
+
+    public PlantBuilder WithPrice(decimal price)
+    {
+        _price = price;
+        return this;
+    }
+    public PlantBuilder WithProducType(EProductType productType)
+    {
+        _productType = productType;
+        return this;
+    }
+
+    public PlantBuilder WithSpecie(string specie)
+    {
+        _specie = specie;
+        return this;
+    }
+
+
+}

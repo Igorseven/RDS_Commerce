@@ -1,5 +1,5 @@
 ﻿namespace RDS_Commerce.Business.Handler.NotificationSettings;
-public class DomainNotification
+public sealed class DomainNotification
 {
     public string Key { get; set; }
     public string Value { get; set; }

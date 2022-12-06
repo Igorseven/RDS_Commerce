@@ -64,4 +64,18 @@ public sealed class PlantImageValidationUnitTest
 
         Assert.False(responseResult.Valid);
     }
+
+    [Fact]
+    [Trait("Failed", "Invalid values")]
+    public async Task PlantImageValidation_IsEmpty_ReturnFalse()
+    {
+        var plantImage = PlantImageBuilder.NewObject()
+                                          .WithFileExtension("")
+                                          .WithFileName("")
+                                          .DomainBuild();
+
+        var responseResult = await _plantImageValidation.ValidationAsync(plantImage);
+
+        Assert.False(responseResult.Valid);
+    }
 }

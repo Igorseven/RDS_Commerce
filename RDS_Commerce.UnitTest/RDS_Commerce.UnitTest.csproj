@@ -34,7 +34,6 @@
     <Folder Include="Handlers\" />
     <Folder Include="Controllers\" />
     <Folder Include="Extensions\" />
-    <Folder Include="Services\" />
   </ItemGroup>
 
 </Project>

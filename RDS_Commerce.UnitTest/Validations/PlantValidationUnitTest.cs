@@ -5,7 +5,7 @@ using RDS_Commerce.UnitTest.Builders.PlantBuilders;
 namespace RDS_Commerce.UnitTest.Validations;
 public sealed class PlantValidationUnitTest
 {
-    private PlantValidation _plantValidate;
+    private readonly PlantValidation _plantValidate;
 
     public PlantValidationUnitTest()
     {

@@ -4,7 +4,7 @@ using RDS_Commerce.Infrastructure.ORM.ContextSettings;
 namespace RDS_Commerce.Infrastructure.Repository.Base;
 public abstract class BaseRepository<T> : IDisposable where T : class
 {
-	protected RdsApplicationDbContext _context;
+	protected readonly RdsApplicationDbContext _context;
 	protected DbSet<T> _dbSetContext => _context.Set<T>();
 
     public BaseRepository(RdsApplicationDbContext context)

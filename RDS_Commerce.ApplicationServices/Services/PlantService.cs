@@ -26,7 +26,7 @@ public sealed class PlantService : BaseService<Plant>, IPlantService
         _plantRepository = plantRepository;
     }
 
-    public async Task<PageList<PlantsSearchResponse>>? FindAllWithPaginationAsync(PageParams pageParams)
+    public async Task<PageList<PlantsSearchResponse>> FindAllWithPaginationAsync(PageParams pageParams)
     {
         var plants = await _plantRepository.FindByWithPaginationAsync(pageParams, i => i.Include(p => p.Images), true)!;
 
@@ -49,10 +49,10 @@ public sealed class PlantService : BaseService<Plant>, IPlantService
 
         SetMainImage(saveRequest.FileImage, plant);
 
-        if (!await EntityValidationAsync(plant))
+        if (await EntityValidationAsync(plant))
             return await _plantRepository.SaveAsync(plant);
-        else
-            return false;
+
+        return false;
     }
 
     public async Task<bool> UpdateAsync(PlantUpdateRequest updateRequest)
@@ -64,26 +64,32 @@ public sealed class PlantService : BaseService<Plant>, IPlantService
         if (plant is null)
             return _notification.CreateNotification("Planta não encontrada", EMessage.NotFound.GetDescription().FormatTo("Planta"));
 
-        var plantUpdate = updateRequest.MapTo(plant);
+        var plantUpdate = updateRequest.MapTo<PlantUpdateRequest, Plant>();
 
-        if (!await EntityValidationAsync(plant))
+        if (await EntityValidationAsync(plant))
             return await _plantRepository.UpdateAsync(plant);
-        else
-            return false;
+
+        return false;
     }
 
-    public async Task<bool> UpdateImagesAsync(PlantUpdateImagesRequest updateRequest)
+    public async Task<bool> InsertOtherImagesAsync(PlantUpdateImagesRequest updateRequest)
     {
         var plant = await _plantRepository.FindByAsync(updateRequest.PlantId, i => i.Include(p => p.Images), false);
         if (plant is null)
             return _notification.CreateNotification("Planta não encontrada", EMessage.NotFound.GetDescription().FormatTo("Planta"));
 
+        var amountOfImages = plant.Images.Count + updateRequest.FormFileImages.Count;
+        const int MAXIMUM_AMOUNT = 7;
+
+        if (amountOfImages > MAXIMUM_AMOUNT)
+            return _notification.CreateNotification("Limite de inserção de imagens", EMessage.LimitedValue.GetDescription().FormatTo("7"));
+
         SetMutipleImages(updateRequest.FormFileImages, plant);
 
-        if (!await EntityValidationAsync(plant))
+        if (await EntityValidationAsync(plant))
             return await _plantRepository.UpdateAsync(plant);
-        else
-            return false;
+        
+        return false;
     }
 
     public async Task<bool> UpdateMainImageAsync(PlantUpdateMainImageRequest updateRequest)
@@ -92,50 +98,46 @@ public sealed class PlantService : BaseService<Plant>, IPlantService
         if (plant is null)
             return _notification.CreateNotification("Planta não encontrada", EMessage.NotFound.GetDescription().FormatTo("Planta"));
 
-        var oldPlant = plant.Images.Find(p => p.MainImage);
-        var newPlant = plant.Images.Find(p => p.Id == updateRequest.PlantId);
-
-
-        if (oldPlant is not null && newPlant is not null)
-        {
-            oldPlant.MainImage = false;
-            newPlant.MainImage = true;
-
-            var images = new List<PlantImage>()
-            {
-                { oldPlant },
-                { newPlant }
-            };
-
-            plant.Images.AddRange(images);
-
-            return await _plantRepository.UpdateAsync(plant);
-        }
-        else
+        if (!await _plantRepository.ExistInTheDatabaseAsync(pi => pi.Id == updateRequest.PlantImageId))
             return _notification.CreateNotification("Imagem não encontrada", EMessage.NotFound.GetDescription().FormatTo("Imagem"));
+
+        foreach (var images in plant.Images)
+        {
+            if (images.MainImage is true)
+                images.MainImage = false;
+
+            if (images.Id == updateRequest.PlantImageId)
+                images.MainImage = true;
+        }
+
+        return await _plantRepository.UpdateAsync(plant);
     }
 
     public async Task<bool> DeleteAsync(int plantId)
     {
-        if (await _plantRepository.ExistInTheDatabaseAsync(p => p.Id == plantId))
-            return await _plantRepository.DeleteAsync(plantId);
-        else
+        if (!await _plantRepository.ExistInTheDatabaseAsync(p => p.Id == plantId))
             return _notification.CreateNotification("Planta não encontrada", EMessage.NotFound.GetDescription().FormatTo("Planta"));
+
+        return await _plantRepository.DeleteAsync(plantId);
     }
 
     private void SetMutipleImages(List<IFormFile> formFiles, Plant plant)
     {
         foreach (var file in formFiles)
         {
-            plant.Images.Add((PlantImage)file.BuildFileImage());
+            if (file is not null)
+            {
+                var newImage = file.BuildPlantFileImage();
+                plant.Images.Add(newImage!);
+            }
         }
     }
 
     private void SetMainImage(IFormFile formFile, Plant plant)
     {
-        var mainImage = (PlantImage)formFile.BuildFileImage();
+        var mainImage = formFile.BuildPlantFileImage();
 
-        mainImage.MainImage = true;
+        mainImage!.MainImage = true;
 
         plant.Images = new List<PlantImage>
         {

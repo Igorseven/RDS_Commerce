@@ -10,13 +10,13 @@ public static class AutoMapperFactoryConfigurations
 
     public static void Initialize()
     {
-
         if (!Initialized)
         {
             Configuration = new MapperConfiguration(config =>
             {
                 var profiles = Assembly.GetExecutingAssembly()
-                        .GetExportedTypes().Where(p => p.IsClass && typeof(Profile).IsAssignableFrom(p));
+                                       .GetExportedTypes()
+                                       .Where(p => p.IsClass && typeof(Profile).IsAssignableFrom(p));
 
                 foreach (var profile in profiles)
                 {

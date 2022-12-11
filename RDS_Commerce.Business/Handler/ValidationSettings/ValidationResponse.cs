@@ -1,5 +1,5 @@
 ﻿namespace RDS_Commerce.Business.Handler.ValidationSettings;
-public sealed class ValidationResponse
+public class ValidationResponse
 {
     public  Dictionary<string, string> Errors { get; private set; }
     public bool Valid => Errors.Count == 0;

@@ -18,6 +18,9 @@ public enum EMessage
     [Description("Selecione uma opção")]
     SelectAnOption,
 
+    [Description("Limite máximo permitido é {0}")]
+    LimitedValue,
+
     [Description("{0} já existe na base de dados.")]
     Exist,
 

@@ -36,6 +36,12 @@ public sealed class PlantBuilder
         };
     }
 
+    public PlantBuilder WithId(int plantId)
+    {
+        _id = plantId;
+            return this;
+    }
+
     public PlantBuilder WithName(string name)
     {
         _name = name;

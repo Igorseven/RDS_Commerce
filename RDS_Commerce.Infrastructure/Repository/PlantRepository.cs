@@ -49,30 +49,30 @@ public sealed class PlantRepository : BaseRepository<Plant>,  IPlantRepository
         return _paginationService.CreatePaginationAsync(query, pageParams.PageSize, pageParams.PageNumber);
     }
 
-    public async Task<bool> SaveAsync(Plant entity)
+    public async Task<bool> SaveAsync(Plant plant)
     {
-        _dbSetContext.Add(entity);
-        _context.Entry(entity).State = EntityState.Added;
+        _dbSetContext.Add(plant);
+        _context.Entry(plant).State = EntityState.Added;
         return await PersistInTheDatabaseAsync();
     }
 
-    public async Task<bool> UpdateAsync(Plant entity)
+    public async Task<bool> UpdateAsync(Plant plant)
     {
-        _dbSetContext.Update(entity);
-        _context.Entry(entity).State = EntityState.Modified;
+        _dbSetContext.Update(plant);
+        _context.Entry(plant).State = EntityState.Modified;
         return await PersistInTheDatabaseAsync();
     }
 
     public async Task<bool> DeleteAsync(int plantId)
     {
-        var entity = await _dbSetContext.FindAsync(plantId);
-        if (entity is null)
+        var plant = await _dbSetContext.FindAsync(plantId);
+        if (plant is null)
             return false;
 
-        if (_context.Entry(entity).State == EntityState.Detached)
-            _dbSetContext.Attach(entity);
+        if (_context.Entry(plant).State == EntityState.Detached)
+            _dbSetContext.Attach(plant);
 
-        _dbSetContext.Remove(entity);
+        _dbSetContext.Remove(plant);
         return await PersistInTheDatabaseAsync();
     }
 }

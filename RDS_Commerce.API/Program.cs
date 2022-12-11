@@ -28,5 +28,6 @@ app.UseAuthorization();
 
 app.MapControllers();
 
-app.MigrateDatabase();
+//app.AddEndPointsHandler();
+
 app.Run();

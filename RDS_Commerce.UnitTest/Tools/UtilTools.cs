@@ -1,8 +1,9 @@
 ﻿using Microsoft.AspNetCore.Http;
 using Microsoft.EntityFrameworkCore.Query;
-using RDS_Commerce.Business.Handler.PaginationSettings;
-using System.Security.Claims;
 using Moq;
+using RDS_Commerce.Business.Handler.PaginationSettings;
+using System.Linq.Expressions;
+using System.Security.Claims;
 using System.Text;
 
 namespace RDS_Commerce.UnitTest.Tools;
@@ -20,15 +21,24 @@ public sealed class UtilTools
         };
     }
 
-    public static PageList<TEntity> BuildPageList<TEntity>(List<TEntity> entityList, int nextPage = 1) where TEntity : class
+    public static PageList<T> BuildPageList<T>(List<T> entityList, int nextPage = 1) where T : class
     {
-        return new PageList<TEntity>
+        return new PageList<T>
         {
             CurrentPage = nextPage,
             PageSize = 10,
             Result = entityList,
             TotalCount = entityList.Count,
             TotalPages = 1
+        };
+    }
+
+    public static PageParams BuildPageParams(int pageNumber = 1, int pageSize = 10)
+    {
+        return new PageParams
+        {
+            PageNumber = pageNumber,
+            PageSize = pageSize,
         };
     }
 
@@ -42,6 +52,9 @@ public sealed class UtilTools
         }));
     }
 
-    public static Func<IQueryable<TEntity>, IIncludableQueryable<TEntity, object>> BuildQueryableIncludeFunc<TEntity>() where TEntity : class =>
-           It.IsAny<Func<IQueryable<TEntity>, IIncludableQueryable<TEntity, object>>>();
+    public static Func<IQueryable<T>, IIncludableQueryable<T, object>> BuildQueryableIncludeFunc<T>() where T : class =>
+           It.IsAny<Func<IQueryable<T>, IIncludableQueryable<T, object>>>();
+    
+    public static Expression<Func<T, bool>> BuildPredicateFunc<T>() where T : class =>
+           It.IsAny<Expression<Func<T, bool>>>();
 }

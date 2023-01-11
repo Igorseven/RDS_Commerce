@@ -8,9 +8,8 @@ public interface IPlantService
     Task<bool> SaveAsync(PlantSaveRequest saveRequest);
     Task<bool> UpdateAsync(PlantUpdateRequest updateRequest);
     Task<bool> InsertOtherImagesAsync(PlantUpdateImagesRequest updateRequest);
-    Task<bool> UpdateMainImageAsync(PlantUpdateMainImageRequest updateRequest);
     Task<bool> DeleteAsync(int plantId);
 
     Task<PlantSearchResponse?> FindByAsync(int plantId);
-    Task<PageList<PlantsSearchResponse>>? FindAllWithPaginationAsync(PageParams pageParams);
+    Task<PageList<PlantsSearchResponse>> FindAllWithPaginationAsync(PageParams pageParams);
 }

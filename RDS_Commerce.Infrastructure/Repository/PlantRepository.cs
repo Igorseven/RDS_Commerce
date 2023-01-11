@@ -21,7 +21,15 @@ public sealed class PlantRepository : BaseRepository<Plant>,  IPlantRepository
 
     public async Task<bool> ExistInTheDatabaseAsync(Expression<Func<Plant, bool>> where) => await _dbSetContext.AnyAsync(where);
 
-    public async Task<Plant?> FindByPredicateAsync(Expression<Func<Plant, bool>> where) => await _dbSetContext.FirstOrDefaultAsync(where);
+    public async Task<Plant?> FindByPredicateAsync(Expression<Func<Plant, bool>> where, bool asNoTracking = false)
+    {
+        IQueryable<Plant> query = _dbSetContext;
+
+        if (asNoTracking)
+            query = query.AsNoTracking();
+
+        return await query.FirstOrDefaultAsync(where);
+    }
 
     public async Task<Plant?> FindByAsync(int plantId, Func<IQueryable<Plant>, IIncludableQueryable<Plant, object>>? include = null, bool asNoTracking = false)
     {
@@ -52,20 +60,21 @@ public sealed class PlantRepository : BaseRepository<Plant>,  IPlantRepository
     public async Task<bool> SaveAsync(Plant plant)
     {
         _dbSetContext.Add(plant);
-        _context.Entry(plant).State = EntityState.Added;
-        return await PersistInTheDatabaseAsync();
+
+        return await SaveInDatabaseAsync();
     }
 
     public async Task<bool> UpdateAsync(Plant plant)
     {
         _dbSetContext.Update(plant);
-        _context.Entry(plant).State = EntityState.Modified;
-        return await PersistInTheDatabaseAsync();
+
+        return await SaveInDatabaseAsync();
     }
 
     public async Task<bool> DeleteAsync(int plantId)
     {
         var plant = await _dbSetContext.FindAsync(plantId);
+
         if (plant is null)
             return false;
 
@@ -73,6 +82,6 @@ public sealed class PlantRepository : BaseRepository<Plant>,  IPlantRepository
             _dbSetContext.Attach(plant);
 
         _dbSetContext.Remove(plant);
-        return await PersistInTheDatabaseAsync();
+        return await SaveInDatabaseAsync();
     }
 }

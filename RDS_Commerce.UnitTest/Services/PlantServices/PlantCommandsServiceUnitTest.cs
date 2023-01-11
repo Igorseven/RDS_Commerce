@@ -148,67 +148,6 @@ public sealed class PlantCommandsServiceUnitTest
         Assert.False(serviceResult);
     }
 
-    [Fact]
-    [Trait("Success", "Change main image")]
-    public async Task UpdateMainImageAsync_ReturnTrue()
-    {
-        const int PLANT_ID = 30;
-        const int IMAGE_PLANT_ID = 43;
-        var plant = PlantBuilder.NewObject().DomainBuild();
-        var updateRequest = new PlantUpdateMainImageRequest { PlantId = PLANT_ID, PlantImageId = IMAGE_PLANT_ID };
-
-        _plantRepository.Setup(pr => pr.ExistInTheDatabaseAsync(UtilTools.BuildPredicateFunc<Plant>())).ReturnsAsync(true);
-        _plantRepository.Setup(pr => pr.FindByAsync(PLANT_ID, UtilTools.BuildQueryableIncludeFunc<Plant>(), false)).ReturnsAsync(plant);
-        _plantRepository.Setup(pr => pr.UpdateAsync(It.IsAny<Plant>())).ReturnsAsync(true);
-
-        var serviceResult = await _service.UpdateMainImageAsync(updateRequest);
-
-        _plantRepository.Verify(pr => pr.ExistInTheDatabaseAsync(UtilTools.BuildPredicateFunc<Plant>()), Times.Once());
-        _plantRepository.Verify(pr => pr.FindByAsync(PLANT_ID, UtilTools.BuildQueryableIncludeFunc<Plant>(), false), Times.Once());
-        _plantRepository.Verify(pr => pr.UpdateAsync(It.IsAny<Plant>()), Times.Once());
-        Assert.True(serviceResult);
-    }
-
-    [Fact]
-    [Trait("Failed", "Not found Plant")]
-    public async Task UpdateMainImageAsync_NotFoundPlant_ReturnFalse()
-    {
-        const int PLANT_ID = 25;
-        const int IMAGE_PLANT_ID = 27;
-        var updateRequest = new PlantUpdateMainImageRequest { PlantId = PLANT_ID, PlantImageId = IMAGE_PLANT_ID };
-
-        _plantRepository.Setup(pr => pr.FindByAsync(PLANT_ID, UtilTools.BuildQueryableIncludeFunc<Plant>(), false));
-        _plantRepository.Setup(pr => pr.UpdateAsync(It.IsAny<Plant>())).ReturnsAsync(true);
-
-        var serviceResult = await _service.UpdateMainImageAsync(updateRequest);
-
-        _plantRepository.Verify(pr => pr.ExistInTheDatabaseAsync(UtilTools.BuildPredicateFunc<Plant>()), Times.Never());
-        _plantRepository.Verify(pr => pr.FindByAsync(PLANT_ID, UtilTools.BuildQueryableIncludeFunc<Plant>(), false), Times.Once());
-        _plantRepository.Verify(pr => pr.UpdateAsync(It.IsAny<Plant>()), Times.Never());
-        Assert.False(serviceResult);
-    }
-
-    [Fact]
-    [Trait("Failed", "Not found Image")]
-    public async Task UpdateMainImageAsync_NotFoundImage_ReturnFalse()
-    {
-        const int PLANT_ID = 25;
-        const int IMAGE_PLANT_ID = 30;
-        var plant = PlantBuilder.NewObject().DomainBuild();
-        var updateRequest = new PlantUpdateMainImageRequest { PlantId = PLANT_ID, PlantImageId = IMAGE_PLANT_ID };
-
-        _plantRepository.Setup(pr => pr.FindByAsync(PLANT_ID, UtilTools.BuildQueryableIncludeFunc<Plant>(), false)).ReturnsAsync(plant);
-        _plantRepository.Setup(pr => pr.ExistInTheDatabaseAsync(UtilTools.BuildPredicateFunc<Plant>())).ReturnsAsync(false);
-        _plantRepository.Setup(pr => pr.UpdateAsync(It.IsAny<Plant>())).ReturnsAsync(false);
-
-        var serviceResult = await _service.UpdateMainImageAsync(updateRequest);
-
-        _plantRepository.Verify(pr => pr.ExistInTheDatabaseAsync(UtilTools.BuildPredicateFunc<Plant>()), Times.Once());
-        _plantRepository.Verify(pr => pr.FindByAsync(PLANT_ID, UtilTools.BuildQueryableIncludeFunc<Plant>(), false), Times.Once());
-        _plantRepository.Verify(pr => pr.UpdateAsync(It.IsAny<Plant>()), Times.Never());
-        Assert.False(serviceResult);
-    }
-
     public static IEnumerable<object[]> GetImages()
     {
         yield return new object[]

@@ -1,12 +1,8 @@
 ﻿using Microsoft.EntityFrameworkCore;
-using RDS_Commerce.Domain.Entities;
 
 namespace RDS_Commerce.Infrastructure.ORM.ContextSettings;
 public class RdsApplicationDbContext : DbContext
 {
-    //public DbSet<Plant> Plants { get; set; }
-    //public DbSet<PlantImage> PlantImages { get; set; }
-
 
     public RdsApplicationDbContext(DbContextOptions<RdsApplicationDbContext> options)
 		: base(options)

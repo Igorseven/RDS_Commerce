@@ -2,6 +2,7 @@
 public class PageParams
 {
     private const int MaxPageSize = 10;
+
     private int _pageNumber = 1;
     public int PageNumber
     {

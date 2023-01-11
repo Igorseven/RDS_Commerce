@@ -28,7 +28,8 @@ public sealed class PlantService : BaseService<Plant>, IPlantService
 
     public async Task<PageList<PlantsSearchResponse>> FindAllWithPaginationAsync(PageParams pageParams)
     {
-        var plants = await _plantRepository.FindByWithPaginationAsync(pageParams, i => i.Include(p => p.Images), true)!;
+        var plants = await _plantRepository.FindByWithPaginationAsync(pageParams, i => i
+                                           .Include(p => p.Images.Where(pi => pi.MainImage)), true)!;
 
         return plants.MapTo<PageList<Plant>, PageList<PlantsSearchResponse>>();
     }
@@ -90,27 +91,6 @@ public sealed class PlantService : BaseService<Plant>, IPlantService
             return await _plantRepository.UpdateAsync(plant);
         
         return false;
-    }
-
-    public async Task<bool> UpdateMainImageAsync(PlantUpdateMainImageRequest updateRequest)
-    {
-        var plant = await _plantRepository.FindByAsync(updateRequest.PlantId, i => i.Include(p => p.Images), false);
-        if (plant is null)
-            return _notification.CreateNotification("Planta não encontrada", EMessage.NotFound.GetDescription().FormatTo("Planta"));
-
-        if (!await _plantRepository.ExistInTheDatabaseAsync(pi => pi.Id == updateRequest.PlantImageId))
-            return _notification.CreateNotification("Imagem não encontrada", EMessage.NotFound.GetDescription().FormatTo("Imagem"));
-
-        foreach (var images in plant.Images)
-        {
-            if (images.MainImage is true)
-                images.MainImage = false;
-
-            if (images.Id == updateRequest.PlantImageId)
-                images.MainImage = true;
-        }
-
-        return await _plantRepository.UpdateAsync(plant);
     }
 
     public async Task<bool> DeleteAsync(int plantId)

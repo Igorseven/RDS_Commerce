@@ -20,7 +20,7 @@ public sealed class UnitOfWork : IUnitOfWork
         }
         catch
         {
-            _databaseFacade.RollbackTransaction();
+            RolbackTransaction();
             throw;
         }
     }

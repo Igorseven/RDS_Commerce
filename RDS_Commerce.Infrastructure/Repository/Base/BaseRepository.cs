@@ -12,7 +12,7 @@ public abstract class BaseRepository<T> : IDisposable where T : class
 		_context= context;
 	}
 
-	protected async Task<bool> PersistInTheDatabaseAsync() => await _context.SaveChangesAsync() > 0;
+	protected async Task<bool> SaveInDatabaseAsync() => await _context.SaveChangesAsync() > 0;
 
     public void Dispose() => _context.Dispose();
 }

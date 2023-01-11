@@ -47,15 +47,6 @@ public sealed class PlantController : ControllerBase
     public async Task<bool> PlantImagesUpdateAsync([FromForm] PlantUpdateImagesRequest updateRequest) =>
         await _plantService.InsertOtherImagesAsync(updateRequest);
 
-    [HttpPut("plant_update_main_image")]
-    [ProducesResponseType(StatusCodes.Status200OK)]
-    [ProducesResponseType(StatusCodes.Status404NotFound)]
-    [ProducesResponseType(StatusCodes.Status403Forbidden)]
-    [ProducesResponseType(StatusCodes.Status401Unauthorized)]
-    [ProducesResponseType(StatusCodes.Status400BadRequest, Type = typeof(IEnumerable<DomainNotification>))]
-    public async Task<bool> PlantMainImageUpdateAsync([FromBody] PlantUpdateMainImageRequest updateRequest) =>
-        await _plantService.UpdateMainImageAsync(updateRequest);
-
     [HttpDelete("plant_delete")]
     [ProducesResponseType(StatusCodes.Status200OK)]
     [ProducesResponseType(StatusCodes.Status404NotFound)]
@@ -74,12 +65,12 @@ public sealed class PlantController : ControllerBase
     public async Task<PlantSearchResponse?> FindByPlantAsync([FromQuery] int plantId) =>
        await _plantService.FindByAsync(plantId);
 
-    [HttpGet("find_plants_homepage_with_pagination")]
+    [HttpGet("find_plants_with_pagination")]
     [ProducesResponseType(StatusCodes.Status200OK)]
     [ProducesResponseType(StatusCodes.Status204NoContent)]
     [ProducesResponseType(StatusCodes.Status404NotFound)]
     [ProducesResponseType(StatusCodes.Status403Forbidden)]
     [ProducesResponseType(StatusCodes.Status401Unauthorized)]
-    public async Task<PageList<PlantsSearchResponse?>> FindPlantsToPaginationAsync([FromQuery] PageParams pageParams) =>
+    public async Task<PageList<PlantsSearchResponse>> FindPlantsToPaginationAsync([FromQuery] PageParams pageParams) =>
        await _plantService.FindAllWithPaginationAsync(pageParams);
 }

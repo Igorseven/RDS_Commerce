@@ -32,7 +32,7 @@ public sealed class PlantImageBuilder
     {
         return new List<PlantImage>()
         {
-            PlantImageBuilder.NewObject().DomainBuild(),
+            PlantImageBuilder.NewObject().WithMainImage(true).DomainBuild(),
             PlantImageBuilder.NewObject().DomainBuild()
         };
     }

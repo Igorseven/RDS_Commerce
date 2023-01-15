@@ -4,29 +4,23 @@ using RDS_Commerce.Domain.Entities;
 namespace RDS_Commerce.Business.Extensions;
 public static class FormFileExtesion
 {
-    public static FileImage? BuildFileImage(this IFormFile image)
+    public static FileImage BuildFileImage(this IFormFile image)
     {
-        if (image is null)
-            return null;
-
         return new FileImage
         {
             FileName = image.FileName,
             FileExtension = image.ContentType,
-            FileBytes = image.ImageToByte()
+            FileBytes = image.ImageToByte()!
         };
     }
 
-    public static PlantImage? BuildPlantFileImage(this IFormFile image)
+    public static PlantImage BuildPlantFileImage(this IFormFile image)
     {
-        if (image is null)
-            return null;
-
         return new PlantImage
         {
             FileName = image.FileName,
             FileExtension = image.ContentType,
-            FileBytes = image.ImageToByte()
+            FileBytes = image.ImageToByte()!
         };
     }
 

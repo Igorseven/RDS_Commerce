@@ -28,6 +28,4 @@ app.UseAuthorization();
 
 app.MapControllers();
 
-//app.AddEndPointsHandler();
-
 app.Run();

@@ -37,6 +37,12 @@ public sealed class PlantImageBuilder
         };
     }
 
+    public PlantImageBuilder WithId(int plantImageId)
+    {
+        _id = plantImageId;
+        return this;
+    }
+
     public PlantImageBuilder WithMainImage(bool mainImage)
     {
         _mainImage = mainImage;

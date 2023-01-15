@@ -29,19 +29,20 @@ public sealed class PlantImageService : BaseService<PlantImage>, IPlantImageServ
     {
         var plantImage = await _plantImageRepository.FindByAsync(plantImageId, true, true);
 
-        return plantImage.MapTo<PlantImage, PlantImageSearchResponse>();
+        return plantImage?.MapTo<PlantImage, PlantImageSearchResponse>();
     }
 
     public async Task<bool> UpdateMainImageAsync(PlantUpdateMainImageRequest updateRequest)
     {
         var currentMainImage = await _plantImageRepository.FindByPredicateAsync(pi => pi.PlantId == updateRequest.PlantId && pi.MainImage, false, false);
-        var newMainImage = await _plantImageRepository.FindByAsync(updateRequest.PlantImageId, false, false);
 
         if (currentMainImage is null)
-            return _notification.CreateNotification("Imagem não encontrada", EMessage.NotFound.GetDescription().FormatTo($"Imagem principal")); 
-        
+            return _notification.CreateNotification("Imagem", EMessage.NotFound.GetDescription().FormatTo($"Imagem principal"));
+
+        var newMainImage = await _plantImageRepository.FindByAsync(updateRequest.PlantImageId, false, false);
+
         if (newMainImage is null)
-            return _notification.CreateNotification("", EMessage.NotFound.GetDescription().FormatTo($"Imagem {updateRequest.PlantImageId}"));
+            return _notification.CreateNotification("Imagem", EMessage.NotFound.GetDescription().FormatTo($"Imagem {updateRequest.PlantImageId}"));
 
         newMainImage.MainImage = true;
         currentMainImage.MainImage = false;

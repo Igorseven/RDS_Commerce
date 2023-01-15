@@ -95,8 +95,13 @@ public sealed class PlantService : BaseService<Plant>, IPlantService
 
     public async Task<bool> DeleteAsync(int plantId)
     {
-        if (!await _plantRepository.ExistInTheDatabaseAsync(p => p.Id == plantId))
+        var plant = await _plantRepository.FindByAsync(plantId, i => i.Include(p => p.Images), false);
+
+        if (plant is null)
             return _notification.CreateNotification("Planta não encontrada", EMessage.NotFound.GetDescription().FormatTo("Planta"));
+
+        if (plant.Amount > 0)
+            return _notification.CreateNotification("Planta", "Essa planta não pode ser excluida por tem saldo em estoque.");
 
         return await _plantRepository.DeleteAsync(plantId);
     }

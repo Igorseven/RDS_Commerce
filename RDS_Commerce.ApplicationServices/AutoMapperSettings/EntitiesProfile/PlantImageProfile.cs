@@ -8,10 +8,12 @@ public sealed class PlantImageProfile : Profile
 {
 	public PlantImageProfile()
 	{
-		CreateMap<PlantImage, PlantImageSaveRequest>();
+		CreateMap<PlantImage, PlantImageSaveRequest>()
+			.ReverseMap();
 
 		CreateMap<PlantImage, PlantImageUpdateRequest>()
-            .ForMember(pir => pir.PlantImageId, map => map.MapFrom(pi => pi.Id));
+            .ForMember(pir => pir.PlantImageId, map => map.MapFrom(pi => pi.Id))
+			.ReverseMap();
 
         CreateMap<PlantImage, PlantImageSearchResponse>()
 			.ForMember(pir => pir.PlantImageId, map => map.MapFrom(pi => pi.Id));

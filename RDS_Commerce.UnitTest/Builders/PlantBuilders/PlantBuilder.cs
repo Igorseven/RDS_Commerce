@@ -13,7 +13,7 @@ public sealed class PlantBuilder
     private string? _description = "Uma planta para teste";
     private int _amount = 3;
     private decimal _price = 100.50m;
-    private EProductType _productType = EProductType.Special;
+    private EPlantType _productType = EPlantType.Special;
 
     private List<PlantImageBuilder> _images;
 
@@ -29,7 +29,7 @@ public sealed class PlantBuilder
             Amount = _amount,
             Description = _description,
             Price = _price,
-            ProductType = _productType,
+            PlantType = _productType,
             RegistrationDate = _registrationDate,
             Specie = _specie,
             Images = PlantImageBuilder.NewObject().DomainListBuild()
@@ -65,7 +65,7 @@ public sealed class PlantBuilder
         _price = price;
         return this;
     }
-    public PlantBuilder WithProducType(EProductType productType)
+    public PlantBuilder WithProducType(EPlantType productType)
     {
         _productType = productType;
         return this;

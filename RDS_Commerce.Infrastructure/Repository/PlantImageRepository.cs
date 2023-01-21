@@ -8,7 +8,8 @@ using System.Linq.Expressions;
 namespace RDS_Commerce.Infrastructure.Repository;
 public sealed class PlantImageRepository : BaseRepository<PlantImage>, IPlantImageRepository
 {
-    public PlantImageRepository(RdsApplicationDbContext context) : base(context)
+    public PlantImageRepository(RdsApplicationDbContext context) 
+        : base(context)
     {
     }
 

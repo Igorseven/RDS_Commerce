@@ -18,7 +18,7 @@ public class PlantServiceUpdateAsyncMethodUnitTest : PlantServiceBaseUnitTest
                 PlantId = 15,
                 Name = "Plant name",
                 Description = "description the plant.",
-                ProductType = EProductType.Special,
+                ProductType = EPlantType.Special,
                 Amount = 3,
                 Price = 150.50m,
                 Specie = "Specie"

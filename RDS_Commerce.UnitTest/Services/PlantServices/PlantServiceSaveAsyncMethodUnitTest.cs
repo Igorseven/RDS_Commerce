@@ -16,7 +16,7 @@ public class PlantServiceSaveAsyncMethodUnitTest : PlantServiceBaseUnitTest
             {
                 Name = "Plant name",
                 Description = "description the plant.",
-                ProductType = EProductType.Special,
+                PlantType = EPlantType.Special,
                 Amount = 3,
                 Price = 150.50m,
                 Specie = "Specie",

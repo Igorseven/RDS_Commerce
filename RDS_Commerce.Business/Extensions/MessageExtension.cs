@@ -6,14 +6,14 @@ public static class MessageExtension
 {
     public static string GetDescription<T>(this T message)
     {
-        var type = message.GetType();
-        var memberInfo =  type.GetMember(message.ToString());
+        var type = message!.GetType();
+        var memberInfo =  type.GetMember(message.ToString()!);
         var attributes = memberInfo[0].GetCustomAttributes(typeof(DescriptionAttribute), false);
 
         return ((DescriptionAttribute)attributes[0]).Description;
     }
 
-    public static T GetEnum<T>(this string description) where T : Enum
+    public static T? GetEnum<T>(this string description) where T : Enum
     {
         var type = typeof(T);
         if (!type.GetTypeInfo().IsEnum)
@@ -24,6 +24,6 @@ public static class MessageExtension
                     .Where(a => ((DescriptionAttribute)a.Att).Description == description)
                     .SingleOrDefault();
 
-        return field == null ? default(T) : (T)field.Field.GetRawConstantValue();
+        return field == null ? default : (T)field.Field.GetRawConstantValue()!;
     }
 }

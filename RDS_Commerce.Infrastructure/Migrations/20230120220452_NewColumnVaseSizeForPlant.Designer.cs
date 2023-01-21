@@ -12,8 +12,8 @@ using RDS_Commerce.Infrastructure.ORM.ContextSettings;
 namespace RDSCommerce.Infrastructure.Migrations
 {
     [DbContext(typeof(RdsApplicationDbContext))]
-    [Migration("20221125230023_FirstMigration")]
-    partial class FirstMigration
+    [Migration("20230120220452_NewColumnVaseSizeForPlant")]
+    partial class NewColumnVaseSizeForPlant
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -51,13 +51,13 @@ namespace RDSCommerce.Infrastructure.Migrations
                         .HasColumnType("varchar(60)")
                         .HasColumnName("name");
 
+                    b.Property<int>("PlantType")
+                        .HasColumnType("int")
+                        .HasColumnName("plant_type");
+
                     b.Property<decimal>("Price")
                         .HasColumnType("decimal(12,2)")
                         .HasColumnName("price");
-
-                    b.Property<int>("ProductType")
-                        .HasColumnType("int")
-                        .HasColumnName("product_type");
 
                     b.Property<DateTime>("RegistrationDate")
                         .HasColumnType("datetime2")
@@ -68,6 +68,10 @@ namespace RDSCommerce.Infrastructure.Migrations
                         .IsUnicode(true)
                         .HasColumnType("varchar(60)")
                         .HasColumnName("specie");
+
+                    b.Property<int>("VaseSize")
+                        .HasColumnType("int")
+                        .HasColumnName("vase_size");
 
                     b.HasKey("Id");
 

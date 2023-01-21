@@ -12,6 +12,8 @@ public  class PlantImageMapping : BaseMapping, IEntityTypeConfiguration<PlantIma
 
         builder.HasKey(f => f.Id);
 
+        builder.Property(f => f.PlantId).HasColumnType("int").HasColumnName("plant_id");
+
         builder.Property(f => f.Id).HasColumnName("id_fileImage");
 
         builder.Property(f => f.MainImage).HasColumnType("bit")
@@ -25,9 +27,6 @@ public  class PlantImageMapping : BaseMapping, IEntityTypeConfiguration<PlantIma
 
         builder.Property(f => f.FileExtension).HasColumnType("varchar(10)")
                .HasColumnName("file_extension").IsUnicode(true).IsRequired(true);
-
-        builder.Property(f => f.PlantId).HasColumnName("plant_id")
-               .IsRequired(true);
 
         builder.Property(f => f.RegistrationDate).HasColumnType("datetime2")
                .HasColumnName("registration_date");

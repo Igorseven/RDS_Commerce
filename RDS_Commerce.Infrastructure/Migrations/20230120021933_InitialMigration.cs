@@ -6,7 +6,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 namespace RDSCommerce.Infrastructure.Migrations
 {
     /// <inheritdoc />
-    public partial class FirstMigration : Migration
+    public partial class InitialMigration : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
@@ -42,12 +42,12 @@ namespace RDSCommerce.Infrastructure.Migrations
                 {
                     idfileImage = table.Column<int>(name: "id_fileImage", type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
-                    mainimage = table.Column<bool>(name: "main_image", type: "bit", nullable: false),
-                    plantid = table.Column<int>(name: "plant_id", type: "int", nullable: false),
-                    registrationdate = table.Column<DateTime>(name: "registration_date", type: "datetime2", nullable: false),
                     filename = table.Column<string>(name: "file_name", type: "varchar(40)", nullable: false),
                     fileextension = table.Column<string>(name: "file_extension", type: "varchar(10)", nullable: false),
-                    filebytes = table.Column<byte[]>(name: "file_bytes", type: "varbinary(max)", nullable: false)
+                    filebytes = table.Column<byte[]>(name: "file_bytes", type: "varbinary(max)", nullable: false),
+                    mainimage = table.Column<bool>(name: "main_image", type: "bit", nullable: false),
+                    registrationdate = table.Column<DateTime>(name: "registration_date", type: "datetime2", nullable: false),
+                    plantid = table.Column<int>(name: "plant_id", type: "int", nullable: false)
                 },
                 constraints: table =>
                 {

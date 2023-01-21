@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using RDS_Commerce.Infrastructure.ORM.ContextSettings;
 
@@ -11,9 +12,11 @@ using RDS_Commerce.Infrastructure.ORM.ContextSettings;
 namespace RDSCommerce.Infrastructure.Migrations
 {
     [DbContext(typeof(RdsApplicationDbContext))]
-    partial class RdsApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20230120021933_InitialMigration")]
+    partial class InitialMigration
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -48,13 +51,13 @@ namespace RDSCommerce.Infrastructure.Migrations
                         .HasColumnType("varchar(60)")
                         .HasColumnName("name");
 
-                    b.Property<int>("PlantType")
-                        .HasColumnType("int")
-                        .HasColumnName("plant_type");
-
                     b.Property<decimal>("Price")
                         .HasColumnType("decimal(12,2)")
                         .HasColumnName("price");
+
+                    b.Property<int>("ProductType")
+                        .HasColumnType("int")
+                        .HasColumnName("product_type");
 
                     b.Property<DateTime>("RegistrationDate")
                         .HasColumnType("datetime2")
@@ -65,10 +68,6 @@ namespace RDSCommerce.Infrastructure.Migrations
                         .IsUnicode(true)
                         .HasColumnType("varchar(60)")
                         .HasColumnName("specie");
-
-                    b.Property<int>("VaseSize")
-                        .HasColumnType("int")
-                        .HasColumnName("vase_size");
 
                     b.HasKey("Id");
 

@@ -7,7 +7,7 @@ using RDS_Commerce.UnitTest.Services.PlantServices.Base;
 using RDS_Commerce.UnitTest.Tools;
 
 namespace RDS_Commerce.UnitTest.Services.PlantServices;
-public sealed class PlantServiceInsertOtherImagesAsyncUnitTest : PlantServiceBaseUnitTest
+public sealed class PlantServiceInsertOtherImagesAsyncMethodUnitTest : PlantServiceBaseUnitTest
 {
     public static IEnumerable<object[]> GetImages()
     {
@@ -61,7 +61,6 @@ public sealed class PlantServiceInsertOtherImagesAsyncUnitTest : PlantServiceBas
         _plantRepository.Verify(pr => pr.UpdateAsync(It.IsAny<Plant>()), Times.Never());
         Assert.False(serviceResult);
     }
-
 
     [Theory]
     [Trait("Failed", "Not found Plant")]

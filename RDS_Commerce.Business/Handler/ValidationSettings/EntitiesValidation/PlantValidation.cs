@@ -41,7 +41,7 @@ public sealed class PlantValidation : Validate<Plant>
         RuleFor(p => p.Price).GreaterThanOrEqualTo(0)
             .WithMessage(EMessage.ValueExpected.GetDescription().FormatTo("Preço", "0"));
         
-        RuleFor(p => p.ProductType).NotEmpty()
+        RuleFor(p => p.PlantType).NotNull()
             .WithMessage(EMessage.Required.GetDescription().FormatTo("Tipo do produto"));
             
     }

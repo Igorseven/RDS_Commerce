@@ -1,7 +1,7 @@
 ﻿using System.ComponentModel;
 
 namespace RDS_Commerce.Domain.Enums;
-public enum EProductType : ushort
+public enum EPlantType : ushort
 {
     [Description("Comum")]
     Common = 1,

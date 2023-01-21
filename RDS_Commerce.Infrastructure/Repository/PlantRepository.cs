@@ -54,6 +54,16 @@ public sealed class PlantRepository : BaseRepository<Plant>,  IPlantRepository
         if (include is not null)
             query = include(query);
 
+        //teste de projeção
+        //query.Select(p => new Plant
+        //{
+
+        //}).Include(i => i.Images.Select(pi => new PlantImage
+        //{
+        //    FileName = pi.FileName,
+        //    FileExtension = pi.FileExtension,
+        //}));
+
         return _paginationService.CreatePaginationAsync(query, pageParams.PageSize, pageParams.PageNumber);
     }
 

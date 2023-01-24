@@ -9,5 +9,6 @@ public static class RepositoryDependencyInjection
     {
         services.AddScoped<IPlantRepository, PlantRepository>();
         services.AddScoped<IPlantImageRepository, PlantImageRepository>();
+        services.AddScoped<IGenusRespository, GenusRespository>();
     }
 }

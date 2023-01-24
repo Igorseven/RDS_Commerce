@@ -1,6 +1,6 @@
 ﻿using RDS_Commerce.Domain.Entities;
 
-namespace RDS_Commerce.UnitTest.Builders.FileImageBuilders;
+namespace RDS_Commerce.UnitTest.Builders;
 public sealed class PlantImageBuilder
 {
     private int _id = new Bogus.Faker().Random.Int(1, 150);
@@ -32,8 +32,8 @@ public sealed class PlantImageBuilder
     {
         return new List<PlantImage>()
         {
-            PlantImageBuilder.NewObject().WithMainImage(true).DomainBuild(),
-            PlantImageBuilder.NewObject().DomainBuild()
+            NewObject().WithMainImage(true).DomainBuild(),
+            NewObject().DomainBuild()
         };
     }
 

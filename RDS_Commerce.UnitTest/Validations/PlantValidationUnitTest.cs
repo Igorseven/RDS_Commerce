@@ -1,6 +1,6 @@
 ﻿using Bogus.Extensions;
 using RDS_Commerce.Business.Handler.ValidationSettings.EntitiesValidation;
-using RDS_Commerce.UnitTest.Builders.PlantBuilders;
+using RDS_Commerce.UnitTest.Builders;
 
 namespace RDS_Commerce.UnitTest.Validations;
 public sealed class PlantValidationUnitTest
@@ -74,29 +74,6 @@ public sealed class PlantValidationUnitTest
     public async Task PlantValidantion_InvalidDescription_ReturnFalse(string description)
     {
         var plant = PlantBuilder.NewObject().WithDescription(description).DomainBuild();
-
-        var responseResult = await _plantValidate.ValidationAsync(plant);
-
-        Assert.False(responseResult.Valid);
-    }
-
-
-    public static IEnumerable<object[]> GetInvalidSpecie()
-    {
-        return new List<object[]>
-        {
-            new object[] {new Bogus.Faker().Commerce.ProductDescription().ClampLength(0, 1) },
-            new object[] {new Bogus.Faker().Commerce.ProductDescription().ClampLength(61, 62) },
-        };
-    }
-
-
-    [Theory]
-    [Trait("Failed", "Invalid length specie")]
-    [MemberData(nameof(GetInvalidSpecie))]
-    public async Task PlantValidantion_InvalidSpecie_ReturnFalse(string specie)
-    {
-        var plant = PlantBuilder.NewObject().WithSpecie(specie).DomainBuild();
 
         var responseResult = await _plantValidate.ValidationAsync(plant);
 

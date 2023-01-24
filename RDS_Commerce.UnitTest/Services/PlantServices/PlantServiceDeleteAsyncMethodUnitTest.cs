@@ -1,6 +1,6 @@
 ﻿using Moq;
 using RDS_Commerce.Domain.Entities;
-using RDS_Commerce.UnitTest.Builders.PlantBuilders;
+using RDS_Commerce.UnitTest.Builders;
 using RDS_Commerce.UnitTest.Services.PlantServices.Base;
 using RDS_Commerce.UnitTest.Tools;
 

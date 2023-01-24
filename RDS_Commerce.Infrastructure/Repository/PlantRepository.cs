@@ -33,7 +33,7 @@ public sealed class PlantRepository : BaseRepository<Plant>,  IPlantRepository
 
     public async Task<Plant?> FindByAsync(int plantId, Func<IQueryable<Plant>, IIncludableQueryable<Plant, object>>? include = null, bool asNoTracking = false)
     {
-        IQueryable<Plant> query = _dbSetContext;
+        IQueryable<Plant> query = _dbSetContext.Include(p => p.Images);
 
         if (asNoTracking)
             query = query.AsNoTracking();

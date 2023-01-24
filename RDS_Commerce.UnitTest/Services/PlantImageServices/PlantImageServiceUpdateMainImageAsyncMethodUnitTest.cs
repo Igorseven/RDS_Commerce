@@ -1,7 +1,7 @@
 ﻿using Moq;
 using RDS_Commerce.ApplicationServices.Dtos.Request.PlantRequest;
 using RDS_Commerce.Domain.Entities;
-using RDS_Commerce.UnitTest.Builders.FileImageBuilders;
+using RDS_Commerce.UnitTest.Builders;
 using RDS_Commerce.UnitTest.Services.PlantImageServices.Base;
 using RDS_Commerce.UnitTest.Tools;
 

@@ -8,5 +8,7 @@ public static class ServiceDependencyInjection
     public static void AddServiceDependencyInjection(this IServiceCollection services)
     {
         services.AddScoped<IPlantService, PlantService>();
+        services.AddScoped<IPlantImageService, PlantImageService>();
+        services.AddScoped<IGenusService, GenusService>();
     }
 }

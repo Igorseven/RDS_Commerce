@@ -30,10 +30,6 @@ public sealed class PlantValidation : Validate<Plant>
             ? EMessage.Required.GetDescription().FormatTo("Nome")
             : EMessage.MoreExpected.GetDescription().FormatTo("nome", "entre {MinLength} e {MaxLength}"));
 
-        RuleFor(p => p.Specie).Length(2, 60)
-            .WithMessage(p => string.IsNullOrWhiteSpace(p.Specie)
-            ? EMessage.Required.GetDescription().FormatTo("Espécie")
-            : EMessage.MoreExpected.GetDescription().FormatTo("espécie", "entre {MinLength} e {MaxLength}"));
         
         RuleFor(p => p.Amount).GreaterThanOrEqualTo(0)
             .WithMessage(EMessage.ValueExpected.GetDescription().FormatTo("Quantidade", " ou igual 0"));

@@ -1,6 +1,6 @@
 ﻿using Bogus.Extensions;
 using RDS_Commerce.Business.Handler.ValidationSettings.EntitiesValidation;
-using RDS_Commerce.UnitTest.Builders.FileImageBuilders;
+using RDS_Commerce.UnitTest.Builders;
 
 namespace RDS_Commerce.UnitTest.Validations;
 public sealed class PlantImageValidationUnitTest

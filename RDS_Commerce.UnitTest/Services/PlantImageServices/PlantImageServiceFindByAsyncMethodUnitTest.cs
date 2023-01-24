@@ -1,5 +1,5 @@
 ﻿using Moq;
-using RDS_Commerce.UnitTest.Builders.FileImageBuilders;
+using RDS_Commerce.UnitTest.Builders;
 using RDS_Commerce.UnitTest.Services.PlantImageServices.Base;
 
 namespace RDS_Commerce.UnitTest.Services.PlantImageServices;

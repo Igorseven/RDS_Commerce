@@ -7,7 +7,7 @@ using RDS_Commerce.UnitTest.Services.PlantServices.Base;
 using RDS_Commerce.UnitTest.Tools;
 
 namespace RDS_Commerce.UnitTest.Services.PlantServices;
-public sealed class PlantServiceInsertOtherImagesAsyncMethodUnitTest : PlantServiceBaseUnitTest
+public sealed class InsertOtherImagesAsyncMethodUnitTest : PlantServiceBaseUnitTest
 {
     public static IEnumerable<object[]> GetImages()
     {

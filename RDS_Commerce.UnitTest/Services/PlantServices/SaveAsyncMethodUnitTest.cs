@@ -6,7 +6,7 @@ using RDS_Commerce.UnitTest.Services.PlantServices.Base;
 using RDS_Commerce.UnitTest.Tools;
 
 namespace RDS_Commerce.UnitTest.Services.PlantServices;
-public class PlantServiceSaveAsyncMethodUnitTest : PlantServiceBaseUnitTest
+public class SaveAsyncMethodUnitTest : PlantServiceBaseUnitTest
 {
     public static IEnumerable<object[]> GetPlantSaveRequestToRegister()
     {
@@ -28,7 +28,7 @@ public class PlantServiceSaveAsyncMethodUnitTest : PlantServiceBaseUnitTest
     [Theory]
     [Trait("Success", "Create Plant")]
     [MemberData(nameof(GetPlantSaveRequestToRegister))]
-    public async Task SaveAsync_ReturnTrue(PlantSaveRequest plantSave)
+    public async Task SaveAsync_PerfectSetting_ReturnTrue(PlantSaveRequest plantSave)
     {
         _plantRepository.Setup(pr => pr.ExistInTheDatabaseAsync(UtilTools.BuildPredicateFunc<Plant>())).ReturnsAsync(false);
         _plantRepository.Setup(pr => pr.SaveAsync(It.IsAny<Plant>())).ReturnsAsync(true);
@@ -41,9 +41,9 @@ public class PlantServiceSaveAsyncMethodUnitTest : PlantServiceBaseUnitTest
     }
 
     [Theory]
-    [Trait("Failed", "Exist name in Db")]
+    [Trait("Failed", "There is the name in the db")]
     [MemberData(nameof(GetPlantSaveRequestToRegister))]
-    public async Task SaveAsync_HasExist_ReturnFalse(PlantSaveRequest plantSave)
+    public async Task SaveAsync_ThereIsTheNameInTheDb_ReturnFalse(PlantSaveRequest plantSave)
     {
         _plantRepository.Setup(pr => pr.ExistInTheDatabaseAsync(UtilTools.BuildPredicateFunc<Plant>())).ReturnsAsync(true);
 

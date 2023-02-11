@@ -7,7 +7,7 @@ using RDS_Commerce.UnitTest.Services.PlantServices.Base;
 using RDS_Commerce.UnitTest.Tools;
 
 namespace RDS_Commerce.UnitTest.Services.PlantServices;
-public class PlantServiceUpdateAsyncMethodUnitTest : PlantServiceBaseUnitTest
+public class UpdateAsyncMethodUnitTest : PlantServiceBaseUnitTest
 {
     public static IEnumerable<object[]> GetPlantUpdateRequest()
     {
@@ -18,10 +18,9 @@ public class PlantServiceUpdateAsyncMethodUnitTest : PlantServiceBaseUnitTest
                 PlantId = 15,
                 Name = "Plant name",
                 Description = "description the plant.",
-                ProductType = EPlantType.Special,
+                PlantType = EPlantType.Special,
                 Amount = 3,
-                Price = 150.50m,
-                Specie = "Specie"
+                Price = 150.50m
             }
         };
     }

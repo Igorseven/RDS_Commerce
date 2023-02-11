@@ -1,15 +1,14 @@
-﻿using RDS_Commerce.ApplicationServices.Dtos.Request.GenusRequest;
+﻿using Microsoft.EntityFrameworkCore;
+using RDS_Commerce.ApplicationServices.AutoMapperSettings;
+using RDS_Commerce.ApplicationServices.Dtos.Request.GenusRequest;
 using RDS_Commerce.ApplicationServices.Dtos.Response.GenusResponse;
 using RDS_Commerce.ApplicationServices.Interfaces;
 using RDS_Commerce.ApplicationServices.Services.Base;
+using RDS_Commerce.Business.Extensions;
 using RDS_Commerce.Business.Interfaces.OthersContracts;
 using RDS_Commerce.Business.Interfaces.RepositoryContracts;
 using RDS_Commerce.Domain.Entities;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using RDS_Commerce.Domain.Enums;
 
 namespace RDS_Commerce.ApplicationServices.Services;
 public sealed class GenusService : BaseService<Genus>, IGenusService
@@ -26,29 +25,68 @@ public sealed class GenusService : BaseService<Genus>, IGenusService
 
 
 
-    public Task<GenusSearchResponse> FindByAsync(int genusId)
+    public async Task<GenusSearchResponse?> FindByAsync(int genusId)
     {
-        throw new NotImplementedException();
+        var genus = await _genusRespository.FindByAsync(genusId, null, true);
+
+        return genus?.MapTo<Genus, GenusSearchResponse>();
     }
 
-    public Task<GenusSearchResponse> FindByGenusNameAsync(string genusName)
+    public async Task<GenusSearchResponse?> FindByGenusNameAsync(string genusName)
     {
-        throw new NotImplementedException();
+        var genus = await _genusRespository.FindByNameAsync(g => g.GenusName == genusName, true);
+
+        return genus?.MapTo<Genus, GenusSearchResponse>();
     }
 
-    public Task<bool> CreateNewGenusAsync(GenusSaveRequest saveRequest)
+    public async Task<bool> CreateNewGenusAsync(GenusSaveRequest saveRequest)
     {
-        throw new NotImplementedException();
+        if (await _genusRespository.ExistInTheDatabaseAsync(g => g.GenusName == saveRequest.GenusName))
+            return _notification.CreateNotification("Gênero", EMessage.Exist.GetDescription().FormatTo($"{saveRequest.GenusName}"));
+
+        var genus = saveRequest.MapTo<GenusSaveRequest, Genus>();
+
+        if (await EntityValidationAsync(genus))
+            return await _genusRespository.SaveAsync(genus);
+
+        return false;
     }
 
-    public Task<bool> UpdateGenusAsync(GenusUpdateRequest updateRequest)
+    public async Task<bool> UpdateGenusAsync(GenusUpdateRequest updateRequest)
     {
-        throw new NotImplementedException();
+        if (await _genusRespository.ExistInTheDatabaseAsync(g => g.Id != updateRequest.GenusId && g.GenusName == updateRequest.GenusName))
+            return _notification.CreateNotification("Gênero", "Existe um gênero com esse nome na base de dados.");
+
+        var genus = await _genusRespository.FindByAsync(updateRequest.GenusId, null, false);
+
+        if (genus is null)
+            return _notification.CreateNotification("Gênero", EMessage.NotFound.GetDescription().FormatTo("Gênero"));
+
+        SetGenusUpdate(genus, updateRequest);
+
+        if (await EntityValidationAsync(genus))
+            return await _genusRespository.UpdateAsync(genus);
+
+        return false;
     }
 
-    public Task<bool> DeleteGeneusAsync(int genusId)
+    private void SetGenusUpdate(Genus genus, GenusUpdateRequest updateRequest)
     {
-        throw new NotImplementedException();
+        genus.Specie = updateRequest.Specie;
+        genus.GenusName = updateRequest.GenusName;
+    }
+
+    public async Task<bool> DeleteGeneusAsync(int genusId)
+    {
+        var genus = await _genusRespository.FindByAsync(genusId, i => i.Include(g => g.Plants), true);
+
+        if (genus is null)
+            return _notification.CreateNotification("Gênero", EMessage.NotFound.GetDescription().FormatTo($"Gênero"));
+
+        if (genus.Plants.Count > 0)
+            return _notification.CreateNotification("Gênero", "Existe plantas vinculadas a esse gênero.");
+
+        return await _genusRespository.DeleteAsync(genusId);
     }
 
     public void Dispose() => _genusRespository.Dispose();

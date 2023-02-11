@@ -10,4 +10,5 @@ public interface IGenusRespository : IDisposable
     Task<bool> DeleteAsync(int genusId);
     Task<Genus?> FindByAsync(int genusId, Func<IQueryable<Genus>, IIncludableQueryable<Genus, Object>>? include = null, bool asNoTracking = false);
     Task<Genus?> FindByNameAsync(Expression<Func<Genus, bool>> where, bool asNoTracking = false);
+    Task<bool> ExistInTheDatabaseAsync(Expression<Func<Genus, bool>> where);
 }

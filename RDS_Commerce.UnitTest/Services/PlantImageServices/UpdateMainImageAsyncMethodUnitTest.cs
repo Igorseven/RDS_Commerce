@@ -6,7 +6,7 @@ using RDS_Commerce.UnitTest.Services.PlantImageServices.Base;
 using RDS_Commerce.UnitTest.Tools;
 
 namespace RDS_Commerce.UnitTest.Services.PlantImageServices;
-public class PlantImageServiceUpdateMainImageAsyncMethodUnitTest : PlantImageServiceBaseUnitTest
+public class UpdateMainImageAsyncMethodUnitTest : PlantImageServiceBaseUnitTest
 {
 
     [Fact]

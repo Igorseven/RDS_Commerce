@@ -6,7 +6,7 @@ using RDS_Commerce.UnitTest.Services.PlantServices.Base;
 using RDS_Commerce.UnitTest.Tools;
 
 namespace RDS_Commerce.UnitTest.Services.PlantServices;
-public sealed class PlantServiceFindByAsyncMethodUnitTest : PlantServiceBaseUnitTest
+public sealed class FindByAsyncMethodUnitTest : PlantServiceBaseUnitTest
 {
     [Fact]
     [Trait("Sucess", "Return plant")]

@@ -32,7 +32,7 @@ public sealed class PlantValidation : Validate<Plant>
 
         
         RuleFor(p => p.Amount).GreaterThanOrEqualTo(0)
-            .WithMessage(EMessage.ValueExpected.GetDescription().FormatTo("Quantidade", " ou igual 0"));
+            .WithMessage("Quantidade de ser maior ou igual a 0.");
         
         RuleFor(p => p.Price).GreaterThanOrEqualTo(0)
             .WithMessage(EMessage.ValueExpected.GetDescription().FormatTo("Preço", "0"));

@@ -3,7 +3,7 @@ using RDS_Commerce.UnitTest.Builders;
 using RDS_Commerce.UnitTest.Services.PlantImageServices.Base;
 
 namespace RDS_Commerce.UnitTest.Services.PlantImageServices;
-public sealed class PlantImageServiceFindByAsyncMethodUnitTest : PlantImageServiceBaseUnitTest
+public sealed class FindByAsyncMethodUnitTest : PlantImageServiceBaseUnitTest
 {
     [Fact]
 	[Trait("Success", "Find image")]

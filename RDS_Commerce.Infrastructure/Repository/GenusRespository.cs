@@ -14,6 +14,8 @@ public sealed class GenusRespository : BaseRepository<Genus>, IGenusRespository
     {
     }
 
+    public async Task<bool> ExistInTheDatabaseAsync(Expression<Func<Genus, bool>> where) => await _dbSetContext.AnyAsync(where);
+
     public async Task<Genus?> FindByNameAsync(Expression<Func<Genus, bool>> where, bool asNoTracking = false)
     {
         IQueryable<Genus> query = _dbSetContext;

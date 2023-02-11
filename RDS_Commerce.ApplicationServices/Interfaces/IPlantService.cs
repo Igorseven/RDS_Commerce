@@ -3,7 +3,7 @@ using RDS_Commerce.ApplicationServices.Dtos.Response.PlantResponse;
 using RDS_Commerce.Business.Handler.PaginationSettings;
 
 namespace RDS_Commerce.ApplicationServices.Interfaces;
-public interface IPlantService
+public interface IPlantService : IDisposable
 {
     Task<bool> SaveAsync(PlantSaveRequest saveRequest);
     Task<bool> UpdateAsync(PlantUpdateRequest updateRequest);

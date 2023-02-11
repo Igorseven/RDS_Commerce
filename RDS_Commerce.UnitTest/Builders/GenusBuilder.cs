@@ -1,4 +1,5 @@
 ﻿using RDS_Commerce.Domain.Entities;
+using RDS_Commerce.Domain.Enums;
 
 namespace RDS_Commerce.UnitTest.Builders;
 public class GenusBuilder
@@ -42,6 +43,31 @@ public class GenusBuilder
     public GenusBuilder WithSpecie(string specie)
     {
         _apecie = specie;
+        return this;
+    }
+
+
+    public GenusBuilder WithPlants(bool hasPlants)
+    {
+        if (hasPlants)
+        {
+            _plants = new()
+            {
+                new Plant
+                {
+                    Id = 2,
+                    Amount = 1,
+                    Name = "Planta",
+                    PlantType = EPlantType.Special,
+                    Price = 50.70m,
+                    VaseSize = 10,
+                    Description = "Uma grande planta",
+                    RegistrationDate = DateTime.Now
+                }
+            };
+                
+        }
+
         return this;
     }
 }

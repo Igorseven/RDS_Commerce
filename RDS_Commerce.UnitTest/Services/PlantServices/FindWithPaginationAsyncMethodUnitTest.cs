@@ -4,14 +4,9 @@ using RDS_Commerce.Domain.Entities;
 using RDS_Commerce.UnitTest.Builders;
 using RDS_Commerce.UnitTest.Services.PlantServices.Base;
 using RDS_Commerce.UnitTest.Tools;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace RDS_Commerce.UnitTest.Services.PlantServices;
-public class PlantServiceFindWithPaginationAsyncMethodUnitTest : PlantServiceBaseUnitTest
+public class FindWithPaginationAsyncMethodUnitTest : PlantServiceBaseUnitTest
 {
     public static IEnumerable<object[]> GetAllPlantsWithPagination()
     {

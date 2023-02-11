@@ -32,7 +32,6 @@
 
   <ItemGroup>
     <Folder Include="Handlers\" />
-    <Folder Include="Controllers\" />
     <Folder Include="Extensions\" />
   </ItemGroup>
 

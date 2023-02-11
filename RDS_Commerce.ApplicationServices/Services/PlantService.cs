@@ -65,12 +65,23 @@ public sealed class PlantService : BaseService<Plant>, IPlantService
         if (plant is null)
             return _notification.CreateNotification("Planta não encontrada", EMessage.NotFound.GetDescription().FormatTo("Planta"));
 
-        var plantUpdate = updateRequest.MapTo<PlantUpdateRequest, Plant>();
+        SetPlantUpdate(plant, updateRequest);
 
         if (await EntityValidationAsync(plant))
             return await _plantRepository.UpdateAsync(plant);
 
         return false;
+    }
+
+    private void SetPlantUpdate(Plant plant, PlantUpdateRequest updateRequest)
+    {
+        plant.Name = updateRequest.Name;
+        plant.Price = updateRequest.Price;
+        plant.Amount = updateRequest.Amount;
+        plant.PlantType = updateRequest.PlantType;
+        plant.Description = updateRequest.Description;
+        plant.VaseSize = updateRequest.VaseSize;
+        plant.GenusId = updateRequest.GenusId;
     }
 
     public async Task<bool> InsertOtherImagesAsync(PlantUpdateImagesRequest updateRequest)
@@ -129,4 +140,6 @@ public sealed class PlantService : BaseService<Plant>, IPlantService
             { mainImage }
         };
     }
+
+    public void Dispose() => _plantRepository.Dispose();
 }

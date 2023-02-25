@@ -27,7 +27,7 @@ public sealed class GenusRespository : BaseRepository<Genus>, IGenusRespository
     }
 
 
-    public async Task<Genus?> FindByAsync(int genusId, Func<IQueryable<Genus>, IIncludableQueryable<Genus, object>>? include = null, bool asNoTracking = false)
+    public async Task<Genus?> FindByIdAsync(int genusId, Func<IQueryable<Genus>, IIncludableQueryable<Genus, object>>? include = null, bool asNoTracking = false)
     {
         IQueryable<Genus> query = _dbSetContext;
 

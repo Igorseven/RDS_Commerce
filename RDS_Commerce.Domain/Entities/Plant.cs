@@ -1,4 +1,4 @@
-﻿using RDS_Commerce.Domain.Entities.BaseEntities;
+﻿using RDS_Commerce.Domain.Entities.Base;
 using RDS_Commerce.Domain.Enums;
 
 namespace RDS_Commerce.Domain.Entities;

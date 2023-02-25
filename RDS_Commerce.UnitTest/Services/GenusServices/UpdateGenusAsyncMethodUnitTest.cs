@@ -30,13 +30,13 @@ public class UpdateGenusAsyncMethodUnitTest : GenusServiceBaseUnitTest
         var genus = GenusBuilder.NewObject().WithGenusId(genusUpdateRequest.GenusId).DomainBuild();
 
         _genusRespository.Setup(g => g.ExistInTheDatabaseAsync(UtilTools.BuildPredicateFunc<Genus>()).Result).Returns(false);
-        _genusRespository.Setup(g => g.FindByAsync(genusUpdateRequest.GenusId, null, false).Result).Returns(genus);
+        _genusRespository.Setup(g => g.FindByIdAsync(genusUpdateRequest.GenusId, null, false).Result).Returns(genus);
         _genusRespository.Setup(g => g.UpdateAsync(It.IsAny<Domain.Entities.Genus>()).Result).Returns(true);
 
         var serviceResult = await _genusService.UpdateGenusAsync(genusUpdateRequest);
 
         Assert.True(serviceResult);
-        _genusRespository.Verify(g => g.FindByAsync(genusUpdateRequest.GenusId, null, false), Times.Once());
+        _genusRespository.Verify(g => g.FindByIdAsync(genusUpdateRequest.GenusId, null, false), Times.Once());
         _genusRespository.Verify(g => g.UpdateAsync(It.IsAny<Domain.Entities.Genus>()), Times.Once());
     }
 
@@ -65,7 +65,7 @@ public class UpdateGenusAsyncMethodUnitTest : GenusServiceBaseUnitTest
 
         Assert.False(serviceResult);
         _genusRespository.Verify(g => g.ExistInTheDatabaseAsync(UtilTools.BuildPredicateFunc<Genus>()), Times.Once());
-        _genusRespository.Verify(g => g.FindByAsync(genusUpdateRequest.GenusId, null, false), Times.Never());
+        _genusRespository.Verify(g => g.FindByIdAsync(genusUpdateRequest.GenusId, null, false), Times.Never());
         _genusRespository.Verify(g => g.UpdateAsync(It.IsAny<Genus>()), Times.Never());
     }
 
@@ -89,13 +89,13 @@ public class UpdateGenusAsyncMethodUnitTest : GenusServiceBaseUnitTest
     public async Task UpdateGenusAsync_GenusNotFound_ReturnFalse(GenusUpdateRequest genusUpdateRequest)
     {
         _genusRespository.Setup(g => g.ExistInTheDatabaseAsync(UtilTools.BuildPredicateFunc<Genus>()).Result).Returns(false);
-        _genusRespository.Setup(g => g.FindByAsync(genusUpdateRequest.GenusId, null, false).Result);
+        _genusRespository.Setup(g => g.FindByIdAsync(genusUpdateRequest.GenusId, null, false).Result);
 
         var serviceResult = await _genusService.UpdateGenusAsync(genusUpdateRequest);
 
         Assert.False(serviceResult);
         _genusRespository.Verify(g => g.ExistInTheDatabaseAsync(UtilTools.BuildPredicateFunc<Genus>()), Times.Once());
-        _genusRespository.Verify(g => g.FindByAsync(genusUpdateRequest.GenusId, null, false), Times.Once());
+        _genusRespository.Verify(g => g.FindByIdAsync(genusUpdateRequest.GenusId, null, false), Times.Once());
         _genusRespository.Verify(g => g.UpdateAsync(It.IsAny<Genus>()), Times.Never());
     }
 }

@@ -25,9 +25,9 @@ public sealed class GenusService : BaseService<Genus>, IGenusService
 
 
 
-    public async Task<GenusSearchResponse?> FindByAsync(int genusId)
+    public async Task<GenusSearchResponse?> FindByIdAsync(int genusId)
     {
-        var genus = await _genusRespository.FindByAsync(genusId, null, true);
+        var genus = await _genusRespository.FindByIdAsync(genusId, null, true);
 
         return genus?.MapTo<Genus, GenusSearchResponse>();
     }
@@ -57,7 +57,7 @@ public sealed class GenusService : BaseService<Genus>, IGenusService
         if (await _genusRespository.ExistInTheDatabaseAsync(g => g.Id != updateRequest.GenusId && g.GenusName == updateRequest.GenusName))
             return _notification.CreateNotification("Gênero", "Existe um gênero com esse nome na base de dados.");
 
-        var genus = await _genusRespository.FindByAsync(updateRequest.GenusId, null, false);
+        var genus = await _genusRespository.FindByIdAsync(updateRequest.GenusId, null, false);
 
         if (genus is null)
             return _notification.CreateNotification("Gênero", EMessage.NotFound.GetDescription().FormatTo("Gênero"));
@@ -78,7 +78,7 @@ public sealed class GenusService : BaseService<Genus>, IGenusService
 
     public async Task<bool> DeleteGeneusAsync(int genusId)
     {
-        var genus = await _genusRespository.FindByAsync(genusId, i => i.Include(g => g.Plants), true);
+        var genus = await _genusRespository.FindByIdAsync(genusId, i => i.Include(g => g.Plants), true);
 
         if (genus is null)
             return _notification.CreateNotification("Gênero", EMessage.NotFound.GetDescription().FormatTo($"Gênero"));

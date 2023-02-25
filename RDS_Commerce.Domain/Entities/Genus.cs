@@ -1,4 +1,4 @@
-﻿using RDS_Commerce.Domain.Entities.BaseEntities;
+﻿using RDS_Commerce.Domain.Entities.Base;
 
 namespace RDS_Commerce.Domain.Entities;
 public sealed class Genus : BaseEntity

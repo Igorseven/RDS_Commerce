@@ -10,7 +10,8 @@ public sealed class Client
     public DateTime RegistrationDate { get; set; }
 
 
-    public Guid AccountIdentityId { get; set; }
+    public string AccountIdentityId { get; set; }
     public AccountIdentity AccountIdentity { get; set; }
     public List<ShippingAddress> ShippingAddresses { get; set; }
+    public List<Order> Orders { get; set; }
 }

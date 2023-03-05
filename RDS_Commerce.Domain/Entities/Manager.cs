@@ -10,6 +10,6 @@ public sealed class Manager
     public DateTime RegistrationDate { get; set; }
 
 
-    public Guid AccountIdentityId { get; set; }
+    public string AccountIdentityId { get; set; }
     public AccountIdentity AccountIdentity { get; set; }
 }

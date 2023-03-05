@@ -33,7 +33,7 @@ public class RdsApplicationDbContext : DbContext
                  .GetProperty("RegistrationDate") != null))
         {
             if (entry.State == EntityState.Added)
-                entry.Property("RegistrationDate").CurrentValue = DateTime.Now;
+                entry.Property("RegistrationDate").CurrentValue = DateTime.UtcNow.AddHours(-3);
 
             if (entry.State == EntityState.Modified)
                 entry.Property("RegistrationDate").IsModified = false;

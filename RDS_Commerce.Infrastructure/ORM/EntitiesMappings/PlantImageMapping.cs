@@ -1,7 +1,7 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 using RDS_Commerce.Domain.Entities;
-using RDS_Commerce.Infrastructure.ORM.EntitiesMappings.BaseEntityMapping;
+using RDS_Commerce.Infrastructure.ORM.EntitiesMappings.Base;
 
 namespace RDS_Commerce.Infrastructure.ORM.EntitiesMappings;
 public  class PlantImageMapping : BaseMapping, IEntityTypeConfiguration<PlantImage>

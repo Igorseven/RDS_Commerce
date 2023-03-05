@@ -3,6 +3,7 @@
 namespace RDS_Commerce.Domain.Entities;
 public sealed class ShippingAddress : BaseEntity
 {
+    public bool SelectedForShipping { get; set; }
     public string Street { get; set; }
     public string Destrict { get; set; }
     public string City { get; set; }

@@ -7,7 +7,6 @@ public sealed class Order : BaseEntity
     public EOrderStatus OrderStatus { get; set; }
     public decimal Amount { get; set; }
 
-
     public Guid ClientId { get; set; }
     public Client Client { get; set; }
     public List<Plant> Plants { get; set; }

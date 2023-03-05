@@ -10,5 +10,7 @@ public static class RepositoryDependencyInjection
         services.AddScoped<IPlantRepository, PlantRepository>();
         services.AddScoped<IPlantImageRepository, PlantImageRepository>();
         services.AddScoped<IGenusRespository, GenusRespository>();
+        services.AddScoped<IManagerRepository, ManagerRepository>();
+        services.AddScoped<IClientRepository, ClientRepository>();
     }
 }

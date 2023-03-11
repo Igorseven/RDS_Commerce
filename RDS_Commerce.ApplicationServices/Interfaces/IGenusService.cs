@@ -4,9 +4,9 @@ using RDS_Commerce.ApplicationServices.Dtos.Response.GenusResponse;
 namespace RDS_Commerce.ApplicationServices.Interfaces;
 public interface IGenusService : IDisposable
 {
-    Task<bool> CreateNewGenusAsync(GenusSaveRequest saveRequest);
-    Task<bool> UpdateGenusAsync(GenusUpdateRequest updateRequest);
+    Task<bool> CreateNewGenusAsync(GenusDtoForRegister saveRequest);
+    Task<bool> UpdateGenusAsync(GenusDtoForUpdate updateRequest);
     Task<bool> DeleteGeneusAsync(int genusId);
-    Task<GenusSearchResponse?> FindByIdAsync(int genusId);
-    Task<GenusSearchResponse?> FindByGenusNameAsync(string genusName);
+    Task<GenusDtoResponse?> FindByIdAsync(int genusId);
+    Task<GenusDtoResponse?> FindByGenusNameAsync(string genusName);
 }

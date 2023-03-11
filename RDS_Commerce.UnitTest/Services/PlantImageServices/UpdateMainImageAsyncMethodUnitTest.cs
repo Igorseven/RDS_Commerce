@@ -13,7 +13,7 @@ public class UpdateMainImageAsyncMethodUnitTest : PlantImageServiceBaseUnitTest
     [Trait("Success", "Update main image")]
     public async Task UpdateMainImageAsync_ReturnTrue()
     {
-        var updateRequest = new PlantUpdateMainImageRequest
+        var updateRequest = new PlantDtoForUpdateMainImage
         {
             PlantId = 12,
             PlantImageId = 16
@@ -47,7 +47,7 @@ public class UpdateMainImageAsyncMethodUnitTest : PlantImageServiceBaseUnitTest
     [Trait("Failed", "Pland not found")]
     public async Task UpdateMainImageAsync_PlantNotFound_ReturnFalse()
     {
-        var updateRequest = new PlantUpdateMainImageRequest
+        var updateRequest = new PlantDtoForUpdateMainImage
         {
             PlantId = 12,
             PlantImageId = 16

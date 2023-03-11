@@ -13,7 +13,7 @@ public class UpdateAsyncMethodUnitTest : PlantServiceBaseUnitTest
     {
         yield return new object[]
         {
-            new PlantUpdateRequest
+            new PlantDtoForUpdate
             {
                 PlantId = 15,
                 Name = "Plant name",
@@ -28,7 +28,7 @@ public class UpdateAsyncMethodUnitTest : PlantServiceBaseUnitTest
     [Theory]
     [Trait("Success", "Update Plant")]
     [MemberData(nameof(GetPlantUpdateRequest))]
-    public async Task UpdateAsync_ReturnTrue(PlantUpdateRequest plantUpdate)
+    public async Task UpdateAsync_ReturnTrue(PlantDtoForUpdate plantUpdate)
     {
         var plant = PlantBuilder.NewObject().DomainBuild();
         _plantRepository.Setup(pr => pr.ExistInTheDatabaseAsync(UtilTools.BuildPredicateFunc<Plant>())).ReturnsAsync(false);
@@ -47,7 +47,7 @@ public class UpdateAsyncMethodUnitTest : PlantServiceBaseUnitTest
     [Theory]
     [Trait("Failed", "Exist name in db")]
     [MemberData(nameof(GetPlantUpdateRequest))]
-    public async Task UpdateAsync_ExistName_ReturnFalse(PlantUpdateRequest plantUpdate)
+    public async Task UpdateAsync_ExistName_ReturnFalse(PlantDtoForUpdate plantUpdate)
     {
         var plant = PlantBuilder.NewObject().DomainBuild();
         _plantRepository.Setup(pr => pr.ExistInTheDatabaseAsync(UtilTools.BuildPredicateFunc<Plant>())).ReturnsAsync(true);
@@ -65,7 +65,7 @@ public class UpdateAsyncMethodUnitTest : PlantServiceBaseUnitTest
     [Theory]
     [Trait("Failed", "Not found")]
     [MemberData(nameof(GetPlantUpdateRequest))]
-    public async Task UpdateAsync_NotFound_ReturnFalse(PlantUpdateRequest plantUpdate)
+    public async Task UpdateAsync_NotFound_ReturnFalse(PlantDtoForUpdate plantUpdate)
     {
         _plantRepository.Setup(pr => pr.ExistInTheDatabaseAsync(UtilTools.BuildPredicateFunc<Plant>())).ReturnsAsync(false);
         _plantRepository.Setup(pr => pr.UpdateAsync(It.IsAny<Plant>())).ReturnsAsync(false);

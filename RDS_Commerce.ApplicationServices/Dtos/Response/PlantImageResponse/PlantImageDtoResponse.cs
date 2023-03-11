@@ -1,5 +1,5 @@
-﻿namespace RDS_Commerce.ApplicationServices.Dtos.Request.PlantImageRequest;
-public sealed class PlantImageUpdateRequest
+﻿namespace RDS_Commerce.ApplicationServices.Dtos.Response.PlantImageResponse;
+public sealed class PlantImageDtoResponse
 {
     public int PlantImageId { get; set; }
     public bool MainImage { get; set; }

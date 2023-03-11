@@ -1,7 +1,7 @@
 ﻿using RDS_Commerce.Domain.Enums;
 
 namespace RDS_Commerce.ApplicationServices.Dtos.Request.PlantRequest;
-public sealed class PlantUpdateRequest
+public sealed class PlantDtoForUpdate
 {
     public int PlantId { get; set; }
     public string Name { get; set; }

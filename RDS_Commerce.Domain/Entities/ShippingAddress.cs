@@ -5,7 +5,7 @@ public sealed class ShippingAddress : BaseEntity
 {
     public bool SelectedForShipping { get; set; }
     public string Street { get; set; }
-    public string Destrict { get; set; }
+    public string District { get; set; }
     public string City { get; set; }
     public string State { get; set; }
     public string Complement { get; set; }

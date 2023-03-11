@@ -13,7 +13,7 @@ public sealed class InsertOtherImagesAsyncMethodUnitTest : PlantServiceBaseUnitT
     {
         yield return new object[]
         {
-            new PlantUpdateImagesRequest
+            new PlantDtoForUpdateImages
             {
                 PlantId = 101,
                 FormFileImages = new List<IFormFile>
@@ -31,7 +31,7 @@ public sealed class InsertOtherImagesAsyncMethodUnitTest : PlantServiceBaseUnitT
     [Theory]
     [Trait("Success", "Insert multiple images")]
     [MemberData(nameof(GetImages))]
-    public async Task InsertOtherImagesAsync_ReturnTrue(PlantUpdateImagesRequest plantUpdateImages)
+    public async Task InsertOtherImagesAsync_ReturnTrue(PlantDtoForUpdateImages plantUpdateImages)
     {
         var plant = PlantBuilder.NewObject().WithId(plantUpdateImages.PlantId).DomainBuild();
         _plantRepository.Setup(pr => pr.FindByAsync(plantUpdateImages.PlantId, UtilTools.BuildQueryableIncludeFunc<Plant>(), false)).ReturnsAsync(plant);
@@ -47,7 +47,7 @@ public sealed class InsertOtherImagesAsyncMethodUnitTest : PlantServiceBaseUnitT
     [Theory]
     [Trait("Failed", "Exceeded maximum image amount")]
     [MemberData(nameof(GetImages))]
-    public async Task InsertOtherImagesAsync_ExceededMaxImageAmount_ReturnFalse(PlantUpdateImagesRequest plantUpdateImages)
+    public async Task InsertOtherImagesAsync_ExceededMaxImageAmount_ReturnFalse(PlantDtoForUpdateImages plantUpdateImages)
     {
         var plant = PlantBuilder.NewObject().WithId(plantUpdateImages.PlantId).DomainBuild();
         var newImage = UtilTools.BuildIFormFile();
@@ -65,7 +65,7 @@ public sealed class InsertOtherImagesAsyncMethodUnitTest : PlantServiceBaseUnitT
     [Theory]
     [Trait("Failed", "Not found Plant")]
     [MemberData(nameof(GetImages))]
-    public async Task InsertOtherImagesAsync_NotFoundPlant_ReturnFalse(PlantUpdateImagesRequest plantUpdateImages)
+    public async Task InsertOtherImagesAsync_NotFoundPlant_ReturnFalse(PlantDtoForUpdateImages plantUpdateImages)
     {
         var plant = PlantBuilder.NewObject().WithId(plantUpdateImages.PlantId).DomainBuild();
         _plantRepository.Setup(pr => pr.FindByAsync(plantUpdateImages.PlantId, UtilTools.BuildQueryableIncludeFunc<Plant>(), false));

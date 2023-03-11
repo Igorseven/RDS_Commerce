@@ -2,7 +2,7 @@
 using RDS_Commerce.Domain.Enums;
 
 namespace RDS_Commerce.ApplicationServices.Dtos.Response.PlantResponse;
-public sealed class PlantSearchResponse
+public sealed class PlantDtoResponse
 {
     public int PlantId { get; set; }
     public string Name { get; set; }
@@ -12,5 +12,5 @@ public sealed class PlantSearchResponse
     public decimal Price { get; set; }
     public int VaseSize { get; set; }
     public EPlantType PlantType { get; set; }
-    public List<PlantImageSearchResponse> Images { get; set; }
+    public List<PlantImageDtoResponse> Images { get; set; }
 }

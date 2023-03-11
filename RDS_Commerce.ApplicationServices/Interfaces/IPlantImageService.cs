@@ -4,6 +4,6 @@ using RDS_Commerce.ApplicationServices.Dtos.Response.PlantImageResponse;
 namespace RDS_Commerce.ApplicationServices.Interfaces;
 public interface IPlantImageService : IDisposable
 {
-    Task<PlantImageSearchResponse?> FindByAsync(int plantImageId);
-    Task<bool> UpdateMainImageAsync(PlantUpdateMainImageRequest updateRequest);
+    Task<PlantImageDtoResponse?> FindByAsync(int plantImageId);
+    Task<bool> UpdateMainImageAsync(PlantDtoForUpdateMainImage updateRequest);
 }

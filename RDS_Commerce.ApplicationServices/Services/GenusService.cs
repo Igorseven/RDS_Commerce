@@ -25,26 +25,26 @@ public sealed class GenusService : BaseService<Genus>, IGenusService
 
 
 
-    public async Task<GenusSearchResponse?> FindByIdAsync(int genusId)
+    public async Task<GenusDtoResponse?> FindByIdAsync(int genusId)
     {
         var genus = await _genusRespository.FindByIdAsync(genusId, null, true);
 
-        return genus?.MapTo<Genus, GenusSearchResponse>();
+        return genus?.MapTo<Genus, GenusDtoResponse>();
     }
 
-    public async Task<GenusSearchResponse?> FindByGenusNameAsync(string genusName)
+    public async Task<GenusDtoResponse?> FindByGenusNameAsync(string genusName)
     {
         var genus = await _genusRespository.FindByNameAsync(g => g.GenusName == genusName, true);
 
-        return genus?.MapTo<Genus, GenusSearchResponse>();
+        return genus?.MapTo<Genus, GenusDtoResponse>();
     }
 
-    public async Task<bool> CreateNewGenusAsync(GenusSaveRequest saveRequest)
+    public async Task<bool> CreateNewGenusAsync(GenusDtoForRegister saveRequest)
     {
         if (await _genusRespository.ExistInTheDatabaseAsync(g => g.GenusName == saveRequest.GenusName))
             return _notification.CreateNotification("Gênero", EMessage.Exist.GetDescription().FormatTo($"{saveRequest.GenusName}"));
 
-        var genus = saveRequest.MapTo<GenusSaveRequest, Genus>();
+        var genus = saveRequest.MapTo<GenusDtoForRegister, Genus>();
 
         if (await EntityValidationAsync(genus))
             return await _genusRespository.SaveAsync(genus);
@@ -52,7 +52,7 @@ public sealed class GenusService : BaseService<Genus>, IGenusService
         return false;
     }
 
-    public async Task<bool> UpdateGenusAsync(GenusUpdateRequest updateRequest)
+    public async Task<bool> UpdateGenusAsync(GenusDtoForUpdate updateRequest)
     {
         if (await _genusRespository.ExistInTheDatabaseAsync(g => g.Id != updateRequest.GenusId && g.GenusName == updateRequest.GenusName))
             return _notification.CreateNotification("Gênero", "Existe um gênero com esse nome na base de dados.");
@@ -70,7 +70,7 @@ public sealed class GenusService : BaseService<Genus>, IGenusService
         return false;
     }
 
-    private void SetGenusUpdate(Genus genus, GenusUpdateRequest updateRequest)
+    private void SetGenusUpdate(Genus genus, GenusDtoForUpdate updateRequest)
     {
         genus.Specie = updateRequest.Specie;
         genus.GenusName = updateRequest.GenusName;

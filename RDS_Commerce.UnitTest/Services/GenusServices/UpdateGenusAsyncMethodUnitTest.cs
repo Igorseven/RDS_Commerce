@@ -13,7 +13,7 @@ public class UpdateGenusAsyncMethodUnitTest : GenusServiceBaseUnitTest
     {
         yield return new Object[]
         {
-            new GenusUpdateRequest
+            new GenusDtoForUpdate
             {
                 GenusId = 11,
                 GenusName = "Gênero da Planta",
@@ -25,7 +25,7 @@ public class UpdateGenusAsyncMethodUnitTest : GenusServiceBaseUnitTest
     [Theory]
     [Trait("Success", "Perfect setting")]
     [MemberData(nameof(DtoPerfectSetting))]
-    public async Task UpdateGenusAsync_PerfectSetting_ReturnTrue(GenusUpdateRequest genusUpdateRequest)
+    public async Task UpdateGenusAsync_PerfectSetting_ReturnTrue(GenusDtoForUpdate genusUpdateRequest)
     {
         var genus = GenusBuilder.NewObject().WithGenusId(genusUpdateRequest.GenusId).DomainBuild();
 
@@ -45,7 +45,7 @@ public class UpdateGenusAsyncMethodUnitTest : GenusServiceBaseUnitTest
     {
         yield return new Object[]
         {
-            new GenusUpdateRequest
+            new GenusDtoForUpdate
             {
                 GenusId = 11,
                 GenusName = "Nome repetido",
@@ -57,7 +57,7 @@ public class UpdateGenusAsyncMethodUnitTest : GenusServiceBaseUnitTest
     [Theory]
     [Trait("Failed", "There is the name in the db")]
     [MemberData(nameof(DtoForScenerioThereIsTheNameInTheDb))]
-    public async Task UpdateGenusAsync_ThereIsTheNameInTheDb_ReturnFalse(GenusUpdateRequest genusUpdateRequest)
+    public async Task UpdateGenusAsync_ThereIsTheNameInTheDb_ReturnFalse(GenusDtoForUpdate genusUpdateRequest)
     {
         _genusRespository.Setup(g => g.ExistInTheDatabaseAsync(UtilTools.BuildPredicateFunc<Genus>()).Result).Returns(true);
 
@@ -74,7 +74,7 @@ public class UpdateGenusAsyncMethodUnitTest : GenusServiceBaseUnitTest
     {
         yield return new Object[]
         {
-            new GenusUpdateRequest
+            new GenusDtoForUpdate
             {
                 GenusId = 1001,
                 GenusName = "Gênero da Planta",
@@ -86,7 +86,7 @@ public class UpdateGenusAsyncMethodUnitTest : GenusServiceBaseUnitTest
     [Theory]
     [Trait("Failed", "Genus not found")]
     [MemberData(nameof(DtoForScenerioNotFound))]
-    public async Task UpdateGenusAsync_GenusNotFound_ReturnFalse(GenusUpdateRequest genusUpdateRequest)
+    public async Task UpdateGenusAsync_GenusNotFound_ReturnFalse(GenusDtoForUpdate genusUpdateRequest)
     {
         _genusRespository.Setup(g => g.ExistInTheDatabaseAsync(UtilTools.BuildPredicateFunc<Genus>()).Result).Returns(false);
         _genusRespository.Setup(g => g.FindByIdAsync(genusUpdateRequest.GenusId, null, false).Result);

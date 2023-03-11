@@ -12,5 +12,7 @@ public static class ValidationDependencyInjection
         services.AddScoped<IValidate<PlantImage>, PlantImageValidation>();
         services.AddScoped<IValidate<Genus>, GenusValidation>();
         services.AddScoped<IValidate<Manager>, ManagerValidation>();
+        services.AddScoped<IValidate<Client>, ClientValidation>();
+        services.AddScoped<IValidate<ShippingAddress>, ShippingAddressValidation>();
     }
 }

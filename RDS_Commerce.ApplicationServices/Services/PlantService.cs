@@ -26,27 +26,27 @@ public sealed class PlantService : BaseService<Plant>, IPlantService
         _plantRepository = plantRepository;
     }
 
-    public async Task<PageList<PlantsSearchResponse>> FindAllWithPaginationAsync(PageParams pageParams)
+    public async Task<PageList<PlantsDtoResponse>> FindAllWithPaginationAsync(PageParams pageParams)
     {
         var plants = await _plantRepository.FindByWithPaginationAsync(pageParams, i => i
                                            .Include(p => p.Images.Where(pi => pi.MainImage)), true)!;
 
-        return plants.MapTo<PageList<Plant>, PageList<PlantsSearchResponse>>();
+        return plants.MapTo<PageList<Plant>, PageList<PlantsDtoResponse>>();
     }
 
-    public async Task<PlantSearchResponse?> FindByAsync(int plantId)
+    public async Task<PlantDtoResponse?> FindByAsync(int plantId)
     {
         var plantAndImages = await _plantRepository.FindByAsync(plantId, i => i.Include(p => p.Images), true);
 
-        return plantAndImages?.MapTo<Plant, PlantSearchResponse>();
+        return plantAndImages?.MapTo<Plant, PlantDtoResponse>();
     }
 
-    public async Task<bool> SaveAsync(PlantSaveRequest saveRequest)
+    public async Task<bool> SaveAsync(PlantDtoForRegister saveRequest)
     {
         if (await _plantRepository.ExistInTheDatabaseAsync(p => p.Name == saveRequest.Name))
             return _notification.CreateNotification("Nome da planta", EMessage.Exist.GetDescription().FormatTo("Planta"));
 
-        var plant = saveRequest.MapTo<PlantSaveRequest, Plant>();
+        var plant = saveRequest.MapTo<PlantDtoForRegister, Plant>();
 
         SetMainImage(saveRequest.FileImage, plant);
 
@@ -56,7 +56,7 @@ public sealed class PlantService : BaseService<Plant>, IPlantService
         return false;
     }
 
-    public async Task<bool> UpdateAsync(PlantUpdateRequest updateRequest)
+    public async Task<bool> UpdateAsync(PlantDtoForUpdate updateRequest)
     {
         if (await _plantRepository.ExistInTheDatabaseAsync(p => p.Id != updateRequest.PlantId && p.Name == updateRequest.Name))
             return _notification.CreateNotification("Nome da planta", EMessage.Exist.GetDescription().FormatTo("Planta"));
@@ -73,7 +73,7 @@ public sealed class PlantService : BaseService<Plant>, IPlantService
         return false;
     }
 
-    private void SetPlantUpdate(Plant plant, PlantUpdateRequest updateRequest)
+    private void SetPlantUpdate(Plant plant, PlantDtoForUpdate updateRequest)
     {
         plant.Name = updateRequest.Name;
         plant.Price = updateRequest.Price;
@@ -84,7 +84,7 @@ public sealed class PlantService : BaseService<Plant>, IPlantService
         plant.GenusId = updateRequest.GenusId;
     }
 
-    public async Task<bool> InsertOtherImagesAsync(PlantUpdateImagesRequest updateRequest)
+    public async Task<bool> InsertOtherImagesAsync(PlantDtoForUpdateImages updateRequest)
     {
         var plant = await _plantRepository.FindByAsync(updateRequest.PlantId, i => i.Include(p => p.Images), false);
         if (plant is null)

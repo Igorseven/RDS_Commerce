@@ -8,14 +8,14 @@ public sealed class GenusProfile : Profile
 {
 	public GenusProfile()
 	{
-		CreateMap<Genus, GenusSaveRequest>()
+		CreateMap<Genus, GenusDtoForRegister>()
 			.ReverseMap();
 		
-		CreateMap<Genus, GenusUpdateRequest>()
+		CreateMap<Genus, GenusDtoForUpdate>()
 			.ForMember(gr => gr.GenusId, map => map.MapFrom(g => g.Id))
 			.ReverseMap();
 
-        CreateMap<Genus, GenusSearchResponse>()
+        CreateMap<Genus, GenusDtoResponse>()
             .ForMember(gr => gr.GenusId, map => map.MapFrom(g => g.Id));
     } 
 }

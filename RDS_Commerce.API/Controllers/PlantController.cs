@@ -25,7 +25,7 @@ public sealed class PlantController : ControllerBase
     [ProducesResponseType(StatusCodes.Status403Forbidden)]
     [ProducesResponseType(StatusCodes.Status401Unauthorized)]
     [ProducesResponseType(StatusCodes.Status400BadRequest, Type = typeof(IEnumerable<DomainNotification>))]
-    public async Task<bool> PlantSaveAsync([FromForm] PlantSaveRequest saveRequest) =>
+    public async Task<bool> PlantSaveAsync([FromForm] PlantDtoForRegister saveRequest) =>
         await _plantService.SaveAsync(saveRequest);
 
     [HttpPut("plant_update")]
@@ -34,7 +34,7 @@ public sealed class PlantController : ControllerBase
     [ProducesResponseType(StatusCodes.Status403Forbidden)]
     [ProducesResponseType(StatusCodes.Status401Unauthorized)]
     [ProducesResponseType(StatusCodes.Status400BadRequest, Type = typeof(IEnumerable<DomainNotification>))]
-    public async Task<bool> PlantUpdateAsync([FromBody] PlantUpdateRequest updateRequest) =>
+    public async Task<bool> PlantUpdateAsync([FromBody] PlantDtoForUpdate updateRequest) =>
         await _plantService.UpdateAsync(updateRequest);
 
     [RequestSizeLimit(5_000_000)]
@@ -44,7 +44,7 @@ public sealed class PlantController : ControllerBase
     [ProducesResponseType(StatusCodes.Status403Forbidden)]
     [ProducesResponseType(StatusCodes.Status401Unauthorized)]
     [ProducesResponseType(StatusCodes.Status400BadRequest, Type = typeof(IEnumerable<DomainNotification>))]
-    public async Task<bool> PlantImagesUpdateAsync([FromForm] PlantUpdateImagesRequest updateRequest) =>
+    public async Task<bool> PlantImagesUpdateAsync([FromForm] PlantDtoForUpdateImages updateRequest) =>
         await _plantService.InsertOtherImagesAsync(updateRequest);
 
     [HttpDelete("plant_delete")]
@@ -62,7 +62,7 @@ public sealed class PlantController : ControllerBase
     [ProducesResponseType(StatusCodes.Status404NotFound)]
     [ProducesResponseType(StatusCodes.Status403Forbidden)]
     [ProducesResponseType(StatusCodes.Status401Unauthorized)]
-    public async Task<PlantSearchResponse?> FindByPlantAsync([FromQuery] int plantId) =>
+    public async Task<PlantDtoResponse?> FindByPlantAsync([FromQuery] int plantId) =>
        await _plantService.FindByAsync(plantId);
 
     [HttpGet("find_plants_with_pagination")]
@@ -71,6 +71,6 @@ public sealed class PlantController : ControllerBase
     [ProducesResponseType(StatusCodes.Status404NotFound)]
     [ProducesResponseType(StatusCodes.Status403Forbidden)]
     [ProducesResponseType(StatusCodes.Status401Unauthorized)]
-    public async Task<PageList<PlantsSearchResponse>> FindPlantsToPaginationAsync([FromQuery] PageParams pageParams) =>
+    public async Task<PageList<PlantsDtoResponse>> FindPlantsToPaginationAsync([FromQuery] PageParams pageParams) =>
        await _plantService.FindAllWithPaginationAsync(pageParams);
 }

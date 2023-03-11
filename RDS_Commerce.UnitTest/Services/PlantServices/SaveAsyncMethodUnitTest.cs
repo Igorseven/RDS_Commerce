@@ -12,7 +12,7 @@ public class SaveAsyncMethodUnitTest : PlantServiceBaseUnitTest
     {
         yield return new object[]
         {
-            new PlantSaveRequest
+            new PlantDtoForRegister
             {
                 Name = "Plant name",
                 Description = "description the plant.",
@@ -28,7 +28,7 @@ public class SaveAsyncMethodUnitTest : PlantServiceBaseUnitTest
     [Theory]
     [Trait("Success", "Create Plant")]
     [MemberData(nameof(GetPlantSaveRequestToRegister))]
-    public async Task SaveAsync_PerfectSetting_ReturnTrue(PlantSaveRequest plantSave)
+    public async Task SaveAsync_PerfectSetting_ReturnTrue(PlantDtoForRegister plantSave)
     {
         _plantRepository.Setup(pr => pr.ExistInTheDatabaseAsync(UtilTools.BuildPredicateFunc<Plant>())).ReturnsAsync(false);
         _plantRepository.Setup(pr => pr.SaveAsync(It.IsAny<Plant>())).ReturnsAsync(true);
@@ -43,7 +43,7 @@ public class SaveAsyncMethodUnitTest : PlantServiceBaseUnitTest
     [Theory]
     [Trait("Failed", "There is the name in the db")]
     [MemberData(nameof(GetPlantSaveRequestToRegister))]
-    public async Task SaveAsync_ThereIsTheNameInTheDb_ReturnFalse(PlantSaveRequest plantSave)
+    public async Task SaveAsync_ThereIsTheNameInTheDb_ReturnFalse(PlantDtoForRegister plantSave)
     {
         _plantRepository.Setup(pr => pr.ExistInTheDatabaseAsync(UtilTools.BuildPredicateFunc<Plant>())).ReturnsAsync(true);
 

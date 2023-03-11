@@ -1,10 +1,9 @@
-﻿using RDS_Commerce.ApplicationServices.Dtos.Response.PlantImageResponse;
+﻿using Microsoft.AspNetCore.Http;
 using RDS_Commerce.Domain.Enums;
 
-namespace RDS_Commerce.ApplicationServices.Dtos.Response.PlantResponse;
-public sealed class PlantsSearchResponse
+namespace RDS_Commerce.ApplicationServices.Dtos.Request.PlantRequest;
+public sealed class PlantDtoForRegister
 {
-    public int PlantId { get; set; }
     public string Name { get; set; }
     public string Specie { get; set; }
     public string? Description { get; set; }
@@ -12,5 +11,5 @@ public sealed class PlantsSearchResponse
     public decimal Price { get; set; }
     public int VaseSize { get; set; }
     public EPlantType PlantType { get; set; }
-    public PlantImageSearchResponse MainImage { get; set; }
+    public IFormFile FileImage { get; set; }
 }

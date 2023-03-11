@@ -9,21 +9,21 @@ public sealed class PlantProfile : Profile
 {
 	public PlantProfile()
 	{
-		CreateMap<Plant, PlantSaveRequest>().ReverseMap();
+		CreateMap<Plant, PlantDtoForRegister>().ReverseMap();
 
-		CreateMap<Plant, PlantUpdateRequest>()
+		CreateMap<Plant, PlantDtoForUpdate>()
 			.ForMember(pr => pr.PlantId, map => map.MapFrom(p => p.Id))
 			.ReverseMap();
 		
-		CreateMap<Plant, PlantSearchResponse>()
+		CreateMap<Plant, PlantDtoResponse>()
 			.ForMember(pr => pr.PlantId, map => map.MapFrom(p => p.Id));
 			
 
-        CreateMap<Plant, PlantsSearchResponse>()
+        CreateMap<Plant, PlantsDtoResponse>()
             .ForMember(pr => pr.PlantId, map => map.MapFrom(p => p.Id))
             .ForMember(pr => pr.MainImage, map => map.MapFrom(p => p.Images.SingleOrDefault(pi => pi.MainImage)));
             
 
-        CreateMap<PageList<Plant>, PageList<PlantsSearchResponse>>();
+        CreateMap<PageList<Plant>, PageList<PlantsDtoResponse>>();
 	}
 }

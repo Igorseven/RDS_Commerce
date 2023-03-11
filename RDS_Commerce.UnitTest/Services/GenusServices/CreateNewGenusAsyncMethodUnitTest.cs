@@ -12,7 +12,7 @@ public class CreateNewGenusAsyncMethodUnitTest : GenusServiceBaseUnitTest
     {
         yield return new Object[]
         {
-            new GenusSaveRequest
+            new GenusDtoForRegister
             {
                 GenusName = "Gênero da Planta",
                 Specie = "Espécie da Planta"
@@ -23,7 +23,7 @@ public class CreateNewGenusAsyncMethodUnitTest : GenusServiceBaseUnitTest
     [Theory]
     [Trait("Success", "Perfect setting")]
     [MemberData(nameof(GetGenusSaveRequest))]
-    public async Task CreateNewGenusAsync_PerfectSetting_ReturnTrue(GenusSaveRequest genusSaveRequest)
+    public async Task CreateNewGenusAsync_PerfectSetting_ReturnTrue(GenusDtoForRegister genusSaveRequest)
     {
 
         _genusRespository.Setup(g => g.ExistInTheDatabaseAsync(UtilTools.BuildPredicateFunc<Genus>()).Result).Returns(false);
@@ -41,7 +41,7 @@ public class CreateNewGenusAsyncMethodUnitTest : GenusServiceBaseUnitTest
     {
         yield return new Object[]
         {
-            new GenusSaveRequest
+            new GenusDtoForRegister
             {
                 GenusName = "Gênero da Planta",
                 Specie = "Espécie da Planta"
@@ -52,7 +52,7 @@ public class CreateNewGenusAsyncMethodUnitTest : GenusServiceBaseUnitTest
     [Theory]
     [Trait("Failed", "There is the name in the db")]
     [MemberData(nameof(GetGenusSaveRequestThereIsTheNameInTheDb))]
-    public async Task CreateNewGenusAsync_ThereIsTheNameInTheDb_ReturnFalse(GenusSaveRequest genusSaveRequest)
+    public async Task CreateNewGenusAsync_ThereIsTheNameInTheDb_ReturnFalse(GenusDtoForRegister genusSaveRequest)
     {
 
         _genusRespository.Setup(g => g.ExistInTheDatabaseAsync(UtilTools.BuildPredicateFunc<Genus>()).Result).Returns(true);

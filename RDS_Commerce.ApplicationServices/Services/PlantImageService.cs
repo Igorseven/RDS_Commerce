@@ -25,14 +25,14 @@ public sealed class PlantImageService : BaseService<PlantImage>, IPlantImageServ
 
     public void Dispose() => _plantImageRepository.Dispose();
 
-    public async Task<PlantImageSearchResponse?> FindByAsync(int plantImageId)
+    public async Task<PlantImageDtoResponse?> FindByAsync(int plantImageId)
     {
         var plantImage = await _plantImageRepository.FindByAsync(plantImageId, true, true);
 
-        return plantImage?.MapTo<PlantImage, PlantImageSearchResponse>();
+        return plantImage?.MapTo<PlantImage, PlantImageDtoResponse>();
     }
 
-    public async Task<bool> UpdateMainImageAsync(PlantUpdateMainImageRequest updateRequest)
+    public async Task<bool> UpdateMainImageAsync(PlantDtoForUpdateMainImage updateRequest)
     {
         var currentMainImage = await _plantImageRepository.FindByPredicateAsync(pi => pi.PlantId == updateRequest.PlantId && pi.MainImage, false, false);
 

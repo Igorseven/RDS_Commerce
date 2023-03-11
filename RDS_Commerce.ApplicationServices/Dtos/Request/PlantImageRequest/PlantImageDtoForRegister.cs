@@ -1,5 +1,5 @@
 ﻿namespace RDS_Commerce.ApplicationServices.Dtos.Request.PlantImageRequest;
-public sealed class PlantImageSaveRequest
+public sealed class PlantImageDtoForRegister
 {
     public bool MainImage { get; set; }
     public string FileName { get; set; }

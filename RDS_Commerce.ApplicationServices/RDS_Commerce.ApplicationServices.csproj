@@ -12,6 +12,8 @@
 
   <ItemGroup>
     <Folder Include="Arguments\" />
+    <Folder Include="Dtos\Request\ManagerRequest\" />
+    <Folder Include="Dtos\Request\ClientRequest\" />
   </ItemGroup>
 
   <ItemGroup>

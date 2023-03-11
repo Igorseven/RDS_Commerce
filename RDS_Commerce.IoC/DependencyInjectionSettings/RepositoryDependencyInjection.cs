@@ -12,5 +12,6 @@ public static class RepositoryDependencyInjection
         services.AddScoped<IGenusRespository, GenusRespository>();
         services.AddScoped<IManagerRepository, ManagerRepository>();
         services.AddScoped<IClientRepository, ClientRepository>();
+        services.AddScoped<IAccountIdentityRepository, AccountIdentityRepository>();
     }
 }

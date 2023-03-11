@@ -9,9 +9,9 @@ public sealed class ManagerMapping : BaseMapping, IEntityTypeConfiguration<Manag
     public void Configure(EntityTypeBuilder<Manager> builder)
     {
         builder.ToTable(nameof(Manager), Schema);
-        builder.HasKey(m => m.ManagerId);
+        builder.HasKey(m => m.UserId);
 
-        builder.Property(m => m.ManagerId).HasColumnName("id_manager");
+        builder.Property(m => m.UserId).HasColumnName("id_manager");
 
         builder.Property(m => m.AccountIdentityId).HasColumnName("accountIdentity_id");
 

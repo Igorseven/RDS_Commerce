@@ -10,9 +10,9 @@ public sealed class ClientMapping : BaseMapping, IEntityTypeConfiguration<Client
     public void Configure(EntityTypeBuilder<Client> builder)
     {
         builder.ToTable(nameof(Client), Schema);
-        builder.HasKey(c => c.ClientId);
+        builder.HasKey(c => c.UserId);
 
-        builder.Property(c => c.ClientId).HasColumnName("id_client");
+        builder.Property(c => c.UserId).HasColumnName("id_client");
 
         builder.Property(c => c.AccountIdentityId).HasColumnName("accountIdentity_id");
 

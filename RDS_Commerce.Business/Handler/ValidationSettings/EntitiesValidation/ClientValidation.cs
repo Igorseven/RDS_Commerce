@@ -26,5 +26,7 @@ public sealed class ClientValidation : Validate<Client>
             : EMessage.MoreExpected.GetDescription().FormatTo("Documento", "entre {MinLength} e {MaxLength}"));
 
         RuleFor(c => c.Role).IsInEnum().WithMessage(EMessage.Required.GetDescription().FormatTo("Permissão"));
+
+        RuleFor(c => c.AcceptTermsAndPolicy).Equal(true).WithMessage(EMessage.Required.GetDescription().FormatTo("Aceite dos termos e politicas."));
     }
 }

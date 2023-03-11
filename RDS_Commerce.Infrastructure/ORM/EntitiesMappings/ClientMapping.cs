@@ -20,10 +20,16 @@ public sealed class ClientMapping : BaseMapping, IEntityTypeConfiguration<Client
                .HasColumnName("full_name").IsRequired(true);
 
         builder.Property(c => c.Role).HasColumnName("role").HasDefaultValue(ERole.Consumer).IsRequired(true);
+        
+        builder.Property(c => c.AcceptTermsAndPolicy).HasColumnType("bit")
+            .HasColumnName("accept_terms_policies").IsRequired(true);
 
         builder.Property(c => c.DocumentNumber).HasColumnType("varchar(20)")
                .HasColumnName("document_namber").IsRequired(true);
 
+        builder.Property(c => c.AcceptanceOfTermsAndPolicies).HasColumnType("datetime2")
+               .HasColumnName("acceptance_Terms_and_policies");
+        
         builder.Property(c => c.RegistrationDate).HasColumnType("datetime2")
                .HasColumnName("registration_date");
 

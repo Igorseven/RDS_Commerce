@@ -9,5 +9,5 @@ public sealed class Order : BaseEntity
 
     public Guid ClientId { get; set; }
     public Client Client { get; set; }
-    public List<Plant> Plants { get; set; }
+    public List<OrderPlant> OrderPlants { get; set; }
 }

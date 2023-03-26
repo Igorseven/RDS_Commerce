@@ -13,6 +13,7 @@ public sealed class ManagerValidation : Validate<Manager>
 
 	private void SetRules()
 	{
+        RuleFor(m => m.AccountIdentity).SetValidator(new AccountIdentityValidation());
 
         RuleFor(m => m.FullName).Length(3, 150)
             .WithMessage(p => string.IsNullOrWhiteSpace(p.FullName)

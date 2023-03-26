@@ -1,4 +1,6 @@
-﻿using RDS_Commerce.ApplicationServices.Dtos.Arguments;
+﻿using Microsoft.EntityFrameworkCore;
+using RDS_Commerce.ApplicationServices.AutoMapperSettings;
+using RDS_Commerce.ApplicationServices.Dtos.Arguments;
 using RDS_Commerce.ApplicationServices.Dtos.Request.ManagerRequest;
 using RDS_Commerce.ApplicationServices.Dtos.Response.ManagerResponse;
 using RDS_Commerce.ApplicationServices.Interfaces;
@@ -11,29 +13,55 @@ namespace RDS_Commerce.ApplicationServices.Services;
 public sealed class ManagerService : BaseService<Manager>, IManagerService
 {
     private readonly IManagerRepository _managerRepository;
-    private readonly IAuthenticationTokenService<Manager> _authenticationTokenService;
+    private readonly IAuthenticationTokenService _authenticationTokenService;
+    private readonly IAccountIdentityService _accountIdentityService;
     public ManagerService(INotificationHandler notification,
                           IValidate<Manager> validate,
                           IManagerRepository managerRepository,
-                          IAuthenticationTokenService<Manager> authenticationTokenService)
+                          IAuthenticationTokenService authenticationTokenService,
+                          IAccountIdentityService accountIdentityService)
         : base(notification, validate)
     {
         _managerRepository = managerRepository;
         _authenticationTokenService = authenticationTokenService;
+        _accountIdentityService = accountIdentityService;
     }
 
-    public Task<bool> CreateManagerAccountAsync(ManagerDtoForRegister managerDtoForRegister)
+    public async Task<bool> CreateManagerAccountAsync(ManagerDtoForRegister managerDtoForRegister)
     {
-        throw new NotImplementedException();
+        if (managerDtoForRegister.Password != managerDtoForRegister.ConfirmPassword)
+            _notification.CreateNotification("Senha", "Senha e sua confirmação não estão em conformidade.");
+
+        var manager = managerDtoForRegister.MapTo<ManagerDtoForRegister, Manager>();
+
+        if (!await EntityValidationAsync(manager))
+            return false;
+
+        if (!await _accountIdentityService.CreateIdentityAccountAsync(manager.AccountIdentity))
+            return false;
+
+        return await _managerRepository.SaveAsync(manager);
     }
 
-    public Task<ManagerDtoLoginResponse> LoginAsync(UserLogin userLogin)
+    public async Task<ManagerDtoLoginResponse?> LoginAsync(UserLogin userLogin)
     {
-        throw new NotImplementedException();
+        if (!await _accountIdentityService.SignPasswordAsync(userLogin))
+            return null;
+
+        var manager = await _managerRepository.FindByPredicateAsync(m => m.AccountIdentity.NormalizedUserName == userLogin.Login!.ToUpper(), i => i
+                                              .Include(m => m.AccountIdentity), true);
+
+        if (manager is not null)
+        {
+            return new ManagerDtoLoginResponse
+            {
+                Role = manager.Role,
+                Token = await _authenticationTokenService.GenerateTokenAsync(manager)
+            };
+        }
+
+        return null;
     }
 
-    public void Dispose()
-    {
-        throw new NotImplementedException();
-    }
+    public void Dispose() => _managerRepository.Dispose();
 }

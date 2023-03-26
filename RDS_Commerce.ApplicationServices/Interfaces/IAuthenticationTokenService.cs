@@ -2,7 +2,7 @@
 using System.Security.Claims;
 
 namespace RDS_Commerce.ApplicationServices.Interfaces;
-public interface IAuthenticationTokenService<T> where T : User
+public interface IAuthenticationTokenService
 {
-    Task<string> GenerateTokenAsync(T entity, List<Claim>? claimList = null);
+    Task<string> GenerateTokenAsync<T>(T entity, List<Claim>? claimList = null) where T : User;
 }

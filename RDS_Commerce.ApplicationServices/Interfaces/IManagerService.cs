@@ -6,5 +6,5 @@ namespace RDS_Commerce.ApplicationServices.Interfaces;
 public interface IManagerService : IDisposable
 {
     Task<bool> CreateManagerAccountAsync(ManagerDtoForRegister managerDtoForRegister);
-    Task<ManagerDtoLoginResponse> LoginAsync(UserLogin userLogin);
+    Task<ManagerDtoLoginResponse?> LoginAsync(UserLogin userLogin);
 }

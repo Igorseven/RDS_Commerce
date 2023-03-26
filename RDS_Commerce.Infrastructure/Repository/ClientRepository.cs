@@ -27,7 +27,7 @@ public sealed class ClientRepository : BaseRepository<Client>, IClientRepository
         if (include is not null)
             query = include(query);
 
-        return await query.FirstOrDefaultAsync(c => c.ClientId == clientId);
+        return await query.FirstOrDefaultAsync(c => c.UserId == clientId);
     }
 
     public async Task<Client?> FindByPredicateASync(Expression<Func<Client, bool>> where, Func<IQueryable<Client>, IIncludableQueryable<Client, object>>? include, bool asNoTracking = false)

@@ -13,6 +13,6 @@ public sealed class Plant : BaseEntity
 
     public int? GenusId { get; set; }
     public Genus? Genus { get; set; }
-    public List<Order> Orders { get; set; }
+    public List<OrderPlant> OrderPlants { get; set; }
     public List<PlantImage> Images { get; set; }
 }

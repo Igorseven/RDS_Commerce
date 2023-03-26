@@ -26,7 +26,7 @@ public sealed class ManagerRepository : BaseRepository<Manager>, IManagerReposit
         if (include is not null)
             query = include(query);
 
-        return await query.FirstOrDefaultAsync(m => m.ManagerId == managerId);
+        return await query.FirstOrDefaultAsync(m => m.UserId == managerId);
     }
 
     public async Task<Manager?> FindByPredicateAsync(Expression<Func<Manager, bool>> where, Func<IQueryable<Manager>, IIncludableQueryable<Manager, object>>? include, bool asNoTracking = false)

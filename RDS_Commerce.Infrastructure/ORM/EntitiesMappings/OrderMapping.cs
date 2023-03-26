@@ -17,12 +17,5 @@ public sealed class OrderMapping : BaseMapping, IEntityTypeConfiguration<Order>
 
         builder.Property(o => o.Amount).HasColumnType("decimal(12,2)")
                .HasColumnName("amount").IsRequired(true);
-
-        builder.HasMany(o => o.Plants)
-               .WithMany(p => p.Orders)
-               .UsingEntity<Dictionary<string, object>>("OrderPlant",
-                    dc => dc.HasOne<Plant>().WithMany().HasForeignKey("plant_id"),
-                    dc => dc.HasOne<Order>().WithMany().HasForeignKey("orde_id")
-               );
     }
 }

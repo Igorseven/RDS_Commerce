@@ -9,7 +9,7 @@ using System.Security.Claims;
 using System.Text;
 
 namespace RDS_Commerce.ApplicationServices.Services;
-public sealed class AuthenticationTokenService<T> : IAuthenticationTokenService<T> where T : User
+public sealed class AuthenticationTokenService : IAuthenticationTokenService
 {
     private readonly IConfiguration _configuration;
     private readonly UserManager<AccountIdentity> _userManager;
@@ -22,7 +22,7 @@ public sealed class AuthenticationTokenService<T> : IAuthenticationTokenService<
         _key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_configuration["JwtToken:JwtKey"]));
     }
 
-    public async Task<string> GenerateTokenAsync(T entity, List<Claim>? claimList = null)
+    public async Task<string> GenerateTokenAsync<T>(T entity, List<Claim>? claimList = null) where T : User
     {
         var claims = GetClaims(entity, claimList);
 
@@ -46,7 +46,7 @@ public sealed class AuthenticationTokenService<T> : IAuthenticationTokenService<
         return tokeHandler.WriteToken(token);
     }
 
-    private List<Claim> GetClaims(T user, List<Claim>? claimList)
+    private List<Claim> GetClaims<T>(T user, List<Claim>? claimList) where T : User
     {
         var claimTokenList = new List<Claim>
         {

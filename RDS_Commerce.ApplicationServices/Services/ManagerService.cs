@@ -34,19 +34,16 @@ public sealed class ManagerService : BaseService<Manager>, IManagerService
 
         var manager = managerDtoForRegister.MapTo<ManagerDtoForRegister, Manager>();
 
-        if (!await EntityValidationAsync(manager))
-            return false;
+        if (!await EntityValidationAsync(manager)) return false;
 
-        if (!await _accountIdentityService.CreateIdentityAccountAsync(manager.AccountIdentity))
-            return false;
-
+        if (!await _accountIdentityService.CreateIdentityAccountAsync(manager.AccountIdentity)) return false;
+            
         return await _managerRepository.SaveAsync(manager);
     }
 
     public async Task<ManagerDtoLoginResponse?> LoginAsync(UserLogin userLogin)
     {
-        if (!await _accountIdentityService.SignPasswordAsync(userLogin))
-            return null;
+        if (!await _accountIdentityService.SignPasswordAsync(userLogin)) return null;
 
         var manager = await _managerRepository.FindByPredicateAsync(m => m.AccountIdentity.NormalizedUserName == userLogin.Login!.ToUpper(), i => i
                                               .Include(m => m.AccountIdentity), true);

@@ -13,6 +13,7 @@ public static class ServiceDependencyInjection
         services.AddScoped<IAuthenticationTokenService, AuthenticationTokenService>();
         services.AddScoped<IAccountIdentityService, AccountIdentityService>();
         services.AddScoped<IManagerService, ManagerService>();
+        services.AddScoped<IClientService, ClientService>();
 
     }
 }

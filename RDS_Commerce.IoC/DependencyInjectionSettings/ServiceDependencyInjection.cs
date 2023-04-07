@@ -5,6 +5,7 @@ using RDS_Commerce.ApplicationServices.Services.AuthenticationTokenServices;
 using RDS_Commerce.ApplicationServices.Services.ClientServices;
 using RDS_Commerce.ApplicationServices.Services.GenusServices;
 using RDS_Commerce.ApplicationServices.Services.ManagerServices;
+using RDS_Commerce.ApplicationServices.Services.OrderServices;
 using RDS_Commerce.ApplicationServices.Services.PlantImageServices;
 using RDS_Commerce.ApplicationServices.Services.PlantServices;
 using RDS_Commerce.ApplicationServices.Services.ShippingAddressServices;
@@ -34,6 +35,9 @@ public static class ServiceDependencyInjection
 
         services.AddScoped<IShippingAddressCommandService, ShippingAddressCommandService>();
         services.AddScoped<IShippingAddressQueryService, ShippingAddressQueryService>();
+
+        services.AddScoped<IOrderCommandService, OrderCommandService>();
+        services.AddScoped<IOrderQueryService, OrderQueryService>();
 
     }
 }

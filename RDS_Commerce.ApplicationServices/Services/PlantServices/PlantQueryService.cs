@@ -1,10 +1,12 @@
 ﻿using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.Query;
 using RDS_Commerce.ApplicationServices.AutoMapperSettings;
 using RDS_Commerce.ApplicationServices.Dtos.Response.PlantResponse;
 using RDS_Commerce.ApplicationServices.Interfaces;
 using RDS_Commerce.Business.Handler.PaginationSettings;
 using RDS_Commerce.Business.Interfaces.RepositoryContracts;
 using RDS_Commerce.Domain.Entities;
+using System.Linq.Expressions;
 
 namespace RDS_Commerce.ApplicationServices.Services.PlantServices;
 public sealed class PlantQueryService : IPlantQueryService
@@ -30,4 +32,6 @@ public sealed class PlantQueryService : IPlantQueryService
         return plantAndImages?.MapTo<Plant, PlantDtoResponse>();
     }
 
+    public async Task<Plant?> FindByDomainObjectAsync(Expression<Func<Plant, bool>> where, Func<IQueryable<Plant>, IIncludableQueryable<Plant, object>>? include = null, bool AsNoTracking = false) =>
+        await _plantRepository.FindByPredicateAsync(where, include, AsNoTracking);
 }

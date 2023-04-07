@@ -31,10 +31,9 @@ public sealed class BillingCommandService : IBillingCommandService
         throw new NotImplementedException();
     }
 
-    public async Task<PaymentResponse> CreateCreditPurchaseAsync(BillingPaymentRequest billingRequest)
+    public async Task<bool> CreateCreditPurchaseAsync(BillingPaymentRequest billingRequest)
     {
         var client = await _clientQueryService.FindByDomainObjectAsync(c => c.UserId == billingRequest.ClientId, i => i.Include(c => c.ShippingAddresses)!, false);
-
 
         billingRequest.PaymentRequest.Customer = client!.CustomerId;
         billingRequest.PaymentRequest.DueDate = DateTime.Now.ToString("yyyy-MM-dd");
@@ -46,15 +45,8 @@ public sealed class BillingCommandService : IBillingCommandService
 
         var paymentResponse = await response.Content.ReadFromJsonAsync<PaymentResponse>();
 
+        if (response.StatusCode == System.Net.HttpStatusCode.OK) return true;
 
-        if (paymentResponse is not null && (paymentResponse.Errors is not null && paymentResponse.Errors.Any()))
-        {
-            paymentResponse.Errors.ForEach(x =>
-            {
-                _notification.CreateNotification($"{x.Code}", x.Description);
-            });
-        }
-
-        return paymentResponse;
+        return false;
     }
 }

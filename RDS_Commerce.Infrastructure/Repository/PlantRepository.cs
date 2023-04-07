@@ -21,12 +21,15 @@ public sealed class PlantRepository : BaseRepository<Plant>,  IPlantRepository
 
     public async Task<bool> ExistInTheDatabaseAsync(Expression<Func<Plant, bool>> where) => await _dbSetContext.AnyAsync(where);
 
-    public async Task<Plant?> FindByPredicateAsync(Expression<Func<Plant, bool>> where, bool asNoTracking = false)
+    public async Task<Plant?> FindByPredicateAsync(Expression<Func<Plant, bool>> where, Func<IQueryable<Plant>, IIncludableQueryable<Plant, object>>? include = null, bool asNoTracking = false)
     {
         IQueryable<Plant> query = _dbSetContext;
 
         if (asNoTracking)
             query = query.AsNoTracking();
+
+        if (include is not null)
+            query = include(query);
 
         return await query.FirstOrDefaultAsync(where);
     }

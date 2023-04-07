@@ -9,7 +9,9 @@ public sealed class OrderPlantMapping : BaseMapping, IEntityTypeConfiguration<Or
     public void Configure(EntityTypeBuilder<OrderPlant> builder)
     {
         builder.ToTable(nameof(OrderPlant), Schema);
-        builder.HasKey(op => new { op.OrderId, op.PlantId });
+        builder.HasKey(op => op.OrderPlantId);
+
+        builder.Property(op => op.OrderPlantId).HasColumnName("id_orderPlantId");
 
         builder.Property(op => op.OrderId).HasColumnName("order_id");
 

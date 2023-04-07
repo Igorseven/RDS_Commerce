@@ -12,7 +12,10 @@ public class PaymentRequest
     [JsonPropertyName("dueDate")]
     public string DueDate { get; set; }
 
-    [JsonPropertyName("value")]
+    [JsonPropertyName("installmentCount")]
+    public int? InstallmentCount { get; set; }
+
+    [JsonPropertyName("totalValue")]
     public decimal Value { get; set; }
 
     [JsonPropertyName("description")]
@@ -27,8 +30,8 @@ public class PaymentRequest
     [JsonPropertyName("creditCardHolderInfo")]
     public CreditCardHolderInfoRequest CreditCardHolderInfo { get; set; }
 
-    [JsonPropertyName("creditCardToken")]
-    public string CreditCardToken { get; set; }
+    //[JsonPropertyName("creditCardToken")]
+    //public string CreditCardToken { get; set; }
 
     [JsonPropertyName("postalService")]
     public bool PostalService { get; set; } = false;

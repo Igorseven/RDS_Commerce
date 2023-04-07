@@ -13,7 +13,7 @@ public sealed class CreditCardHolderInfoBuilder
     private string _cpfCnpj = "";
     private string _postalCode = "";
     private string _addressNumber = "";
-    private string _addressComplement = "";
+    private string? _addressComplement = null;
     private string _phone = "";
     private string _mobilePhone = "";
 

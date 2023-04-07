@@ -1,10 +1,9 @@
 ﻿using RDS_Commerce.ApplicationServices.AutoMapperSettings;
+using RDS_Commerce.ApplicationServices.Dtos.Arguments;
 using RDS_Commerce.ApplicationServices.Dtos.Request.BillingRequest;
-using RDS_Commerce.ApplicationServices.Dtos.Request.OrderRequest;
 using RDS_Commerce.ApplicationServices.Handlers.Builders.CreditCard;
 using RDS_Commerce.ApplicationServices.Interfaces;
 using RDS_Commerce.Business.Extensions;
-using RDS_Commerce.Business.Handler.NotificationSettings;
 using RDS_Commerce.Business.Interfaces.OthersContracts;
 using RDS_Commerce.Domain.Entities;
 using RDS_Commerce.Domain.Enums;
@@ -15,17 +14,20 @@ public sealed class PaymentFactory : IPaymentFactory
     private readonly IBillingCommandService _billingService;
     private readonly INotificationHandler _notification;
     private readonly IClientQueryService _clientQueryService;
+    private readonly IOrderQueryService _orderQueryService;
 
     public PaymentFactory(IBillingCommandService billingService, 
                           INotificationHandler notification,
-                          IClientQueryService clientQueryService)
+                          IClientQueryService clientQueryService,
+                          IOrderQueryService orderQueryService)
     {
         _billingService = billingService;
         _notification = notification;
         _clientQueryService = clientQueryService;
+        _orderQueryService = orderQueryService;
     }
 
-    public async Task<bool> CreateNewPaymentAsync(OrderDtoForExecutePayment orderDtoForExecutePayment)
+    public async Task<bool> CreateNewPaymentAsync(OrderForExecutePayment orderDtoForExecutePayment)
     {
 
         return orderDtoForExecutePayment.PaymentType switch
@@ -35,32 +37,36 @@ public sealed class PaymentFactory : IPaymentFactory
         };
     }
 
-    private async Task<bool> PaymentCreditCardAsync(OrderDtoForExecutePayment orderDtoForExecutePayment)
+    private async Task<bool> PaymentCreditCardAsync(OrderForExecutePayment orderDtoForExecutePayment)
     {
-        //await _billingService.CreateCreditPurchaseAsync(await CreatePaymentRequest(clientId, clientUserRegister)
+        var paymentResponse = await _billingService.CreateCreditPurchaseAsync(await CreatePaymentRequest(orderDtoForExecutePayment));
 
+        if (paymentResponse) return true;
 
-        return _notification.CreateNotification("Cartão de crédito", EMessage.NotFound.GetDescription().FormatTo("Compra no cartao de crédito"));
+        return _notification.CreateNotification("Pagamento", "Ocorreu algum problema ao tentar efetuar a compra.");
     }
 
 
-    private async Task<BillingPaymentRequest> CreatePaymentRequest(OrderDtoForExecutePayment orderDtoForExecutePayment)
+    private async Task<BillingPaymentRequest> CreatePaymentRequest(OrderForExecutePayment orderDtoForExecutePayment)
     {
         const string ORDER_DESCRIPTION = "Vendas";
 
+        var order = await _orderQueryService.FindByDomainObjectAsync(o => o.Id == orderDtoForExecutePayment.OrderId);
         var client = await _clientQueryService.FindByDomainObjectAsync(c => c.UserId == orderDtoForExecutePayment.UserId, null, true);
-        //var order = await _orderQueryService.FindByDomainObjectAsync(orderDtoForExecutePayment.OrderId);
+
+        if (client is null) _notification.CreateNotification("Cliente", EMessage.NotFound.GetDescription().FormatTo("Cliente"));
 
         return new BillingPaymentRequest
         {
-            ClientId = client.UserId,
+            ClientId = client!.UserId,
             PaymentRequest = new PaymentRequest
             {
                 Customer = client.CustomerId,
                 BillingType = orderDtoForExecutePayment.PaymentType.GetDescription(),
                 CreditCard = orderDtoForExecutePayment.CreditCardSaveRequest.MapTo<CreditCardSaveRequest, CreditCardRequest>(),
                 CreditCardHolderInfo = CreateCreditCardHolderInfoRequest(client),
-                Value = 50.50m, // alterar com o valor total do pedido
+                Value = order.Amount,
+                InstallmentCount = orderDtoForExecutePayment.NumberOfInstallment,
                 Description = ORDER_DESCRIPTION,
                 DueDate = DateTime.Now.ToString("yyyy/MM/dd")
             }

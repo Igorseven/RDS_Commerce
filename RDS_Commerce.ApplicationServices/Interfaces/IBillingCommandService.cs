@@ -4,6 +4,6 @@ using RDS_Commerce.ApplicationServices.Dtos.Response.BillingResponse;
 namespace RDS_Commerce.ApplicationServices.Interfaces;
 public interface IBillingCommandService
 {
-    Task<PaymentResponse> CreateCreditPurchaseAsync(BillingPaymentRequest request);
+    Task<bool> CreateCreditPurchaseAsync(BillingPaymentRequest request);
     Task<WebhookChargeResponse> ChargeResponseAsync(WebhookChargeResponse request);
 }

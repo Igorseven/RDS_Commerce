@@ -8,10 +8,11 @@ public static class RepositoryDependencyInjection
     public static void AddRepositoryDependencyInjection(this IServiceCollection services)
     {
         services.AddScoped<IPlantRepository, PlantRepository>();
+        services.AddScoped<IAccountIdentityRepository, AccountIdentityRepository>();
         services.AddScoped<IPlantImageRepository, PlantImageRepository>();
         services.AddScoped<IGenusRespository, GenusRespository>();
         services.AddScoped<IManagerRepository, ManagerRepository>();
         services.AddScoped<IClientRepository, ClientRepository>();
-        services.AddScoped<IAccountIdentityRepository, AccountIdentityRepository>();
+        services.AddScoped<IShippingAddressRepository, ShippingAddressRepository>();
     }
 }

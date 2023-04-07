@@ -13,7 +13,7 @@ public sealed class ClientValidation : Validate<Client>
 
 	private void SetRules()
 	{
-        RuleForEach(c => c.ShippingAddresses).SetValidator(new ShippingAddressValidation());
+        RuleFor(c => c.AccountIdentity).SetValidator(new AccountIdentityValidation());
 
         RuleFor(c => c.FullName).Length(3, 150)
             .WithMessage(p => string.IsNullOrWhiteSpace(p.FullName)

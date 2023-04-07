@@ -11,11 +11,14 @@ namespace RDS_Commerce.API.Controllers;
 [ApiController]
 public sealed class PlantController : ControllerBase
 {
-    private readonly IPlantService _plantService;
+    private readonly IPlantCommandService _plantService;
+    private readonly IPlantQueryService _plantQueryService;
 
-    public PlantController(IPlantService plantService)
+    public PlantController(IPlantCommandService plantService,
+                           IPlantQueryService plantQueryService)
     {
         _plantService = plantService;
+        _plantQueryService = plantQueryService;
     }
 
     [RequestSizeLimit(5_000_000)]
@@ -63,7 +66,7 @@ public sealed class PlantController : ControllerBase
     [ProducesResponseType(StatusCodes.Status403Forbidden)]
     [ProducesResponseType(StatusCodes.Status401Unauthorized)]
     public async Task<PlantDtoResponse?> FindByPlantAsync([FromQuery] int plantId) =>
-       await _plantService.FindByAsync(plantId);
+       await _plantQueryService.FindByAsync(plantId);
 
     [HttpGet("find_plants_with_pagination")]
     [ProducesResponseType(StatusCodes.Status200OK)]
@@ -71,6 +74,6 @@ public sealed class PlantController : ControllerBase
     [ProducesResponseType(StatusCodes.Status404NotFound)]
     [ProducesResponseType(StatusCodes.Status403Forbidden)]
     [ProducesResponseType(StatusCodes.Status401Unauthorized)]
-    public async Task<PageList<PlantsDtoResponse>> FindPlantsToPaginationAsync([FromQuery] PageParams pageParams) =>
-       await _plantService.FindAllWithPaginationAsync(pageParams);
+    public async Task<PageList<PlantsDtoResponse>>? FindPlantsToPaginationAsync([FromQuery] PageParams pageParams) =>
+       await _plantQueryService.FindAllWithPaginationAsync(pageParams);
 }

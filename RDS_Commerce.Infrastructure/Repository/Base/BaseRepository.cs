@@ -14,5 +14,11 @@ public abstract class BaseRepository<T> : IDisposable where T : class
 
 	protected async Task<bool> SaveInDatabaseAsync() => await _context.SaveChangesAsync() > 0;
 
+    protected void DetachedObject(T entity)
+    {
+        if (_context.Entry(entity).State == EntityState.Detached)
+            _dbSetContext.Attach(entity);
+    }
+
     public void Dispose() => _context.Dispose();
 }

@@ -4,7 +4,7 @@ using RDS_Commerce.Domain.Entities;
 using RDS_Commerce.Domain.Enums;
 
 namespace RDS_Commerce.Business.Handler.ValidationSettings.EntitiesValidation;
-internal class AccountIdentityValidation : Validate<AccountIdentity>
+public sealed class AccountIdentityValidation : Validate<AccountIdentity>
 {
     public AccountIdentityValidation()
     {

@@ -12,9 +12,9 @@ namespace RDS_Commerce.API.Controllers;
 [ApiController]
 public class ClientController : ControllerBase
 {
-    private readonly IClientService _clientService;
+    private readonly IClientCommandService _clientService;
 
-    public ClientController(IClientService clientService)
+    public ClientController(IClientCommandService clientService)
     {
         _clientService = clientService;
     }

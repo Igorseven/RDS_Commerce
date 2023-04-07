@@ -12,6 +12,7 @@ public static class DependencyInjectionHandler
         services.AddDbContext<RdsApplicationDbContext>(options => options
                 .UseSqlServer(configuration["ConnectionStrings:DefaultConnection"], sql => sql.CommandTimeout(180)));
 
+        services.AddIdentityDependencyInjection(configuration);
         services.AddRepositoryDependencyInjection();
         services.AddOtherDependencyInjection();
         services.AddServiceDependencyInjection();

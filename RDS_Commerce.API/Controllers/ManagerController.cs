@@ -13,9 +13,9 @@ namespace RDS_Commerce.API.Controllers;
 [ApiController]
 public class ManagerController : ControllerBase
 {
-    private readonly IManagerService _managerService;
+    private readonly IManagerCommandService _managerService;
 
-    public ManagerController(IManagerService managerService)
+    public ManagerController(IManagerCommandService managerService)
     {
         _managerService = managerService;
     }

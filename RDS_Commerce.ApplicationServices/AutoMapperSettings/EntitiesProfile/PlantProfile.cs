@@ -21,6 +21,14 @@ public sealed class PlantProfile : Profile
 
         CreateMap<Plant, PlantsDtoResponse>()
             .ForMember(pr => pr.PlantId, map => map.MapFrom(p => p.Id))
+            .ForMember(pr => pr.Genus, map => map.MapFrom(p => p.Genus))
+            .ForMember(pr => pr.MainImage, map => map.MapFrom(p => p.Images.SingleOrDefault(pi => pi.MainImage))
+			);
+            
+		
+		CreateMap<Plant, PlantDtoForCheckPlantAvailabilityResponse>()
+            .ForMember(pr => pr.PlantId, map => map.MapFrom(p => p.Id))
+            .ForMember(pr => pr.Genus, map => map.MapFrom(p => p.Genus))
             .ForMember(pr => pr.MainImage, map => map.MapFrom(p => p.Images.SingleOrDefault(pi => pi.MainImage)));
             
 

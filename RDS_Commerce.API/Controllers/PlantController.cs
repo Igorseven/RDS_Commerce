@@ -75,5 +75,5 @@ public sealed class PlantController : ControllerBase
     [ProducesResponseType(StatusCodes.Status403Forbidden)]
     [ProducesResponseType(StatusCodes.Status401Unauthorized)]
     public async Task<PageList<PlantsDtoResponse>>? FindPlantsToPaginationAsync([FromQuery] PageParams pageParams) =>
-       await _plantQueryService.FindAllWithPaginationAsync(pageParams);
+       await _plantQueryService.FindAllWithPaginationAsync(pageParams)!;
 }

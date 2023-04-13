@@ -10,5 +10,5 @@ public sealed class Client : User
 
     //criar fk para table de terms and policy
     public List<ShippingAddress>? ShippingAddresses { get; set; }
-    public List<Order> Orders { get; set; }
+    public List<PurchaseOrder> Orders { get; set; }
 }

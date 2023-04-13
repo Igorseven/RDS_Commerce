@@ -56,7 +56,7 @@ public class GenusBuilder
                 new Plant
                 {
                     Id = 2,
-                    Amount = 1,
+                    Quantity = 1,
                     Name = "Planta",
                     PlantType = EPlantType.Special,
                     Price = 50.70m,

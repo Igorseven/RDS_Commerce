@@ -31,7 +31,7 @@ public sealed class PlantValidation : Validate<Plant>
             : EMessage.MoreExpected.GetDescription().FormatTo("nome", "entre {MinLength} e {MaxLength}"));
 
         
-        RuleFor(p => p.Amount).GreaterThanOrEqualTo(0)
+        RuleFor(p => p.Quantity).GreaterThanOrEqualTo(0)
             .WithMessage("Quantidade de ser maior ou igual a 0.");
         
         RuleFor(p => p.Price).GreaterThanOrEqualTo(0)

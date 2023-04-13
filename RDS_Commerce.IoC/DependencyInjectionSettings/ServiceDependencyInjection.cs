@@ -1,6 +1,8 @@
 ﻿using Microsoft.Extensions.DependencyInjection;
+using RDS_Commerce.ApplicationServices.Handlers.Factories.Payment;
 using RDS_Commerce.ApplicationServices.Interfaces;
 using RDS_Commerce.ApplicationServices.Services.AccountIdentityServices;
+using RDS_Commerce.ApplicationServices.Services.AsaasBillingServices;
 using RDS_Commerce.ApplicationServices.Services.AuthenticationTokenServices;
 using RDS_Commerce.ApplicationServices.Services.ClientServices;
 using RDS_Commerce.ApplicationServices.Services.GenusServices;
@@ -15,6 +17,8 @@ public static class ServiceDependencyInjection
 {
     public static void AddServiceDependencyInjection(this IServiceCollection services)
     {
+        services.AddScoped<IBillingCommandService, BillingCommandService>();
+        services.AddScoped<IPaymentFactory, PaymentFactory>();
         services.AddScoped<IAuthenticationTokenService, AuthenticationTokenService>();
         services.AddScoped<IAccountIdentityService, AccountIdentityService>();
 
@@ -36,8 +40,11 @@ public static class ServiceDependencyInjection
         services.AddScoped<IShippingAddressCommandService, ShippingAddressCommandService>();
         services.AddScoped<IShippingAddressQueryService, ShippingAddressQueryService>();
 
-        services.AddScoped<IOrderCommandService, OrderCommandService>();
-        services.AddScoped<IOrderQueryService, OrderQueryService>();
+        services.AddScoped<IPurchaseOrderCommandService, PurchaseOrderCommandService>();
+        services.AddScoped<IPurchaseOrderQueryService, PurchaseOrderQueryService>();
+
+        services.AddScoped<IPurchaseOrderCommandService, PurchaseOrderCommandService>();
+        services.AddScoped<IPurchaseOrderQueryService, PurchaseOrderQueryService>();
 
     }
 }

@@ -2,7 +2,6 @@
 public sealed class ClientDtoForRegister
 {
     public string FullName { get; init; }
-    public string DocumentNumber { get; init; }
     public bool AcceptTermsAndPolicy { get; init; }
     public DateTime AcceptanceOfTermsAndPolicies { get; init; }
     public string Login { get; init; }

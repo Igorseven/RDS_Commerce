@@ -7,5 +7,5 @@ public sealed class OrderPlant
     public int Quantity { get; set; }
 
     public Plant Plant { get; set; }
-    public Order Order { get; set; }
+    public PurchaseOrder Order { get; set; }
 }

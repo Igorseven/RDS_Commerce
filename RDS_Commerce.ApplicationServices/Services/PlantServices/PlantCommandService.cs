@@ -60,7 +60,7 @@ public sealed class PlantCommandService : BaseService<Plant>, IPlantCommandServi
     {
         plant.Name = updateRequest.Name;
         plant.Price = updateRequest.Price;
-        plant.Amount = updateRequest.Amount;
+        plant.Quantity = updateRequest.Amount;
         plant.PlantType = updateRequest.PlantType;
         plant.Description = updateRequest.Description;
         plant.VaseSize = updateRequest.VaseSize;
@@ -94,7 +94,7 @@ public sealed class PlantCommandService : BaseService<Plant>, IPlantCommandServi
         if (plant is null)
             return _notification.CreateNotification("Planta não encontrada", EMessage.NotFound.GetDescription().FormatTo("Planta"));
 
-        if (plant.Amount > 0)
+        if (plant.Quantity > 0)
             return _notification.CreateNotification("Planta", "Essa planta não pode ser excluida por tem saldo em estoque.");
 
         return await _plantRepository.DeleteAsync(plantId);

@@ -16,7 +16,7 @@ public sealed class ClientMapping : BaseMapping, IEntityTypeConfiguration<Client
 
         builder.Property(c => c.AccountIdentityId).HasColumnName("accountIdentity_id");
 
-        builder.Property(c => c.CustomerId).HasColumnType("").HasColumnName("asaasCustomer_id");
+        builder.Property(c => c.CustomerId).HasColumnType("varchar(250)").HasColumnName("asaasCustomer_id");
 
         builder.Property(c => c.FullName).HasColumnType("varchar(150)").IsUnicode(true)
                .HasColumnName("full_name").IsRequired(true);
@@ -30,7 +30,7 @@ public sealed class ClientMapping : BaseMapping, IEntityTypeConfiguration<Client
                .HasColumnName("document_namber").IsRequired(true);
 
         builder.Property(c => c.AcceptanceOfTermsAndPolicies).HasColumnType("datetime2")
-               .HasColumnName("acceptance_Terms_and_policies");
+               .HasColumnName("moment_of_acceptance_Terms_and_policies");
         
         builder.Property(c => c.RegistrationDate).HasColumnType("datetime2")
                .HasColumnName("registration_date");

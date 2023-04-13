@@ -14,12 +14,12 @@ public sealed class PaymentFactory : IPaymentFactory
     private readonly IBillingCommandService _billingService;
     private readonly INotificationHandler _notification;
     private readonly IClientQueryService _clientQueryService;
-    private readonly IOrderQueryService _orderQueryService;
+    private readonly IPurchaseOrderQueryService _orderQueryService;
 
     public PaymentFactory(IBillingCommandService billingService, 
                           INotificationHandler notification,
                           IClientQueryService clientQueryService,
-                          IOrderQueryService orderQueryService)
+                          IPurchaseOrderQueryService orderQueryService)
     {
         _billingService = billingService;
         _notification = notification;

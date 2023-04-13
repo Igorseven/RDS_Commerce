@@ -2,7 +2,7 @@
 using RDS_Commerce.Domain.Enums;
 
 namespace RDS_Commerce.Domain.Entities;
-public sealed class Order : BaseEntity
+public sealed class PurchaseOrder : BaseEntity
 {
     public EOrderStatus OrderStatus { get; set; }
     public decimal Amount { get; set; }

@@ -22,8 +22,8 @@ public  class PlantMapping : BaseMapping, IEntityTypeConfiguration<Plant>
         builder.Property(p => p.Description).HasColumnType("varchar(500)")
                .IsUnicode(true).HasColumnName("description").IsSparse(true).IsRequired(false);
 
-        builder.Property(p => p.Amount).HasColumnType("int")
-               .HasColumnName("amount").IsRequired(true);
+        builder.Property(p => p.Quantity).HasColumnType("int")
+               .HasColumnName("quantity").IsRequired(true);
 
         builder.Property(p => p.VaseSize).HasColumnType("int")
               .HasColumnName("vase_size").IsRequired(true);

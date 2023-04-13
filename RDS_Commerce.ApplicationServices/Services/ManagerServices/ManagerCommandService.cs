@@ -7,6 +7,7 @@ using RDS_Commerce.ApplicationServices.Interfaces;
 using RDS_Commerce.Business.Interfaces.OthersContracts;
 using RDS_Commerce.Business.Interfaces.RepositoryContracts;
 using RDS_Commerce.Domain.Entities;
+using RDS_Commerce.Domain.Enums;
 
 namespace RDS_Commerce.ApplicationServices.Services.ManagerServices;
 public sealed class ManagerCommandService : BaseService<Manager>, IManagerCommandService
@@ -32,6 +33,8 @@ public sealed class ManagerCommandService : BaseService<Manager>, IManagerComman
             _notification.CreateNotification("Senha", "Senha e sua confirmação não estão em conformidade.");
 
         var manager = managerDtoForRegister.MapTo<ManagerDtoForRegister, Manager>();
+
+        manager.Role = ERole.SystemManager;
 
         if (!await EntityValidationAsync(manager)) return false;
 

@@ -3,8 +3,6 @@ using Microsoft.Extensions.Configuration;
 using RDS_Commerce.ApplicationServices.Dtos.Request.BillingRequest;
 using RDS_Commerce.ApplicationServices.Dtos.Response.BillingResponse;
 using RDS_Commerce.ApplicationServices.Interfaces;
-using RDS_Commerce.Business.Interfaces.OthersContracts;
-using RDS_Commerce.Domain.Entities;
 using System.Net.Http.Json;
 
 namespace RDS_Commerce.ApplicationServices.Services.AsaasBillingServices;
@@ -13,17 +11,14 @@ public sealed class BillingCommandService : IBillingCommandService
     private readonly IHttpClientFactory _httpClientFactory;
     private readonly IClientQueryService _clientQueryService;
     private readonly IConfiguration _configuration;
-    private readonly INotificationHandler _notification;
 
     public BillingCommandService(IHttpClientFactory httpClientFactory,
                                  IClientQueryService clientQueryService,
-                                 IConfiguration configuration,
-                                 INotificationHandler notification)
+                                 IConfiguration configuration)
     {
         _httpClientFactory = httpClientFactory;
         _clientQueryService = clientQueryService;
         _configuration = configuration;
-        _notification = notification;
     }
 
     public Task<WebhookChargeResponse> ChargeResponseAsync(WebhookChargeResponse request)

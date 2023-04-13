@@ -7,11 +7,7 @@ using Microsoft.IdentityModel.Tokens;
 using RDS_Commerce.Business.Extensions;
 using RDS_Commerce.Domain.Entities;
 using RDS_Commerce.Infrastructure.ORM.ContextSettings;
-using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Text;
-using System.Threading.Tasks;
 
 namespace RDS_Commerce.IoC.DependencyInjectionSettings;
 public static class IdentityServerDependencyInjection
@@ -22,8 +18,6 @@ public static class IdentityServerDependencyInjection
         {
             options.SignIn.RequireConfirmedAccount = false;
             options.SignIn.RequireConfirmedPhoneNumber = false;
-            options.Lockout.MaxFailedAccessAttempts = 5;
-            options.Lockout.DefaultLockoutTimeSpan = TimeSpan.FromMinutes(30);
             options.User.AllowedUserNameCharacters = IdentityExtension.GetAllWritableCharacters(Encoding.UTF8);
             options.Password.RequireDigit = false;
             options.Password.RequireNonAlphanumeric = false;
@@ -31,10 +25,10 @@ public static class IdentityServerDependencyInjection
             options.Password.RequireUppercase = false;
             options.Password.RequiredLength = 8;
         })
-            .AddRoles<IdentityRole>()
-            .AddSignInManager<SignInManager<AccountIdentity>>()
-            .AddEntityFrameworkStores<RdsApplicationDbContext>()
-            .AddDefaultTokenProviders();
+        .AddRoles<IdentityRole>()
+        .AddSignInManager<SignInManager<AccountIdentity>>()
+        .AddEntityFrameworkStores<RdsApplicationDbContext>()
+        .AddDefaultTokenProviders();
 
         services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
            .AddJwtBearer(options =>

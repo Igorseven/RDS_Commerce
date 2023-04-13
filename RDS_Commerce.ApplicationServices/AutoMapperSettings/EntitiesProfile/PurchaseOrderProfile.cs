@@ -1,23 +1,23 @@
 ﻿using AutoMapper;
-using RDS_Commerce.ApplicationServices.Dtos.Request.OrderRequest;
-using RDS_Commerce.ApplicationServices.Dtos.Response.OrderResponse;
+using RDS_Commerce.ApplicationServices.Dtos.Request.PurchaseOrderRequest;
+using RDS_Commerce.ApplicationServices.Dtos.Response.PurchaseOrderResponse;
 using RDS_Commerce.Domain.Entities;
 
 namespace RDS_Commerce.ApplicationServices.AutoMapperSettings.EntitiesProfile;
-public sealed class OrderProfile : Profile
+public sealed class PurchaseOrderProfile : Profile
 {
-	public OrderProfile()
+	public PurchaseOrderProfile()
 	{
-		CreateMap<Order, OrderDtoForCreate>()
+		CreateMap<PurchaseOrder, PurchaseOrderDtoForCreate>()
 			.ForMember(oc => oc.OrderPlantDtoForAddPlantInOrders, map => map.MapFrom(o => o.OrderPlants))
 			.ReverseMap();
 
-		CreateMap<Order, OrderDtoForUpdate>()
+		CreateMap<PurchaseOrder, PurchaseOrderDtoForUpdate>()
 			.ForMember(oc => oc.OrderId, map => map.MapFrom(o => o.Id))
             .ForMember(oc => oc.OrderPlantDtoForUpdatePlantInOrders, map => map.MapFrom(o => o.OrderPlants))
             .ReverseMap();
 
-		CreateMap<Order, OrderDtoSearchResponse>()
+		CreateMap<PurchaseOrder, PurchaseOrderDtoSearchResponse>()
 			.ForMember(oc => oc.OrderId, map => map.MapFrom(o => o.Id))
 			.ForMember(oc => oc.OrderPlantDtoSearchResponses, map => map.MapFrom(o => o.OrderPlants));
 

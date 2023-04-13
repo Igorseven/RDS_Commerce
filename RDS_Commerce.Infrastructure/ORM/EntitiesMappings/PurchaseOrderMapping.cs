@@ -4,11 +4,11 @@ using RDS_Commerce.Domain.Entities;
 using RDS_Commerce.Infrastructure.ORM.EntitiesMappings.Base;
 
 namespace RDS_Commerce.Infrastructure.ORM.EntitiesMappings;
-public sealed class OrderMapping : BaseMapping, IEntityTypeConfiguration<Order>
+public sealed class PurchaseOrderMapping : BaseMapping, IEntityTypeConfiguration<PurchaseOrder>
 {
-    public void Configure(EntityTypeBuilder<Order> builder)
+    public void Configure(EntityTypeBuilder<PurchaseOrder> builder)
     {
-        builder.ToTable(nameof(Order), Schema);
+        builder.ToTable(nameof(PurchaseOrder), Schema);
         builder.HasKey(o => o.Id);
 
         builder.Property(o => o.Id).HasColumnName("id_order");

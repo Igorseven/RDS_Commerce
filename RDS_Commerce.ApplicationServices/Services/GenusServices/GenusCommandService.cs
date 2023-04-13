@@ -61,12 +61,12 @@ public sealed class GenusCommandService : BaseService<Genus>, IGenusCommandServi
 
     public async Task<bool> DeleteGeneusAsync(int genusId)
     {
-        var genus = await _genusRespository.FindByIdAsync(genusId, i => i.Include(g => g.Plants), true);
+        var genus = await _genusRespository.FindByIdAsync(genusId, i => i.Include(g => g.Plants)!, true);
 
         if (genus is null)
             return _notification.CreateNotification("Gênero", EMessage.NotFound.GetDescription().FormatTo($"Gênero"));
 
-        if (genus.Plants.Count > 0)
+        if (genus.Plants.Any())
             return _notification.CreateNotification("Gênero", "Existe plantas vinculadas a esse gênero.");
 
         return await _genusRespository.DeleteAsync(genusId);

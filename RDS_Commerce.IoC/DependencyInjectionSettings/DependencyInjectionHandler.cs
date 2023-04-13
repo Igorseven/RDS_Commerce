@@ -13,6 +13,7 @@ public static class DependencyInjectionHandler
                 .UseSqlServer(configuration["ConnectionStrings:DefaultConnection"], sql => sql.CommandTimeout(180)));
 
         services.AddIdentityDependencyInjection(configuration);
+        services.AddHttpClientDependencyInjection(configuration);
         services.AddRepositoryDependencyInjection();
         services.AddOtherDependencyInjection();
         services.AddServiceDependencyInjection();

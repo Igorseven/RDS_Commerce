@@ -1,5 +1,6 @@
 ﻿using FluentValidation;
 using RDS_Commerce.Business.Extensions;
+using RDS_Commerce.Business.Handler.ValidationSettings.ValidationTools;
 using RDS_Commerce.Domain.Entities;
 using RDS_Commerce.Domain.Enums;
 
@@ -20,10 +21,8 @@ public sealed class ClientValidation : Validate<Client>
             ? EMessage.Required.GetDescription().FormatTo("Nome")
             : EMessage.MoreExpected.GetDescription().FormatTo("Nome", "entre {MinLength} e {MaxLength}"));
         
-        RuleFor(c => c.DocumentNumber).Length(8, 20)
-            .WithMessage(p => string.IsNullOrWhiteSpace(p.DocumentNumber)
-            ? EMessage.Required.GetDescription().FormatTo("Documento")
-            : EMessage.MoreExpected.GetDescription().FormatTo("Documento", "entre {MinLength} e {MaxLength}"));
+        RuleFor(c => CpfValidation.Validate(c.DocumentNumber)).Equal(true)
+            .WithMessage(EMessage.MoreExpected.GetDescription().FormatTo("Documento", "entre {MinLength} e {MaxLength}"));
 
         RuleFor(c => c.Role).IsInEnum().WithMessage(EMessage.Required.GetDescription().FormatTo("Permissão"));
 

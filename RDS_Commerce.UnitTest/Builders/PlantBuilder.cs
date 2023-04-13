@@ -24,7 +24,7 @@ public sealed class PlantBuilder
         {
             Id = _id,
             Name = _name,
-            Amount = _amount,
+            Quantity = _amount,
             Description = _description,
             Price = _price,
             PlantType = _productType,

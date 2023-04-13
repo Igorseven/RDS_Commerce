@@ -1,7 +1,9 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore;
+using RDS_Commerce.Domain.Entities;
 
 namespace RDS_Commerce.Infrastructure.ORM.ContextSettings;
-public class RdsApplicationDbContext : DbContext
+public class RdsApplicationDbContext : IdentityDbContext<AccountIdentity>
 {
 
     public RdsApplicationDbContext(DbContextOptions<RdsApplicationDbContext> options)
@@ -12,18 +14,18 @@ public class RdsApplicationDbContext : DbContext
 
     protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
     {
+        base.OnConfiguring(optionsBuilder);
+
         optionsBuilder.EnableSensitiveDataLogging();
         optionsBuilder.EnableDetailedErrors();
-
-        base.OnConfiguring(optionsBuilder);
     }
 
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
-        modelBuilder.ApplyConfigurationsFromAssembly(typeof(RdsApplicationDbContext).Assembly);
-
         base.OnModelCreating(modelBuilder);
+
+        modelBuilder.ApplyConfigurationsFromAssembly(typeof(RdsApplicationDbContext).Assembly);
     }
 
     public override Task<int> SaveChangesAsync(bool acceptAllChangesOnSuccess, CancellationToken cancellationToken = default)

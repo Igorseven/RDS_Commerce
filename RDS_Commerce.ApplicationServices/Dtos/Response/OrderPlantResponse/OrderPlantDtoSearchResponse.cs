@@ -7,5 +7,5 @@ public sealed class OrderPlantDtoSearchResponse
     public int OrderId { get; set; }
     public int Quantity { get; set; }
 
-    public PlantsDtoResponse Plant { get; set; }
+    public PlantDtoForCheckPlantAvailabilityResponse Plant { get; set; }
 }

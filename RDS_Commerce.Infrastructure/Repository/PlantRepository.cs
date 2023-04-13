@@ -21,6 +21,18 @@ public sealed class PlantRepository : BaseRepository<Plant>,  IPlantRepository
 
     public async Task<bool> ExistInTheDatabaseAsync(Expression<Func<Plant, bool>> where) => await _dbSetContext.AnyAsync(where);
 
+    public async Task<List<Plant>?> FindAllAsync(Expression<Func<Plant, bool>> where, Func<IQueryable<Plant>, IIncludableQueryable<Plant, object>>? include = null)
+    {
+        IQueryable<Plant> query = _dbSetContext;
+
+        if (include is not null)
+            query = include(query);
+
+        query = query.Where(where);
+
+        return await query.AsNoTracking().ToListAsync();
+    }
+
     public async Task<Plant?> FindByPredicateAsync(Expression<Func<Plant, bool>> where, Func<IQueryable<Plant>, IIncludableQueryable<Plant, object>>? include = null, bool asNoTracking = false)
     {
         IQueryable<Plant> query = _dbSetContext;

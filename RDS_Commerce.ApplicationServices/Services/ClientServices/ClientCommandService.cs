@@ -5,6 +5,7 @@ using RDS_Commerce.ApplicationServices.Dtos.Arguments;
 using RDS_Commerce.ApplicationServices.Dtos.Request.BillingRequest;
 using RDS_Commerce.ApplicationServices.Dtos.Request.ClientRequest;
 using RDS_Commerce.ApplicationServices.Dtos.Request.ShippingAddressRequest;
+using RDS_Commerce.ApplicationServices.Dtos.Response.BillingResponse;
 using RDS_Commerce.ApplicationServices.Dtos.Response.ClientResponse;
 using RDS_Commerce.ApplicationServices.Interfaces;
 using RDS_Commerce.Business.Extensions;
@@ -24,12 +25,12 @@ public sealed class ClientCommandService : BaseService<Client>, IClientCommandSe
     private readonly IConfiguration _configuration;
 
     public ClientCommandService(INotificationHandler notification,
-                         IValidate<Client> validate,
-                         IClientRepository clientRepository,
-                         IAuthenticationTokenService authenticationTokenService,
-                         IAccountIdentityService accountIdentityService,
-                         IHttpClientFactory httpClientFactory,
-                         IConfiguration configuration)
+                                IValidate<Client> validate,
+                                IClientRepository clientRepository,
+                                IAuthenticationTokenService authenticationTokenService,
+                                IAccountIdentityService accountIdentityService,
+                                IHttpClientFactory httpClientFactory,
+                                IConfiguration configuration)
         : base(notification, validate)
     {
         _clientRepository = clientRepository;
@@ -48,7 +49,7 @@ public sealed class ClientCommandService : BaseService<Client>, IClientCommandSe
         var client = clientDtoForRegister.MapTo<ClientDtoForRegister, Client>();
 
         client.ShippingAddresses = new List<ShippingAddress>();
-        client.Orders = new List<Order>();
+        client.Orders = new List<PurchaseOrder>();
         client.Role = ERole.Consumer;
 
         if (!await EntityValidationAsync(client)) return false;
@@ -91,13 +92,19 @@ public sealed class ClientCommandService : BaseService<Client>, IClientCommandSe
 
         if (!await EntityValidationAsync(client)) return false;
 
+        var clientAsaasRegisterResponse = await CreateBillingClient(client);
+
+        if (clientAsaasRegisterResponse is null) return false;
+
+        client.CustomerId = clientAsaasRegisterResponse.Id;
+
         if (await _clientRepository.UpdateAsync(client)) 
-            return await CreateBillingClient(client);
+            return true;
 
         return false;
     }
 
-    private async Task<bool> CreateBillingClient(Client client)
+    private async Task<CustomerResponse?> CreateBillingClient(Client client)
     {
         var customer = client.MapTo<Client, CustomerRequest>();
 
@@ -107,9 +114,9 @@ public sealed class ClientCommandService : BaseService<Client>, IClientCommandSe
         var response = await httpClient.PostAsJsonAsync("customers", customer);
 
         if (response.StatusCode == System.Net.HttpStatusCode.OK) 
-            return true;
+            return await response.Content.ReadFromJsonAsync<CustomerResponse>();
         else 
-            return false;
+            return null;
     }
 
     public void Dispose() => _clientRepository.Dispose();

@@ -7,7 +7,7 @@ public sealed class PlantDtoForRegister
     public string Name { get; set; }
     public int GenusId { get; set; }
     public string? Description { get; set; }
-    public int Amount { get; set; }
+    public int Quantity { get; set; }
     public decimal Price { get; set; }
     public int VaseSize { get; set; }
     public EPlantType PlantType { get; set; }

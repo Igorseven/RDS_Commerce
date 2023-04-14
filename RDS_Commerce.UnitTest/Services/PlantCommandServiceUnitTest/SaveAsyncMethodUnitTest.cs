@@ -8,7 +8,7 @@ using RDS_Commerce.UnitTest.Tools;
 namespace RDS_Commerce.UnitTest.Services.PlantCommandServiceUnitTest;
 public class SaveAsyncMethodUnitTest : PlantServiceBaseUnitTest
 {
-    public static IEnumerable<object[]> GetPlantSaveRequestToRegister()
+    public static IEnumerable<object[]> GetPlantSaveRequestToRegisterPerfectSetting()
     {
         yield return new object[]
         {
@@ -17,7 +17,7 @@ public class SaveAsyncMethodUnitTest : PlantServiceBaseUnitTest
                 Name = "Plant name",
                 Description = "description the plant.",
                 PlantType = EPlantType.Special,
-                Amount = 3,
+                Quantity = 3,
                 Price = 150.50m,
                 FileImage = UtilTools.BuildIFormFile()
             }
@@ -26,7 +26,7 @@ public class SaveAsyncMethodUnitTest : PlantServiceBaseUnitTest
 
     [Theory]
     [Trait("Success", "Create Plant")]
-    [MemberData(nameof(GetPlantSaveRequestToRegister))]
+    [MemberData(nameof(GetPlantSaveRequestToRegisterPerfectSetting))]
     public async Task SaveAsync_PerfectSetting_ReturnTrue(PlantDtoForRegister plantSave)
     {
         _plantRepository.Setup(pr => pr.ExistInTheDatabaseAsync(UtilTools.BuildPredicateFunc<Plant>())).ReturnsAsync(false);
@@ -39,9 +39,25 @@ public class SaveAsyncMethodUnitTest : PlantServiceBaseUnitTest
         Assert.True(serviceResult);
     }
 
+    public static IEnumerable<object[]> GetPlantSaveRequestToRegisterExistingNameInDb()
+    {
+        yield return new object[]
+        {
+            new PlantDtoForRegister
+            {
+                Name = "Plant name",
+                Description = "description the plant.",
+                PlantType = EPlantType.Special,
+                Quantity = 3,
+                Price = 150.50m,
+                FileImage = UtilTools.BuildIFormFile()
+            }
+        };
+    }
+
     [Theory]
     [Trait("Failed", "There is the name in the db")]
-    [MemberData(nameof(GetPlantSaveRequestToRegister))]
+    [MemberData(nameof(GetPlantSaveRequestToRegisterExistingNameInDb))]
     public async Task SaveAsync_ThereIsTheNameInTheDb_ReturnFalse(PlantDtoForRegister plantSave)
     {
         _plantRepository.Setup(pr => pr.ExistInTheDatabaseAsync(UtilTools.BuildPredicateFunc<Plant>())).ReturnsAsync(true);

@@ -40,25 +40,6 @@ public sealed class ClientCommandService : BaseService<Client>, IClientCommandSe
         _configuration = configuration;
     }
 
-
-    public async Task<bool> RegisterClientAsync(ClientDtoForRegister clientDtoForRegister)
-    {
-        if (clientDtoForRegister.Password != clientDtoForRegister.ConfirmPassword)
-            return _notification.CreateNotification("Senha", "Confirmação de senha não confere com a senha.");
-
-        var client = clientDtoForRegister.MapTo<ClientDtoForRegister, Client>();
-
-        client.ShippingAddresses = new List<ShippingAddress>();
-        client.Orders = new List<PurchaseOrder>();
-        client.Role = ERole.Consumer;
-
-        if (!await EntityValidationAsync(client)) return false;
-
-        if (!await _accountIdentityService.CreateIdentityAccountAsync(client.AccountIdentity)) return false;
-
-        return await _clientRepository.SaveAsync(client);
-    }
-
     public async Task<ClientDtoForLoginResponse?> LoginAsync(UserLogin userLogin)
     {
         if (!await _accountIdentityService.SignPasswordAsync(userLogin)) return null;
@@ -78,6 +59,32 @@ public sealed class ClientCommandService : BaseService<Client>, IClientCommandSe
         return null;
     }
 
+    public async Task<bool> RegisterClientAsync(ClientDtoForRegister clientDtoForRegister)
+    {
+        if (clientDtoForRegister.Password != clientDtoForRegister.ConfirmPassword)
+            return _notification.CreateNotification("Senha", "Confirmação de senha não confere com a senha.");
+
+        var client = clientDtoForRegister.MapTo<ClientDtoForRegister, Client>();
+
+        SetClientRegister(client, clientDtoForRegister);
+
+        if (!await EntityValidationAsync(client)) return false;
+
+        if (!await _accountIdentityService.CreateIdentityAccountAsync(client.AccountIdentity)) return false;
+
+        return await _clientRepository.SaveAsync(client);
+    }
+
+    private static void SetClientRegister(Client client, ClientDtoForRegister clientDtoForRegister)
+    {
+        client.DocumentNumber = clientDtoForRegister.DocumentCpf.RemoveCaracters();
+        client.AccountIdentity.PhoneNumber = clientDtoForRegister.CellPhone.RemoveCaracters();
+        client.ShippingAddresses = new List<ShippingAddress>();
+        client.Orders = new List<PurchaseOrder>();
+        client.Role = ERole.Consumer;
+    }
+
+
     public async Task<bool> UpdateClientDataToMakePurchesesAsync(ClientDtoForUpdateToPayment clientDtoForUpdateToPayment)
     {
         var client = await _clientRepository.FindByIdASync(clientDtoForUpdateToPayment.UserId, i => i.Include(sa => sa.ShippingAddresses)!, false);
@@ -87,7 +94,6 @@ public sealed class ClientCommandService : BaseService<Client>, IClientCommandSe
 
         var address = clientDtoForUpdateToPayment.shippingAddressDtoForRegister.MapTo<ShippingAddressDtoForRegister, ShippingAddress>();
 
-        client.DocumentNumber = clientDtoForUpdateToPayment.DocumentNumber;
         client.ShippingAddresses?.Add(address);
 
         if (!await EntityValidationAsync(client)) return false;

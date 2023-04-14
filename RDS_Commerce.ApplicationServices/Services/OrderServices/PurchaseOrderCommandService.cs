@@ -37,13 +37,15 @@ public sealed class PurchaseOrderCommandService : IPurchaseOrderCommandService
 
     public async Task<bool> FinalizeOrderAsync(OrderForExecutePayment orderForExecutePayment)
     {
+
+        // criar obsever para verificar se o pedido já foi pago...
         if (await _paymentFactory.CreateNewPaymentAsync(orderForExecutePayment))
         {
             var order = await _purchaseOrderRepository.FindByPredicateAsync(o => o.Id == orderForExecutePayment.OrderId, null, false);
 
             order!.OrderStatus = Domain.Enums.EOrderStatus.PaidOut;
 
-            return true;
+            return await _purchaseOrderRepository.UpdateAsync(order);
         }
 
         return false;

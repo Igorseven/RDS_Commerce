@@ -16,7 +16,8 @@ public sealed class ClientMapping : BaseMapping, IEntityTypeConfiguration<Client
 
         builder.Property(c => c.AccountIdentityId).HasColumnName("accountIdentity_id");
 
-        builder.Property(c => c.CustomerId).HasColumnType("varchar(250)").HasColumnName("asaasCustomer_id");
+        builder.Property(c => c.CustomerId).HasColumnType("varchar(250)")
+               .HasColumnName("asaasCustomer_id").IsRequired(false);
 
         builder.Property(c => c.FullName).HasColumnType("varchar(150)").IsUnicode(true)
                .HasColumnName("full_name").IsRequired(true);

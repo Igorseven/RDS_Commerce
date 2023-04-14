@@ -1,4 +1,5 @@
-﻿using RDS_Commerce.ApplicationServices.AutoMapperSettings;
+﻿using Microsoft.EntityFrameworkCore;
+using RDS_Commerce.ApplicationServices.AutoMapperSettings;
 using RDS_Commerce.ApplicationServices.Dtos.Arguments;
 using RDS_Commerce.ApplicationServices.Dtos.Request.BillingRequest;
 using RDS_Commerce.ApplicationServices.Handlers.Builders.CreditCard;
@@ -52,7 +53,9 @@ public sealed class PaymentFactory : IPaymentFactory
         const string ORDER_DESCRIPTION = "Vendas";
 
         var order = await _orderQueryService.FindByDomainObjectAsync(o => o.Id == orderDtoForExecutePayment.OrderId);
-        var client = await _clientQueryService.FindByDomainObjectAsync(c => c.UserId == orderDtoForExecutePayment.UserId, null, true);
+        var client = await _clientQueryService.FindByDomainObjectAsync(c => c.UserId == orderDtoForExecutePayment.UserId, 
+                                                                       i => i.Include(c => c.AccountIdentity)
+                                                                       .Include(c => c.ShippingAddresses)!, true);
 
         if (client is null) _notification.CreateNotification("Cliente", EMessage.NotFound.GetDescription().FormatTo("Cliente"));
 
@@ -61,25 +64,29 @@ public sealed class PaymentFactory : IPaymentFactory
             ClientId = client!.UserId,
             PaymentRequest = new PaymentRequest
             {
-                Customer = client.CustomerId,
+                Customer = client.CustomerId!,
                 BillingType = orderDtoForExecutePayment.PaymentType.GetDescription(),
                 CreditCard = orderDtoForExecutePayment.CreditCardSaveRequest.MapTo<CreditCardSaveRequest, CreditCardRequest>(),
-                CreditCardHolderInfo = CreateCreditCardHolderInfoRequest(client),
-                Value = order.Amount,
+                CreditCardHolderInfo = CreateCreditCardHolderInfoRequest(client, orderDtoForExecutePayment),
+                Value = order!.Amount,
                 InstallmentCount = orderDtoForExecutePayment.NumberOfInstallment,
+                InstallmentValue = order.Amount / orderDtoForExecutePayment.NumberOfInstallment,
                 Description = ORDER_DESCRIPTION,
-                DueDate = DateTime.Now.ToString("yyyy/MM/dd")
+                ExternalReference = ORDER_DESCRIPTION,
+                DueDate = DateTime.UtcNow.AddHours(-3).ToString("yyyy/MM/dd"),
+                SplitRequests = new List<SplitRequest>()
             }
         };
     }
 
 
-    private CreditCardHolderInfoRequest CreateCreditCardHolderInfoRequest(Client client)
+    private CreditCardHolderInfoRequest CreateCreditCardHolderInfoRequest(Client client, OrderForExecutePayment orderDtoForExecutePayment)
     {
         return CreditCardHolderInfoBuilder.NewObject()
-                                          .WithName(client.FullName)
+                                          .WithName(orderDtoForExecutePayment.CreditCardSaveRequest.HolderName)
                                           .WithCpfCnpj(client.DocumentNumber)
                                           .WithMobilePhone(client.AccountIdentity.PhoneNumber!)
+                                          .WithPhone(client.AccountIdentity.PhoneNumber!)
                                           .WithEmail(client.AccountIdentity.UserName!)
                                           .WithAddressNumber(client.ShippingAddresses!.FirstOrDefault(sa => sa.SelectedForShipping)!.Number)
                                           .WithPostalCode(client.ShippingAddresses!.FirstOrDefault(sa => sa.SelectedForShipping)!.ZipCode)

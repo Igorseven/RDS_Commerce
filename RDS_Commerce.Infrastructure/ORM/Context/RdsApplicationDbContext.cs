@@ -30,9 +30,7 @@ public class RdsApplicationDbContext : IdentityDbContext<AccountIdentity>
 
     public override Task<int> SaveChangesAsync(bool acceptAllChangesOnSuccess, CancellationToken cancellationToken = default)
     {
-        foreach (var entry in ChangeTracker.Entries()
-                 .Where(entry => entry.Entity.GetType()
-                 .GetProperty("RegistrationDate") != null))
+        foreach (var entry in ChangeTracker.Entries().Where(entry => entry.Entity.GetType().GetProperty("RegistrationDate") != null))
         {
             if (entry.State == EntityState.Added)
                 entry.Property("RegistrationDate").CurrentValue = DateTime.UtcNow.AddHours(-3);

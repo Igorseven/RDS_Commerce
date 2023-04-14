@@ -1,5 +1,4 @@
-﻿using Microsoft.EntityFrameworkCore;
-using Microsoft.Extensions.Configuration;
+﻿using Microsoft.Extensions.Configuration;
 using RDS_Commerce.ApplicationServices.Dtos.Request.BillingRequest;
 using RDS_Commerce.ApplicationServices.Dtos.Response.BillingResponse;
 using RDS_Commerce.ApplicationServices.Interfaces;
@@ -28,11 +27,12 @@ public sealed class BillingCommandService : IBillingCommandService
 
     public async Task<bool> CreateCreditPurchaseAsync(BillingPaymentRequest billingRequest)
     {
-        var client = await _clientQueryService.FindByDomainObjectAsync(c => c.UserId == billingRequest.ClientId, i => i.Include(c => c.ShippingAddresses)!, false);
+        var client = await _clientQueryService.FindByDomainObjectAsync(c => c.UserId == billingRequest.ClientId, null, true);
 
-        billingRequest.PaymentRequest.Customer = client!.CustomerId;
+        billingRequest.PaymentRequest.Customer = client!.CustomerId!;
         billingRequest.PaymentRequest.DueDate = DateTime.Now.ToString("yyyy-MM-dd");
 
+        //verificar BadRequest - pode ser o json de envio - seguir transação do credit card.
         var httpClient = _httpClientFactory.CreateClient("AsaasHttpClient");
         httpClient.DefaultRequestHeaders.Add("access_token", _configuration["AsasConfig:ApiKey"]);
 

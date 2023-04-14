@@ -6,7 +6,7 @@ public sealed class OrderForExecutePayment
 {
     public Guid UserId { get; set; }
     public int OrderId { get; set; }
-    public int? NumberOfInstallment { get; set; }
+    public int NumberOfInstallment { get; set; }
     public EBillingType PaymentType { get; set; }
     public CreditCardSaveRequest CreditCardSaveRequest { get; set; }
 }

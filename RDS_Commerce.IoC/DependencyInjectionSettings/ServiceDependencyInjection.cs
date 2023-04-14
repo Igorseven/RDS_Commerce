@@ -8,6 +8,7 @@ using RDS_Commerce.ApplicationServices.Services.ClientServices;
 using RDS_Commerce.ApplicationServices.Services.GenusServices;
 using RDS_Commerce.ApplicationServices.Services.ManagerServices;
 using RDS_Commerce.ApplicationServices.Services.OrderServices;
+using RDS_Commerce.ApplicationServices.Services.PaymentHandlerServices;
 using RDS_Commerce.ApplicationServices.Services.PlantImageServices;
 using RDS_Commerce.ApplicationServices.Services.PlantServices;
 using RDS_Commerce.ApplicationServices.Services.ShippingAddressServices;
@@ -45,6 +46,9 @@ public static class ServiceDependencyInjection
 
         services.AddScoped<IPurchaseOrderCommandService, PurchaseOrderCommandService>();
         services.AddScoped<IPurchaseOrderQueryService, PurchaseOrderQueryService>();
+
+        services.AddScoped<IPaymentHandlerCommandService, PaymentHandlerCommandService>();
+        services.AddScoped<IPaymentHandlerQueryService, PaymentHandlerQueryService>();
 
     }
 }

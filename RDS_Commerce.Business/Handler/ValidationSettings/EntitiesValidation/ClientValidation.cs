@@ -21,8 +21,8 @@ public sealed class ClientValidation : Validate<Client>
             ? EMessage.Required.GetDescription().FormatTo("Nome")
             : EMessage.MoreExpected.GetDescription().FormatTo("Nome", "entre {MinLength} e {MaxLength}"));
         
-        RuleFor(c => CpfValidation.Validate(c.DocumentNumber)).Equal(true)
-            .WithMessage(EMessage.MoreExpected.GetDescription().FormatTo("Documento", "entre {MinLength} e {MaxLength}"));
+        RuleFor(c => CpfValidation.Validate(c.DocumentNumber)).Equal(true).WithMessage("Valor logico do cpf está inválido.");
+            
 
         RuleFor(c => c.Role).IsInEnum().WithMessage(EMessage.Required.GetDescription().FormatTo("Permissão"));
 

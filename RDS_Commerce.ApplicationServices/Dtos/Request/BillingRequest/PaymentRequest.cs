@@ -12,17 +12,33 @@ public class PaymentRequest
     [JsonPropertyName("dueDate")]
     public string DueDate { get; set; }
 
+    [JsonPropertyName("value")]
+    public decimal Value { get; set; }
+
+
     [JsonPropertyName("installmentCount")]
     public int? InstallmentCount { get; set; }
 
-    [JsonPropertyName("totalValue")]
-    public decimal Value { get; set; }
+    [JsonPropertyName("installmentValue")]
+    public decimal? InstallmentValue { get; set; }
+
+    [JsonPropertyName("discount")]
+    public DiscountRequest? DiscountRequest { get; set; }
+
+    [JsonPropertyName("interest")]
+    public InterestRequest? InterestRequest { get; set; }
+
+    [JsonPropertyName("fine")]
+    public FineRequest? FineRequest { get; set; }
+
+    [JsonPropertyName("split")]
+    public List<SplitRequest>? SplitRequests { get; set; }
 
     [JsonPropertyName("description")]
     public string Description { get; set; }
 
     [JsonPropertyName("externalReference")]
-    public string ExternalReference { get; set; }
+    public string? ExternalReference { get; set; }
 
     [JsonPropertyName("creditCard")]
     public CreditCardRequest CreditCard { get; set; }
@@ -30,8 +46,8 @@ public class PaymentRequest
     [JsonPropertyName("creditCardHolderInfo")]
     public CreditCardHolderInfoRequest CreditCardHolderInfo { get; set; }
 
-    //[JsonPropertyName("creditCardToken")]
-    //public string CreditCardToken { get; set; }
+    [JsonPropertyName("creditCardToken")]
+    public string CreditCardToken { get; set; }
 
     [JsonPropertyName("postalService")]
     public bool PostalService { get; set; } = false;

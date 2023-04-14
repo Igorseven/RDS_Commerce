@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using RDS_Commerce.ApplicationServices.Dtos.Arguments;
 using RDS_Commerce.ApplicationServices.Dtos.Request.OrderPlantRequest;
 using RDS_Commerce.ApplicationServices.Dtos.Request.PurchaseOrderRequest;
 using RDS_Commerce.ApplicationServices.Dtos.Response.PurchaseOrderResponse;
@@ -28,6 +29,12 @@ public class PurchaseOrderController : ControllerBase
     [ProducesResponseType(StatusCodes.Status400BadRequest, Type = typeof(IEnumerable<DomainNotification>))]
     public async Task<bool> AddNewPlantInOrderAsync(OrderPlantDtoForAddPlantInOrder orderPlantDtoForAddPlantInOrder) =>
         await _purchaseOrderCommandService.AddPlantToOrderAsync(orderPlantDtoForAddPlantInOrder);
+
+    [HttpPost("create_payment")]
+    [ProducesResponseType(StatusCodes.Status200OK)]
+    [ProducesResponseType(StatusCodes.Status400BadRequest, Type = typeof(IEnumerable<DomainNotification>))]
+    public async Task<bool> CreatePaymentAsync(OrderForExecutePayment orderForExecutePayment) =>
+        await _purchaseOrderCommandService.FinalizeOrderAsync(orderForExecutePayment);
 
     [AllowAnonymous]
     [HttpGet("find_by_order")]

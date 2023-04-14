@@ -1,9 +1,4 @@
 ﻿using RDS_Commerce.ApplicationServices.Dtos.Request.BillingRequest;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace RDS_Commerce.ApplicationServices.Handlers.Builders.CreditCard;
 public sealed class CreditCardHolderInfoBuilder
@@ -49,17 +44,17 @@ public sealed class CreditCardHolderInfoBuilder
         return this;
     }
 
-    public CreditCardHolderInfoBuilder WithPhone(string phone)
+    public CreditCardHolderInfoBuilder WithPhone(string? phone)
     {
-        if (phone.Length > 0)
+        if (phone is not null && phone.Length > 0)
             _phone = phone;
 
         return this;
     }
 
-    public CreditCardHolderInfoBuilder WithMobilePhone(string mobilePhone)
+    public CreditCardHolderInfoBuilder WithMobilePhone(string? mobilePhone)
     {
-        if (mobilePhone.Length > 0)
+        if (mobilePhone is not null && mobilePhone.Length > 0)
             _mobilePhone = mobilePhone;
 
         return this;
@@ -89,9 +84,9 @@ public sealed class CreditCardHolderInfoBuilder
         return this;
     }
 
-    public CreditCardHolderInfoBuilder WithAddressComplement(string addressComplement)
+    public CreditCardHolderInfoBuilder WithAddressComplement(string? addressComplement)
     {
-        if (addressComplement.Length > 0)
+        if (addressComplement is not null && addressComplement.Length > 0)
             _addressComplement = addressComplement;
 
         return this;

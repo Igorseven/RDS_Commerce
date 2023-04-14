@@ -56,7 +56,7 @@ public sealed class PlantCommandService : BaseService<Plant>, IPlantCommandServi
         return false;
     }
 
-    private void SetPlantUpdate(Plant plant, PlantDtoForUpdate updateRequest)
+    private static void SetPlantUpdate(Plant plant, PlantDtoForUpdate updateRequest)
     {
         plant.Name = updateRequest.Name;
         plant.Price = updateRequest.Price;
@@ -100,7 +100,7 @@ public sealed class PlantCommandService : BaseService<Plant>, IPlantCommandServi
         return await _plantRepository.DeleteAsync(plantId);
     }
 
-    private void SetMutipleImages(List<IFormFile> formFiles, Plant plant)
+    private static void SetMutipleImages(List<IFormFile> formFiles, Plant plant)
     {
         foreach (var file in formFiles)
         {
@@ -112,7 +112,7 @@ public sealed class PlantCommandService : BaseService<Plant>, IPlantCommandServi
         }
     }
 
-    private void SetMainImage(IFormFile formFile, Plant plant)
+    private static void SetMainImage(IFormFile formFile, Plant plant)
     {
         var mainImage = formFile.BuildPlantFileImage();
 

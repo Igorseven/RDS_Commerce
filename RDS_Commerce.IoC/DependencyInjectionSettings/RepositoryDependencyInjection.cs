@@ -17,5 +17,6 @@ public static class RepositoryDependencyInjection
         services.AddScoped<IPurchaseOrderRepository, PurchaseOrderRepository>();
         services.AddScoped<IOrderPlantRepository, OrderPlantRepository>();
         services.AddScoped<IPaymentHandlerRepository, PaymentHandlerRepository>();
+        services.AddScoped<IPaymentHistoryRepository, PaymentHistoryRepository>();
     }
 }

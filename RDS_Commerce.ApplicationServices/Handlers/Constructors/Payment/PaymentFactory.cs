@@ -2,6 +2,7 @@
 using RDS_Commerce.ApplicationServices.AutoMapperSettings;
 using RDS_Commerce.ApplicationServices.Dtos.Arguments;
 using RDS_Commerce.ApplicationServices.Dtos.Request.BillingRequest;
+using RDS_Commerce.ApplicationServices.Dtos.Response.BillingResponse;
 using RDS_Commerce.ApplicationServices.Handlers.Builders.CreditCard;
 using RDS_Commerce.ApplicationServices.Interfaces;
 using RDS_Commerce.Business.Extensions;
@@ -50,7 +51,7 @@ public sealed class PaymentFactory : IPaymentFactory
 
     private async Task<BillingPaymentRequest> CreatePaymentRequest(OrderForExecutePayment orderDtoForExecutePayment)
     {
-        const string ORDER_DESCRIPTION = "Vendas";
+        const string ORDER_DESCRIPTION = "Pedido de compra ID:";
 
         var order = await _orderQueryService.FindByDomainObjectAsync(o => o.Id == orderDtoForExecutePayment.OrderId);
         var client = await _clientQueryService.FindByDomainObjectAsync(c => c.UserId == orderDtoForExecutePayment.UserId, 
@@ -66,12 +67,12 @@ public sealed class PaymentFactory : IPaymentFactory
             {
                 Customer = client.CustomerId!,
                 BillingType = orderDtoForExecutePayment.PaymentType.GetDescription(),
-                CreditCard = orderDtoForExecutePayment.CreditCardSaveRequest.MapTo<CreditCardSaveRequest, CreditCardRequest>(),
+                CreditCard = orderDtoForExecutePayment.CreditCardSaveRequest!.MapTo<CreditCardSaveRequest, CreditCardRequest>(),
                 CreditCardHolderInfo = CreateCreditCardHolderInfoRequest(client, orderDtoForExecutePayment),
                 Value = order!.Amount,
                 InstallmentCount = orderDtoForExecutePayment.NumberOfInstallment,
-                InstallmentValue = order.Amount / orderDtoForExecutePayment.NumberOfInstallment,
-                Description = ORDER_DESCRIPTION,
+                InstallmentValue = order.Amount.CreateValueOfInstallment(orderDtoForExecutePayment.NumberOfInstallment),
+                Description = $"{ORDER_DESCRIPTION} {order.Id}" ,
                 ExternalReference = ORDER_DESCRIPTION,
                 DueDate = DateTime.UtcNow.AddHours(-3).ToString("yyyy/MM/dd"),
                 SplitRequests = new List<SplitRequest>()
@@ -92,5 +93,20 @@ public sealed class PaymentFactory : IPaymentFactory
                                           .WithPostalCode(client.ShippingAddresses!.FirstOrDefault(sa => sa.SelectedForShipping)!.ZipCode)
                                           .WithAddressComplement(client.ShippingAddresses!.FirstOrDefault(sa => sa.SelectedForShipping)!.Complement!)
                                           .DomainRequest();
+    }
+
+
+    public async Task<PixKeyPaymentResponse?> PaymentPixAsync(PixPayment pixPayment)
+    {
+        const string ORDER_DESCRIPTION = "Vendas";
+
+        var order = await _orderQueryService.FindByDomainObjectAsync(o => o.Id == pixPayment.OrderId);
+
+        var pixRequest = new PixKeyPaymentRequest
+        {
+            AddressKey = "" // pegar valor no db table PaymentHandler.
+        };
+
+        return await _billingService.CreatePaymentWithPixAsync();
     }
 }

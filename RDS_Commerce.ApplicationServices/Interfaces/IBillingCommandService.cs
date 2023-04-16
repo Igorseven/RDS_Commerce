@@ -6,4 +6,5 @@ public interface IBillingCommandService
 {
     Task<bool> CreateCreditPurchaseAsync(BillingPaymentRequest request);
     Task<WebhookChargeResponse> ChargeResponseAsync(WebhookChargeResponse request);
+    Task<PixKeyPaymentResponse?> CreatePaymentWithPixAsync(PixKeyPaymentRequest pixKeyPaymentRequest);
 }

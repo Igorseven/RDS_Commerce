@@ -5,4 +5,9 @@ public static class DecimalForMoneyExtension
     {
         return amount += productValue * quantityProduct;
     }
+
+    public static decimal CreateValueOfInstallment(this decimal amount, int installmentNumber)
+    {
+        return amount / installmentNumber;
+    }
 }

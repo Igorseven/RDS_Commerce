@@ -15,5 +15,6 @@ public static class ValidationDependencyInjection
         services.AddScoped<IValidate<Manager>, ManagerValidation>();
         services.AddScoped<IValidate<Client>, ClientValidation>();
         services.AddScoped<IValidate<ShippingAddress>, ShippingAddressValidation>();
+        services.AddScoped<IValidate<PaymentHandler>, PaymentHandlerValidation>();
     }
 }

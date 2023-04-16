@@ -32,7 +32,6 @@ public sealed class BillingCommandService : IBillingCommandService
         billingRequest.PaymentRequest.Customer = client!.CustomerId!;
         billingRequest.PaymentRequest.DueDate = DateTime.Now.ToString("yyyy-MM-dd");
 
-        //verificar BadRequest - pode ser o json de envio - seguir transação do credit card.
         var httpClient = _httpClientFactory.CreateClient("AsaasHttpClient");
         httpClient.DefaultRequestHeaders.Add("access_token", _configuration["AsasConfig:ApiKey"]);
 
@@ -43,5 +42,20 @@ public sealed class BillingCommandService : IBillingCommandService
         if (response.StatusCode == System.Net.HttpStatusCode.OK) return true;
 
         return false;
+    }
+
+
+    public async Task<PixKeyPaymentResponse?> CreatePaymentWithPixAsync(PixKeyPaymentRequest pixKeyPaymentRequest)
+    {
+        var httpClient = _httpClientFactory.CreateClient("AsaasHttpClient");
+        httpClient.DefaultRequestHeaders.Add("access_token", _configuration["AsasConfig:ApiKey"]);
+
+        var response = await httpClient.PostAsJsonAsync("pix/qrCodes/static", pixKeyPaymentRequest);
+
+        var PixKeyResponse = await response.Content.ReadFromJsonAsync<PixKeyPaymentResponse>();
+
+        if (response.Content is null) return null;
+
+        return PixKeyResponse;
     }
 }

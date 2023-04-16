@@ -9,5 +9,6 @@ public static class PaginationDependencyInjection
     public static void AddPaginationDependencyInjection(this IServiceCollection services)
     {
         services.AddScoped<IPaginationService<Plant>, PaginationService<Plant>>();
+        services.AddScoped<IPaginationService<PaymentHistory>, PaginationService<PaymentHistory>>();
     }
 }

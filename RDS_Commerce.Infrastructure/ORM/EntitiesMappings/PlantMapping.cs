@@ -28,7 +28,7 @@ public  class PlantMapping : BaseMapping, IEntityTypeConfiguration<Plant>
         builder.Property(p => p.VaseSize).HasColumnType("int")
               .HasColumnName("vase_size").IsRequired(true);
 
-        builder.Property(p => p.Price).HasColumnType("decimal(12,2)")
+        builder.Property(p => p.Price).HasColumnType("decimal(6,2)")
                .HasColumnName("price").IsRequired(true);
 
         builder.Property(p => p.PlantType).HasColumnType("int")

@@ -1,5 +1,5 @@
 ﻿using AutoMapper;
-using RDS_Commerce.ApplicationServices.Dtos.Request.BillingRequest;
+using RDS_Commerce.ApplicationServices.Dtos.Request.AsaasIntegrationRequest;
 using RDS_Commerce.ApplicationServices.Dtos.Request.ClientRequest;
 using RDS_Commerce.Domain.Entities;
 

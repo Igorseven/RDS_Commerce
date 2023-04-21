@@ -3,7 +3,7 @@ using RDS_Commerce.ApplicationServices.AutoMapperSettings;
 using RDS_Commerce.ApplicationServices.Dtos.Arguments;
 using RDS_Commerce.ApplicationServices.Dtos.Request.OrderPlantRequest;
 using RDS_Commerce.ApplicationServices.Dtos.Request.PurchaseOrderRequest;
-using RDS_Commerce.ApplicationServices.Handlers.Factories.Payment;
+using RDS_Commerce.ApplicationServices.Dtos.Response.BillingResponse;
 using RDS_Commerce.ApplicationServices.Interfaces;
 using RDS_Commerce.Business.Extensions;
 using RDS_Commerce.Business.Interfaces.OthersContracts;
@@ -16,17 +16,14 @@ public sealed class PurchaseOrderCommandService : IPurchaseOrderCommandService
 {
     private readonly IPurchaseOrderRepository _purchaseOrderRepository;
     private readonly INotificationHandler _notification;
-    private readonly IPaymentFactory _paymentFactory;
     private readonly IPlantQueryService _plantQueryService;
 
     public PurchaseOrderCommandService(IPurchaseOrderRepository purchaseOrderRepository,
                                        INotificationHandler notification,
-                                       IPaymentFactory paymentFactory,
                                        IPlantQueryService plantQueryService)
     {
         _purchaseOrderRepository = purchaseOrderRepository;
         _notification = notification;
-        _paymentFactory = paymentFactory;
         _plantQueryService = plantQueryService;
     }
 
@@ -35,18 +32,11 @@ public sealed class PurchaseOrderCommandService : IPurchaseOrderCommandService
     // notificar usuario usuário sobre disponibilidade de produtos.
     // criar gatilho de baixa de estoque ao finalizar um pedido.
 
-    public async Task<bool> FinalizeOrderAsync(OrderForExecutePayment orderForExecutePayment)
+    public async Task<bool> UpdateRequestWithWebhookResponse(WebhookChargeResponse webhookChargeResponse)
     {
 
-        // criar obsever para verificar se o pedido já foi pago...
-        if (await _paymentFactory.CreateNewPaymentAsync(orderForExecutePayment))
-        {
-            var order = await _purchaseOrderRepository.FindByPredicateAsync(o => o.Id == orderForExecutePayment.OrderId, null, false);
-
-            order!.OrderStatus = Domain.Enums.EOrderStatus.PaidOut;
-
-            return await _purchaseOrderRepository.UpdateAsync(order);
-        }
+        //Receber notificação do webHook e atualizar status do pedido.
+      
 
         return false;
     }
@@ -60,8 +50,8 @@ public sealed class PurchaseOrderCommandService : IPurchaseOrderCommandService
     public async Task<bool> AddPlantToOrderAsync(OrderPlantDtoForAddPlantInOrder orderPlantDtoForAddPlantInOrder)
     {
         var order = await _purchaseOrderRepository.FindByPredicateAsync(o => o.ClientId == orderPlantDtoForAddPlantInOrder.ClientId &&
-                                                                o.OrderStatus == EOrderStatus.UnderConstruction,
-                                                                i => i.Include(o => o.OrderPlants), false);
+                                                                        o.OrderStatus == EOrderStatus.UnderConstruction,
+                                                                        i => i.Include(o => o.OrderPlants), false);
 
         if (order is null)
             return await CreateNewOrderAsync(orderPlantDtoForAddPlantInOrder);

@@ -19,4 +19,8 @@
     <PackageReference Include="System.IdentityModel.Tokens.Jwt" Version="6.27.0" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="Handlers\Constructors\" />
+  </ItemGroup>
+
 </Project>

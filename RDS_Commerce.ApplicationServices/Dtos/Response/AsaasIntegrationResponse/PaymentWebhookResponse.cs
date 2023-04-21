@@ -1,4 +1,5 @@
-﻿using RDS_Commerce.Domain.Enums;
+﻿using RDS_Commerce.ApplicationServices.Dtos.Response.AsaasIntegrationResponse;
+using RDS_Commerce.Domain.Enums;
 using System.Text.Json.Serialization;
 
 namespace RDS_Commerce.ApplicationServices.Dtos.Response.BillingResponse;

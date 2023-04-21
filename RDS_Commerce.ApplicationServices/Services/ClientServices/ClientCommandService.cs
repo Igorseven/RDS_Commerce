@@ -2,7 +2,7 @@
 using Microsoft.Extensions.Configuration;
 using RDS_Commerce.ApplicationServices.AutoMapperSettings;
 using RDS_Commerce.ApplicationServices.Dtos.Arguments;
-using RDS_Commerce.ApplicationServices.Dtos.Request.BillingRequest;
+using RDS_Commerce.ApplicationServices.Dtos.Request.AsaasIntegrationRequest;
 using RDS_Commerce.ApplicationServices.Dtos.Request.ClientRequest;
 using RDS_Commerce.ApplicationServices.Dtos.Request.ShippingAddressRequest;
 using RDS_Commerce.ApplicationServices.Dtos.Response.BillingResponse;

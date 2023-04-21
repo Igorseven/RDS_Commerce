@@ -8,6 +8,7 @@ public interface IPlantRepository : IDisposable
 {
     Task<bool> SaveAsync(Plant entity);
     Task<bool> UpdateAsync(Plant entity);
+    Task<bool> UpdateMutipleObjectsAsync(List<Plant> entities);
     Task<bool> DeleteAsync(int plantId);
 
     Task<bool> ExistInTheDatabaseAsync(Expression<Func<Plant, bool>> where);

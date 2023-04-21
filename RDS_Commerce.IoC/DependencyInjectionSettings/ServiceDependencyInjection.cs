@@ -1,25 +1,26 @@
 ﻿using Microsoft.Extensions.DependencyInjection;
-using RDS_Commerce.ApplicationServices.Handlers.Factories.Payment;
 using RDS_Commerce.ApplicationServices.Interfaces;
 using RDS_Commerce.ApplicationServices.Services.AccountIdentityServices;
-using RDS_Commerce.ApplicationServices.Services.AsaasBillingServices;
 using RDS_Commerce.ApplicationServices.Services.AuthenticationTokenServices;
 using RDS_Commerce.ApplicationServices.Services.ClientServices;
 using RDS_Commerce.ApplicationServices.Services.GenusServices;
 using RDS_Commerce.ApplicationServices.Services.ManagerServices;
 using RDS_Commerce.ApplicationServices.Services.OrderServices;
 using RDS_Commerce.ApplicationServices.Services.PaymentHandlerServices;
+using RDS_Commerce.ApplicationServices.Services.PaymentHistoryServices;
+using RDS_Commerce.ApplicationServices.Services.PaymentServices;
 using RDS_Commerce.ApplicationServices.Services.PlantImageServices;
 using RDS_Commerce.ApplicationServices.Services.PlantServices;
 using RDS_Commerce.ApplicationServices.Services.ShippingAddressServices;
+using RDS_Commerce.ApplicationServices.ThirdPartyIntegration.AsaasBillingServices;
 
 namespace RDS_Commerce.IoC.DependencyInjectionSettings;
 public static class ServiceDependencyInjection
 {
     public static void AddServiceDependencyInjection(this IServiceCollection services)
     {
-        services.AddScoped<IBillingCommandService, BillingCommandService>();
-        services.AddScoped<IPaymentFactory, PaymentFactory>();
+        services.AddScoped<IAsaasIntegrationCommandService, AsaasIntegrationCommandService>();
+        services.AddScoped<IPaymentCommandService, PaymentCommandService>();
         services.AddScoped<IAuthenticationTokenService, AuthenticationTokenService>();
         services.AddScoped<IAccountIdentityService, AccountIdentityService>();
 
@@ -49,6 +50,8 @@ public static class ServiceDependencyInjection
 
         services.AddScoped<IPaymentHandlerCommandService, PaymentHandlerCommandService>();
         services.AddScoped<IPaymentHandlerQueryService, PaymentHandlerQueryService>();
+
+        services.AddScoped<IPaymentHistoryCommandService, PaymentHistoryCommandService>();
 
     }
 }

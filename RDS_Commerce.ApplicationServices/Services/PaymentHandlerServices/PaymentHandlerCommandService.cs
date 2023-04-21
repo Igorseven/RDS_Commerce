@@ -34,7 +34,7 @@ public sealed class PaymentHandlerCommandService : BaseService<PaymentHandler>, 
 
     public async Task<bool> UpdatePaymentHandlerAsync(PaymentHandlerDtoForUpdate paymentHandlerDtoForUpdate)
     {
-        var paymnetHanlder = await _paymentHandlerRepository.FindByPredicateAsync(ph => ph.PaymentHanlderId == paymentHandlerDtoForUpdate.PaymentHanlderId, false);
+        var paymnetHanlder = await _paymentHandlerRepository.FindByPredicateAsync(false);
 
         if (paymnetHanlder is null)
             return _notification.CreateNotification("Configurações para pagamentos", EMessage.NotFound.GetDescription().FormatTo("Configurações para pagamentos"));

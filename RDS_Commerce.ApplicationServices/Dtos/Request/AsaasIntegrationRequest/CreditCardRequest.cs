@@ -1,6 +1,6 @@
 ﻿using System.Text.Json.Serialization;
 
-namespace RDS_Commerce.ApplicationServices.Dtos.Request.BillingRequest;
+namespace RDS_Commerce.ApplicationServices.Dtos.Request.AsaasIntegrationRequest;
 public class CreditCardRequest
 {
     [JsonPropertyName("holderName")]

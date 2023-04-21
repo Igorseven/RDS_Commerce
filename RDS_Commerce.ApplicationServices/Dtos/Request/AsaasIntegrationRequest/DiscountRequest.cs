@@ -1,7 +1,7 @@
 ﻿using RDS_Commerce.Domain.Enums;
 using System.Text.Json.Serialization;
 
-namespace RDS_Commerce.ApplicationServices.Dtos.Request.BillingRequest;
+namespace RDS_Commerce.ApplicationServices.Dtos.Request.AsaasIntegrationRequest;
 public sealed class DiscountRequest
 {
     [JsonPropertyName("value")]

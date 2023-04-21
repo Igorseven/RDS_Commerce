@@ -4,6 +4,7 @@ using RDS_Commerce.ApplicationServices.AutoMapperSettings;
 using RDS_Commerce.ApplicationServices.Dtos.Request.PlantRequest;
 using RDS_Commerce.ApplicationServices.Interfaces;
 using RDS_Commerce.Business.Extensions;
+using RDS_Commerce.Business.Handler.NotificationSettings;
 using RDS_Commerce.Business.Interfaces.OthersContracts;
 using RDS_Commerce.Business.Interfaces.RepositoryContracts;
 using RDS_Commerce.Domain.Entities;
@@ -13,18 +14,21 @@ namespace RDS_Commerce.ApplicationServices.Services.PlantServices;
 public sealed class PlantCommandService : BaseService<Plant>, IPlantCommandService
 {
     private readonly IPlantRepository _plantRepository;
+    private readonly IPurchaseOrderQueryService _purchaseOrderQueryService;
 
     public PlantCommandService(IPlantRepository plantRepository,
                                INotificationHandler notification,
-                               IValidate<Plant> validate)
+                               IValidate<Plant> validate,
+                               IPurchaseOrderQueryService purchaseOrderQueryService)
         : base(notification, validate)
     {
         _plantRepository = plantRepository;
+        _purchaseOrderQueryService = purchaseOrderQueryService;
     }
 
     public void Dispose() => _plantRepository.Dispose();
 
-    public async Task<bool> SaveAsync(PlantDtoForRegister saveRequest)
+    public async Task<bool> CreatePlantAsync(PlantDtoForRegister saveRequest)
     {
         if (await _plantRepository.ExistInTheDatabaseAsync(p => p.Name == saveRequest.Name))
             return _notification.CreateNotification("Nome da planta", EMessage.Exist.GetDescription().FormatTo("Planta"));
@@ -39,7 +43,32 @@ public sealed class PlantCommandService : BaseService<Plant>, IPlantCommandServi
         return false;
     }
 
-    public async Task<bool> UpdateAsync(PlantDtoForUpdate updateRequest)
+    public async Task UpdateStockAsync(int orderId)
+    {
+        var paidOrder = await _purchaseOrderQueryService.FindByDomainObjectAsync(o => o.Id== orderId,
+                                                                                 i => i.Include(p => p.OrderPlants)
+                                                                                 .ThenInclude(po => po.Plant), false);
+
+        if (paidOrder is null)
+        {
+            _notification.CreateNotification(new DomainNotification("Order", EMessage.NotFound.GetDescription().FormatTo("Order")));
+            return;
+        }
+
+        var plantUpdatStok = new List<Plant>();
+
+        foreach (var orderPlant in paidOrder.OrderPlants)
+        {
+            var platWithUpdate = orderPlant.Plant;
+            platWithUpdate.Quantity -= orderPlant.Quantity;
+
+            plantUpdatStok.Add(platWithUpdate);
+        }
+
+        await _plantRepository.UpdateMutipleObjectsAsync(plantUpdatStok);
+    }
+
+    public async Task<bool> UpdatePlantAsync(PlantDtoForUpdate updateRequest)
     {
         if (await _plantRepository.ExistInTheDatabaseAsync(p => p.Id != updateRequest.PlantId && p.Name == updateRequest.Name))
             return _notification.CreateNotification("Nome da planta", EMessage.Exist.GetDescription().FormatTo("Planta"));

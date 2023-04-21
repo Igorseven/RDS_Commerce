@@ -1,4 +1,4 @@
-﻿using RDS_Commerce.ApplicationServices.Dtos.Request.BillingRequest;
+﻿using RDS_Commerce.ApplicationServices.Dtos.Request.AsaasIntegrationRequest;
 
 namespace RDS_Commerce.ApplicationServices.Handlers.Builders.CreditCard;
 public sealed class CreditCardHolderInfoBuilder

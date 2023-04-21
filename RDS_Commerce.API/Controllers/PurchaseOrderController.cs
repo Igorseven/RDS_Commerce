@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Mvc;
 using RDS_Commerce.ApplicationServices.Dtos.Arguments;
 using RDS_Commerce.ApplicationServices.Dtos.Request.OrderPlantRequest;
 using RDS_Commerce.ApplicationServices.Dtos.Request.PurchaseOrderRequest;
+using RDS_Commerce.ApplicationServices.Dtos.Response.BillingResponse;
 using RDS_Commerce.ApplicationServices.Dtos.Response.PurchaseOrderResponse;
 using RDS_Commerce.ApplicationServices.Interfaces;
 using RDS_Commerce.Business.Handler.NotificationSettings;
@@ -30,11 +31,11 @@ public class PurchaseOrderController : ControllerBase
     public async Task<bool> AddNewPlantInOrderAsync(OrderPlantDtoForAddPlantInOrder orderPlantDtoForAddPlantInOrder) =>
         await _purchaseOrderCommandService.AddPlantToOrderAsync(orderPlantDtoForAddPlantInOrder);
 
-    [HttpPost("create_payment")]
+    [HttpPut("update_order_by_webhook")]
     [ProducesResponseType(StatusCodes.Status200OK)]
     [ProducesResponseType(StatusCodes.Status400BadRequest, Type = typeof(IEnumerable<DomainNotification>))]
-    public async Task<bool> CreatePaymentAsync(OrderForExecutePayment orderForExecutePayment) =>
-        await _purchaseOrderCommandService.FinalizeOrderAsync(orderForExecutePayment);
+    public async Task<bool> CreatePaymentAsync(WebhookChargeResponse webhookChargeResponse) =>
+        await _purchaseOrderCommandService.UpdateRequestWithWebhookResponse(webhookChargeResponse);
 
     [AllowAnonymous]
     [HttpGet("find_by_order")]

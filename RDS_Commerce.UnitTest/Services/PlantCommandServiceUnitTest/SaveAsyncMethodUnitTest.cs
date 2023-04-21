@@ -32,7 +32,7 @@ public class SaveAsyncMethodUnitTest : PlantServiceBaseUnitTest
         _plantRepository.Setup(pr => pr.ExistInTheDatabaseAsync(UtilTools.BuildPredicateFunc<Plant>())).ReturnsAsync(false);
         _plantRepository.Setup(pr => pr.SaveAsync(It.IsAny<Plant>())).ReturnsAsync(true);
 
-        var serviceResult = await _service.SaveAsync(plantSave);
+        var serviceResult = await _service.CreatePlantAsync(plantSave);
 
         _plantRepository.Verify(pr => pr.ExistInTheDatabaseAsync(UtilTools.BuildPredicateFunc<Plant>()), Times.Once());
         _plantRepository.Verify(pr => pr.SaveAsync(It.IsAny<Plant>()), Times.Once());
@@ -62,7 +62,7 @@ public class SaveAsyncMethodUnitTest : PlantServiceBaseUnitTest
     {
         _plantRepository.Setup(pr => pr.ExistInTheDatabaseAsync(UtilTools.BuildPredicateFunc<Plant>())).ReturnsAsync(true);
 
-        var serviceResult = await _service.SaveAsync(plantSave);
+        var serviceResult = await _service.CreatePlantAsync(plantSave);
 
         _plantRepository.Verify(pr => pr.ExistInTheDatabaseAsync(UtilTools.BuildPredicateFunc<Plant>()), Times.Once());
         _plantRepository.Verify(pr => pr.SaveAsync(It.IsAny<Plant>()), Times.Never());

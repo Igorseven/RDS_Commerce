@@ -35,7 +35,7 @@ public class UpdateAsyncMethodUnitTest : PlantServiceBaseUnitTest
         _plantRepository.Setup(pr => pr.FindByAsync(plantUpdate.PlantId, UtilTools.BuildQueryableIncludeFunc<Plant>(), false)).ReturnsAsync(plant);
         _plantRepository.Setup(pr => pr.UpdateAsync(It.IsAny<Plant>())).ReturnsAsync(true);
 
-        var serviceResult = await _service.UpdateAsync(plantUpdate);
+        var serviceResult = await _service.UpdatePlantAsync(plantUpdate);
 
         _plantRepository.Verify(pr => pr.ExistInTheDatabaseAsync(UtilTools.BuildPredicateFunc<Plant>()), Times.Once());
         _plantRepository.Verify(pr => pr.FindByAsync(plantUpdate.PlantId, UtilTools.BuildQueryableIncludeFunc<Plant>(), false), Times.Once());
@@ -54,7 +54,7 @@ public class UpdateAsyncMethodUnitTest : PlantServiceBaseUnitTest
         _plantRepository.Setup(pr => pr.FindByAsync(plantUpdate.PlantId, UtilTools.BuildQueryableIncludeFunc<Plant>(), false)).ReturnsAsync(plant);
         _plantRepository.Setup(pr => pr.UpdateAsync(It.IsAny<Plant>())).ReturnsAsync(false);
 
-        var serviceResult = await _service.UpdateAsync(plantUpdate);
+        var serviceResult = await _service.UpdatePlantAsync(plantUpdate);
 
         _plantRepository.Verify(pr => pr.ExistInTheDatabaseAsync(UtilTools.BuildPredicateFunc<Plant>()), Times.Once());
         _plantRepository.Verify(pr => pr.FindByAsync(plantUpdate.PlantId, UtilTools.BuildQueryableIncludeFunc<Plant>(), false), Times.Never());
@@ -70,7 +70,7 @@ public class UpdateAsyncMethodUnitTest : PlantServiceBaseUnitTest
         _plantRepository.Setup(pr => pr.ExistInTheDatabaseAsync(UtilTools.BuildPredicateFunc<Plant>())).ReturnsAsync(false);
         _plantRepository.Setup(pr => pr.UpdateAsync(It.IsAny<Plant>())).ReturnsAsync(false);
 
-        var serviceResult = await _service.UpdateAsync(plantUpdate);
+        var serviceResult = await _service.UpdatePlantAsync(plantUpdate);
 
         _plantRepository.Verify(pr => pr.ExistInTheDatabaseAsync(UtilTools.BuildPredicateFunc<Plant>()), Times.Once());
         _plantRepository.Verify(pr => pr.FindByAsync(plantUpdate.PlantId, UtilTools.BuildQueryableIncludeFunc<Plant>(), false), Times.Once());

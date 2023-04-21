@@ -1,19 +1,19 @@
 ﻿using Microsoft.Extensions.Configuration;
-using RDS_Commerce.ApplicationServices.Dtos.Request.BillingRequest;
+using RDS_Commerce.ApplicationServices.Dtos.Request.AsaasIntegrationRequest;
 using RDS_Commerce.ApplicationServices.Dtos.Response.BillingResponse;
 using RDS_Commerce.ApplicationServices.Interfaces;
 using System.Net.Http.Json;
 
-namespace RDS_Commerce.ApplicationServices.Services.AsaasBillingServices;
-public sealed class BillingCommandService : IBillingCommandService
+namespace RDS_Commerce.ApplicationServices.ThirdPartyIntegration.AsaasBillingServices;
+public sealed class AsaasIntegrationCommandService : IAsaasIntegrationCommandService
 {
     private readonly IHttpClientFactory _httpClientFactory;
     private readonly IClientQueryService _clientQueryService;
     private readonly IConfiguration _configuration;
 
-    public BillingCommandService(IHttpClientFactory httpClientFactory,
-                                 IClientQueryService clientQueryService,
-                                 IConfiguration configuration)
+    public AsaasIntegrationCommandService(IHttpClientFactory httpClientFactory,
+                                          IClientQueryService clientQueryService,
+                                          IConfiguration configuration)
     {
         _httpClientFactory = httpClientFactory;
         _clientQueryService = clientQueryService;
@@ -25,7 +25,7 @@ public sealed class BillingCommandService : IBillingCommandService
         throw new NotImplementedException();
     }
 
-    public async Task<bool> CreateCreditPurchaseAsync(BillingPaymentRequest billingRequest)
+    public async Task<bool> CreateCardPurchaseAsync(BillingPaymentRequest billingRequest)
     {
         var client = await _clientQueryService.FindByDomainObjectAsync(c => c.UserId == billingRequest.ClientId, null, true);
 

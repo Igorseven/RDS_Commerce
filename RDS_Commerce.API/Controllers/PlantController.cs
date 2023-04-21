@@ -29,7 +29,7 @@ public sealed class PlantController : ControllerBase
     [ProducesResponseType(StatusCodes.Status401Unauthorized)]
     [ProducesResponseType(StatusCodes.Status400BadRequest, Type = typeof(IEnumerable<DomainNotification>))]
     public async Task<bool> PlantSaveAsync([FromForm] PlantDtoForRegister saveRequest) =>
-        await _plantService.SaveAsync(saveRequest);
+        await _plantService.CreatePlantAsync(saveRequest);
 
     [HttpPut("plant_update")]
     [ProducesResponseType(StatusCodes.Status200OK)]
@@ -38,7 +38,7 @@ public sealed class PlantController : ControllerBase
     [ProducesResponseType(StatusCodes.Status401Unauthorized)]
     [ProducesResponseType(StatusCodes.Status400BadRequest, Type = typeof(IEnumerable<DomainNotification>))]
     public async Task<bool> PlantUpdateAsync([FromBody] PlantDtoForUpdate updateRequest) =>
-        await _plantService.UpdateAsync(updateRequest);
+        await _plantService.UpdatePlantAsync(updateRequest);
 
     [RequestSizeLimit(5_000_000)]
     [HttpPut("plant_update_images")]

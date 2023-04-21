@@ -96,6 +96,13 @@ public sealed class PlantRepository : BaseRepository<Plant>,  IPlantRepository
         return await SaveInDatabaseAsync();
     }
 
+    public async Task<bool> UpdateMutipleObjectsAsync(List<Plant> entities)
+    {
+        _dbSetContext.UpdateRange(entities);
+
+        return await SaveInDatabaseAsync();
+    }
+
     public async Task<bool> DeleteAsync(int plantId)
     {
         var plant = await _dbSetContext.FindAsync(plantId);
@@ -103,8 +110,7 @@ public sealed class PlantRepository : BaseRepository<Plant>,  IPlantRepository
         if (plant is null)
             return false;
 
-        if (_context.Entry(plant).State == EntityState.Detached)
-            _dbSetContext.Attach(plant);
+        DetachedObject(plant);
 
         _dbSetContext.Remove(plant);
         return await SaveInDatabaseAsync();

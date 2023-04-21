@@ -12,14 +12,14 @@ public sealed class PaymentHandlerRepository : BaseRepository<PaymentHandler>, I
     {
     }
 
-    public async Task<PaymentHandler?> FindByPredicateAsync(Expression<Func<PaymentHandler, bool>> where, bool asNoTracking = false)
+    public async Task<PaymentHandler?> FindByPredicateAsync(bool asNoTracking = false)
     {
         IQueryable<PaymentHandler> query = _dbSetContext;
 
         if (asNoTracking)
             query = query.AsNoTracking();
 
-        return await query.FirstOrDefaultAsync(where);
+        return await query.FirstOrDefaultAsync();
     }
 
     public async Task<bool> SaveAsync(PaymentHandler paymentHandler)
